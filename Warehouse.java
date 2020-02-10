@@ -1,9 +1,16 @@
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+
+
 
 public class Warehouse implements Serializable {
-
+	static final int EXIT = 0,
+					CLIENT = 1,
+					PRODUCT = 2,
+					SUPPLIER = 3;
+	
     private static Warehouse warehouse;
     private List<customer> customers;
     private List<manufacturer> suppliers;
@@ -29,7 +36,51 @@ public class Warehouse implements Serializable {
 
 
     public void addClientProductsSupplies(){
-        System.out.println("Dummy Method.");
+    	Scanner inputScanner = new Scanner(System.in);//create scanner for input
+    	int input = EXIT + 1, //arbitrary non-exit number
+    		quantity = 0;
+    	String name,
+    			id;
+    	boolean productFound = false;
+    	
+    	
+    	System.out.println("Method in progress.");
+    	while(input != EXIT) {
+    		System.out.println(EXIT + ".) Go Back\n" +
+    				CLIENT + ".) Add Client\n"+
+    				PRODUCT + ".) Add Product\n"+
+    				SUPPLIER + ".) Add Suppliers\n");
+    		input = inputScanner.nextInt();
+        
+    		switch(input){
+    			case EXIT:
+    				break;
+    			case CLIENT:
+    				System.out.println("Dummy Method.");
+    				break;
+    			case PRODUCT:
+    				product dummyProduct = new product("123","testProduct",5);
+    				for(int i = 0; productFound == false && i < inventory.size(); i++) {//search for item by id
+    					if(inventory.get(i).id.contentEquals(dummyProduct.id)) {//if item is found
+    						productFound = true;
+    						inventory.get(i).quantity += dummyProduct.quantity;
+    					}
+    				}
+    				if(!productFound)//When the product is not listed
+    					inventory.add(dummyProduct);
+
+    				
+    				break;
+    			case SUPPLIER:
+    				System.out.println("Dummy Method.");
+    				break;
+    			default:
+    				System.out.println("Not a valid input.\n");
+    				break;
+    		}
+    	}
+        
+        //inputScanner.close();
     }
 
     public void acceptClientOrders(){
@@ -68,6 +119,7 @@ public class Warehouse implements Serializable {
     public void listInventory(){
         for(int i = 0; i < inventory.size(); i++){
             inventory.get(i).display();
+            System.out.println();
         }
     }
     public void listCustomerTransactions(){
@@ -123,6 +175,7 @@ public class Warehouse implements Serializable {
             this.quantity = quantity;
         }
 
+        /*Display is being used to test additions to inventory, not using iterator*/
         private void display(){
             System.out.print("ID: " + id + " Name: " + name + " Quantity: " + quantity);
         }
