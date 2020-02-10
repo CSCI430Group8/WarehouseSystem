@@ -82,9 +82,6 @@ public class WarehouseMain {
                     break;
                 case HELP:
                     break;
-                case -1:
-                    warehouse.test();
-                    break;
                 default:
                     System.out.println(input + " is not a valid action. Try typing " + HELP + " for help.");
                     break;
