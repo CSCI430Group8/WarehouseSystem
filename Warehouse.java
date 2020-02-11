@@ -45,21 +45,43 @@ public class Warehouse implements Serializable {
 
             int quantity = 0;
             String name,
-                    id;
+                    id,
+                    phone,
+                    address;
 
             System.out.println(EXIT + ".) Go Back\n" +
                     CLIENT + ".) Add Client\n"+
                     PRODUCT + ".) Add Product\n"+
                     SUPPLIER + ".) Add Suppliers\n");
 
-            boolean productFound = false;
+            boolean itemFound = false;
             input = inputScanner.nextInt();
 
             switch(input){
                 case EXIT:
                     break;
                 case CLIENT:
-                    System.out.println("Dummy Method.");
+                    System.out.print("\nClient ID: ");
+                    id = inputScanner.next();
+                    System.out.print("\nName: ");
+                    name = inputScanner.next();
+                    System.out.print("\nPhone Number: ");
+                    phone = inputScanner.next();
+                    System.out.print("\nAddress: ");
+                    address = inputScanner.next();
+                    customer dummyCustomer = new customer(id, name, phone, address);
+
+                    /*Check if ID is already found in system. Can't have different items of same ID*/
+                    for(int i = 0; itemFound == false && i < customers.size(); i++) {//search for item by id
+                        if(customers.get(i).id.contentEquals(dummyCustomer.id)) {//if item is found
+                            itemFound = true;
+                        }
+                    }
+                    if(itemFound) {
+                        System.out.println("ID is already present in system; Item not added.");
+                    } else {//When the product is not listed
+                        customers.add(dummyCustomer);
+                    }
                     break;
                 case PRODUCT:
                     /*Inputs for product*/
@@ -71,19 +93,39 @@ public class Warehouse implements Serializable {
                     quantity = inputScanner.nextInt();
 
                     product dummyProduct = new product(id,name,quantity);
-                    for(int i = 0; productFound == false && i < inventory.size(); i++) {//search for item by id
+                    for(int i = 0; itemFound == false && i < inventory.size(); i++) {//search for item by id
                         if(inventory.get(i).id.contentEquals(dummyProduct.id)) {//if item is found
-                            productFound = true;
+                            itemFound = true;
                             inventory.get(i).quantity += dummyProduct.quantity;
                         }
                     }
-                    if(!productFound)//When the product is not listed
+                    if(!itemFound)//When the product is not listed
                         inventory.add(dummyProduct);
 
 
                     break;
                 case SUPPLIER:
-                    System.out.println("Dummy Method.");
+                    System.out.print("\nSupplier ID: ");
+                    id = inputScanner.next();
+                    System.out.print("\nName: ");
+                    name = inputScanner.next();
+                    System.out.print("\nPhone Number: ");
+                    phone = inputScanner.next();
+                    System.out.print("\nAddress: ");
+                    address = inputScanner.next();
+                    manufacturer dummyManufacturer = new manufacturer(id, name, phone, address);
+
+                    /*Check if ID is already found in system. Can't have different items of same ID*/
+                    for(int i = 0; itemFound == false && i < suppliers.size(); i++) {//search for item by id
+                        if(suppliers.get(i).id.contentEquals(dummyManufacturer.id)) {//if item is found
+                            itemFound = true;
+                        }
+                    }
+                    if(itemFound) {
+                        System.out.println("ID is already present in system; Item not added.");
+                    } else {//When the product is not listed
+                        suppliers.add(dummyManufacturer);
+                    }
                     break;
                 default:
                     System.out.println("Not a valid input.\n");
@@ -147,6 +189,11 @@ public class Warehouse implements Serializable {
             this.address = address;
         }
 
+        /*Display is being used to test additions, not using iterator*/
+        private void display(){
+            System.out.print("ID: " + id + " Name: " + name + " Phone Number: " + phone + " Address: " + address);
+        }
+
         private String id,
                 name,
                 phone,
@@ -163,6 +210,11 @@ public class Warehouse implements Serializable {
             this.name = name;
             this.phone = phone;
             this.address = address;
+        }
+
+        /*Display is being used to test additions, not using iterator*/
+        private void display(){
+            System.out.print("ID: " + id + " Name: " + name + " Phone Number: " + phone + " Address: " + address);
         }
 
         private String id,
