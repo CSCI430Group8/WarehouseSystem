@@ -6,12 +6,12 @@ public class WarehouseMain {
     static final int EXIT = 0,
                      ADD_CLIENTS_PRODUCTS_SUPPLIES = 1,
                      ACCEPT_CLIENT_ORDERS = 2,
-                     ACCEPT_CUSTOMER_PAYMENT = 3,
+                     ACCEPT_CLIENT_PAYMENT = 3,
                      ACCEPT_SHIPMENT = 4,
                      ADD_ITEM_TO_CART = 5,
     //Queries
                      LIST_CLIENT_TRANSACTIONS = 6,
-                     LIST_MANUFACTURER_PRICES = 7,
+                     LIST_SUPPLIER_PRICES = 7,
                      LIST_NEGATIVE_BALANCES = 8,
                      LIST_BACKORDERS = 9,
                      LIST_PURCHASE_PRICES = 10,
@@ -28,12 +28,12 @@ public class WarehouseMain {
             System.out.println(EXIT + ".) Exit\n" +
                     ADD_CLIENTS_PRODUCTS_SUPPLIES + ".) Add Clients, Products, or Supplies\n"+
                     ACCEPT_CLIENT_ORDERS + ".) Accept Client Order\n"+
-                    ACCEPT_CUSTOMER_PAYMENT + ".) Accept Customer Payment\n"+
+                    ACCEPT_CLIENT_PAYMENT + ".) Accept Client Payment\n"+
                     ACCEPT_SHIPMENT + ".) Accept Shipment\n"+
                     ADD_ITEM_TO_CART + ".) Add Items to Cart\n"+
                     LIST_CLIENT_TRANSACTIONS + ".) List Client Transactions\n"+
-                    LIST_MANUFACTURER_PRICES + ".) List Manufacturer Prices\n"+
-                    LIST_NEGATIVE_BALANCES + ".) List Customers with Negative Balances\n"+
+                    LIST_SUPPLIER_PRICES + ".) List Supplier Prices\n"+
+                    LIST_NEGATIVE_BALANCES + ".) List Clients with Negative Balances\n"+
                     LIST_BACKORDERS + ".) List Backordered Items\n"+
                     LIST_PURCHASE_PRICES + ".) List Price of Items from Suppliers\n"+
                     LIST_INVENTORY + ".) List Current Inventory\n"+
@@ -50,8 +50,8 @@ public class WarehouseMain {
                 case ACCEPT_CLIENT_ORDERS:
                     warehouse.acceptClientOrders();
                     break;
-                case ACCEPT_CUSTOMER_PAYMENT:
-                    warehouse.acceptCustomerPayment();
+                case ACCEPT_CLIENT_PAYMENT:
+                    warehouse.acceptClientPayment();
                     break;
                 case ACCEPT_SHIPMENT:
                     warehouse.acceptShipments();
@@ -62,8 +62,8 @@ public class WarehouseMain {
                 case LIST_CLIENT_TRANSACTIONS:
                     warehouse.listClientTransactions();
                     break;
-                case LIST_MANUFACTURER_PRICES:
-                    warehouse.listManufacturerPrices();
+                case LIST_SUPPLIER_PRICES:
+                    warehouse.listSupplierPrices();
                     break;
                 case LIST_NEGATIVE_BALANCES:
                     warehouse.listNegativeBalances();
@@ -78,7 +78,7 @@ public class WarehouseMain {
                     warehouse.listInventory();
                     break;
                 case LIST_CUSTOMER_TRANSACTIONS:
-                    warehouse.listCustomerTransactions();
+                    warehouse.listClientTransactions();
                     break;
                 case HELP:
                     break;

@@ -16,9 +16,9 @@ public class Warehouse implements Serializable {
     
 
     private static Warehouse warehouse;
-    private List<customer> customers;
-    private List<manufacturer> suppliers;
-    private List<product> inventory;
+    private List<Client> Clients;
+    private List<Supplier> suppliers;
+    private List<Product> inventory;
 
     /*
      * Function:	Warehouse
@@ -29,9 +29,9 @@ public class Warehouse implements Serializable {
      * 				Warehouse can be initialized at a time
      */
     private Warehouse(){
-        customers = new ArrayList<customer>();
-        suppliers = new ArrayList<manufacturer>();
-        inventory = new ArrayList<product>();
+        Clients = new ArrayList<Client>();
+        suppliers = new ArrayList<Supplier>();
+        inventory = new ArrayList<Product>();
     }
 
     /*
@@ -60,12 +60,12 @@ public class Warehouse implements Serializable {
      * Type:		void
      * Privacy:		public
      * Description:	Once called will use ask which of the 3 types you will
-     * 				want to add; Clients, products, or suppliers. Once specified,
+     * 				want to add; Clients, Products, or suppliers. Once specified,
      * 				You will be asked to enter all of the information for the
      * 				type you wish to enter. After you have entered the information you
      * 				will be asked to verify this data, if it is not correct you will
      * 				be asked to retype the data. After this has happened, if you are
-     * 				entering a product you will be asked if you wish to enter another.
+     * 				entering a Product you will be asked if you wish to enter another.
      * 
      */
     public void addClientProductsSupplies(){
@@ -76,7 +76,9 @@ public class Warehouse implements Serializable {
 
 
             int quantity = 0;
+			
             double price = 0;
+			
             String name,
                     id,
                     phone,
@@ -102,21 +104,21 @@ public class Warehouse implements Serializable {
                     phone = inputScanner.next();
                     System.out.print("\nAddress: ");
                     address = inputScanner.next();
-                    customer dummyCustomer = new customer(id, name, phone, address);
+                    Client dummyClient = new Client(id, name, phone, address);
 
                     /*Check if ID is already found in system. Can't have different items of same ID*/
-                    for(int i = 0; !entryFound & i < customers.size(); i++) {//search for item by id
-                        if(customers.get(i).id.contentEquals(dummyCustomer.id))//if item is found
+                    for(int i = 0; !entryFound & i < Clients.size(); i++) {//search for item by id
+                        if(Clients.get(i).getId().contentEquals(dummyClient.getId()))//if item is found
                            entryFound = true;
                     }//end for
                     if(entryFound) {
                         System.out.println("ID is already present in system; Item not added.");
-                    } else {//When the product is not listed
-                        customers.add(dummyCustomer);
+                    } else {//When the Product is not listed
+                        Clients.add(dummyClient);
                     }
                     break;
                 case PRODUCT:
-                    /*Inputs for product*/
+                    /*Inputs for Product*/
                     System.out.print("\nProduct ID: ");
                     id = inputScanner.next();
                     System.out.print("\nProduct Name: ");
@@ -126,15 +128,15 @@ public class Warehouse implements Serializable {
                     System.out.print("\nProduct Quantity: ");
                     quantity = inputScanner.nextInt();
 
-                    product dummyProduct = new product(id,name,price,quantity);//create dummy entry based on inputs
+                    Product dummyProduct = new Product(id,name,price,quantity);//create dummy entry based on inputs
                     
                     for(int i = 0; !entryFound & i < inventory.size(); i++) {//search for item by id
-                        if(inventory.get(i).id.contentEquals(dummyProduct.id)) {//if item is found
+                        if(inventory.get(i).getId().contentEquals(dummyProduct.getId())) {//if item is found
                             entryFound = true;
-                            inventory.get(i).quantity += dummyProduct.quantity;
+                            inventory.get(i).setQuantity(inventory.get(i).getQuantity() + dummyProduct.getQuantity());
                         }//end if
                     }//end for
-                    if(!entryFound)//When the product is not listed
+                    if(!entryFound)//When the Product is not listed
                         inventory.add(dummyProduct);
 
 
@@ -148,17 +150,17 @@ public class Warehouse implements Serializable {
                     phone = inputScanner.next();
                     System.out.print("\nAddress: ");
                     address = inputScanner.next();
-                    manufacturer dummyManufacturer = new manufacturer(id, name, phone, address);
+                    Supplier dummySupplier = new Supplier(id, name, phone, address);
 
                     /*Check if ID is already found in system. Can't have different items of same ID*/
                     for(int i = 0; !entryFound & i < suppliers.size(); i++) {//search for item by id
-                        if(suppliers.get(i).id.contentEquals(dummyManufacturer.id))//if item is found
+                        if(suppliers.get(i).getId().contentEquals(dummySupplier.getId()))//if item is found
                             entryFound = true;
                     }//end for
                     if(entryFound) {
                         System.out.println("ID is already present in system; Item not added.");
-                    } else {//When the product is not listed
-                        suppliers.add(dummyManufacturer);
+                    } else {//When the Product is not listed
+                        suppliers.add(dummySupplier);
                     }//end if-else
                     break;
                 default:
@@ -181,28 +183,28 @@ public class Warehouse implements Serializable {
     }//end method
 
     /*
-     * Function:	acceptCustomerPayment
+     * Function:	acceptClientPayment
      * Type:		void
      * Privacy:		public
-     * Description:	Take the customers payment. Once payment is confirmed
+     * Description:	Take the Clients payment. Once payment is confirmed
      * 				add the amount taken from payment to their account.
      * 				(Rounds up!)
      */
-    public void acceptCustomerPayment(){
+    public void acceptClientPayment(){
     	System.out.print("\nInput Client ID: ");
     	String id = inputScanner.next();
     	Boolean entryFound = false,
     			inputVerification = false;
     	char input;
-    	int customerIndex = 0;
-    	Double inputCredit = 0.0;
+    	int ClientIndex = 0;
+    	double inputCredit = 0.0;
     	
     	
-    	/*Check if customer exists (by id)*/
-    	for(int i = 0; !entryFound & i < customers.size(); i++) {
-    		if(customers.get(i).id.contentEquals(id)){
+    	/*Check if Client exists (by id)*/
+    	for(int i = 0; !entryFound & i < Clients.size(); i++) {
+    		if(Clients.get(i).getId().contentEquals(id)){
     			entryFound = true;
-    			customerIndex = i;
+    			ClientIndex = i;
     		}//end if
     	}//end for
     	
@@ -213,7 +215,7 @@ public class Warehouse implements Serializable {
     		
     			inputCredit = Math.round(inputScanner.nextDouble() * 100.0) / 100.0;
     		 
-    			System.out.print("\nDid you want to deposit $" + inputCredit + " into " + customers.get(customerIndex).name + "'s account? (Y/N)");
+    			System.out.print("\nDid you want to deposit $" + inputCredit + " into " + Clients.get(ClientIndex).getName() + "'s account? (Y/N)");
     			
     			input = inputScanner.next().charAt(0);
     			
@@ -223,9 +225,12 @@ public class Warehouse implements Serializable {
     			
     		}//end while
     		
-    		customers.get(customerIndex).balance += inputCredit;
-    		System.out.print("A credit of " + inputCredit + " has been deposited into " + customers.get(customerIndex).name + "'s account." );
+    		Clients.get(ClientIndex).setBalance(Clients.get(ClientIndex).getBalance() + inputCredit);
+    		System.out.print("A credit of " + inputCredit + " has been deposited into " + Clients.get(ClientIndex).getName() + "'s account." );
     	}//end if
+		else {
+			System.out.print("\nEntry not found.");
+		}//end if
     }//end method
     
     /*
@@ -242,7 +247,7 @@ public class Warehouse implements Serializable {
      * Function:	addItemsToCart
      * Type:		void
      * Privacy:		public
-     * Description:	Adds products from inventory into a client's cart.
+     * Description:	Adds Products from inventory into a client's cart.
      * 				The client will be specified using their ID.
      */
     public void addItemsToCart(){
@@ -263,12 +268,12 @@ public class Warehouse implements Serializable {
     }//end method
     
     /*
-     * Function:	listManufacturerPrices
+     * Function:	listSupplierPrices
      * Type:		void
      * Privacy:		public
      * Description:	
      */
-    public void listManufacturerPrices(){
+    public void listSupplierPrices(){
         System.out.println("Dummy Method.");
     }//end method
     
@@ -281,11 +286,11 @@ public class Warehouse implements Serializable {
      * 				these clients.
      */
     public void listNegativeBalances(){
-        for(int i = 0; i < customers.size(); i++) {//search through all customers
-        	if(customers.get(i).balance < 0)//If customer balance is negative
-        		System.out.println("\nID: " + customers.get(i).id
-        							+"\nName: " + customers.get(i).name
-        							+"\nBalance: $" + customers.get(i).balance);
+        for(int i = 0; i < Clients.size(); i++) {//search through all Clients
+        	if(Clients.get(i).getBalance() < 0)//If Client balance is negative
+        		System.out.println("\nID: " + Clients.get(i).getId()
+        							+"\nName: " + Clients.get(i).getName()
+        							+"\nBalance: $" + Clients.get(i).getBalance());
         	
         }//end for
     }//end method
@@ -332,71 +337,4 @@ public class Warehouse implements Serializable {
     public void listCustomerTransactions(){
         System.out.println("Dummy Method.");
     }//end method
-
-
-    /*Customer*/
-    private class customer{
-        customer(String id, String name, String phone, String address){
-            this.id = id;
-            this.name = name;
-            this.phone = phone;
-            this.address = address;
-            this.balance = 0.00;//will always start with empty balance
-        }
-
-        /*Display is being used to test additions, not using iterator*/
-        private void display(){
-            System.out.print("ID: " + id + " Name: " + name + " Balance: " + balance + " Phone Number: " + phone + " Address: " + address);
-        }
-
-        private double balance;
-        private String id,
-                name,
-                phone,
-                address;
-        private List<product> cart;
-
-    }
-
-
-    /*Manufacturer*/
-    private class manufacturer{
-        manufacturer(String id, String name, String phone, String address){
-            this.id = id;
-            this.name = name;
-            this.phone = phone;
-            this.address = address;
-        }
-
-        /*Display is being used to test additions, not using iterator*/
-        private void display(){
-            System.out.print("ID: " + id + " Name: " + name + " Phone Number: " + phone + " Address: " + address);
-        }
-
-        private String id,
-                name,
-                phone,
-                address;
-    }
-
-
-    /*Product*/
-    private class product{
-        product(String id, String name, double price, int quantity){
-            this.id = id;
-            this.name = name;
-            this.price = price;
-            this.quantity = quantity;
-        }
-
-        /*Display is being used to test additions to inventory, not using iterator*/
-        private void display(){
-            System.out.print("ID: " + id + " Name: " + name + " Price Per Item: $" + price + " Quantity: " + quantity);
-        }
-
-        private String id,
-                name;
-        private int quantity;
-        private double price;
-    }
 }
