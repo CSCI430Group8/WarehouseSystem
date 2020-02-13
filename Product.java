@@ -3,16 +3,20 @@ import java.util.*;
 import java.io.*;
 
 
-/*Product Class*/
 public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
     private String id,
             name;
     private int quantity;
     private double price;
-	private List<Product> WaitList;
+	private List WaitList = new LinkedList();
 	
-	/*Product Constructor*/
+	/*
+     * Function:	Product
+     * Type:		constructor(generic)
+     * Privacy:		public
+     * Description:	Product Constructor.
+	 */
 	Product(String id, String name, double price, int quantity){
         this.id = id;
         this.name = name;
@@ -20,47 +24,103 @@ public class Product implements Serializable {
         this.quantity = quantity;
     }//end constructor
 	
-	/*Gets Product ID*/
+	/*
+     * Function:	getId
+     * Type:		String
+     * Privacy:		public
+     * Description:	Gets Product ID.
+	 */
 	public String getId(){
 		return id;
 	}//end getId
 	
-	/*Gets Product Name*/
+	/*
+     * Function:	getName
+     * Type:		String
+     * Privacy:		public
+     * Description:	Gets Product Name.
+	 */
 	public String getName(){
 		return name;
 	}//end getName
 	
-	/*Gets Product Quantity*/
+	/*
+     * Function:	getQuantity
+     * Type:		int
+     * Privacy:		public
+     * Description:	Gets Product Quantity.
+	 */
 	public int getQuantity(){
 		return quantity;
 	}//end getQuantity
 	
-	/*Gets Product Price*/
+	/*
+     * Function:	getPrice
+     * Type:		double
+     * Privacy:		public
+     * Description:	Gets Product Price.
+	 */
 	public double getPrice(){
 		return price;
 	}//end getPrice
 	
-	/*Sets Product ID*/
+	/*
+     * Function:	setId
+     * Type:		void
+     * Privacy:		public
+     * Description:	Sets Product ID.
+	 */
 	public void setId(String id){
 		this.id = id;
 	}//end setId
 	
-	/*Sets Product Name*/
+	/*
+     * Function:	setName
+     * Type:		void
+     * Privacy:		public
+     * Description:	Sets Product Name.
+	 */
 	public void setName(String name){
 		this.name = name;
 	}//end setName
 	
-	/*Sets Product Quantity*/
+	/*
+     * Function:	setQuantity
+     * Type:		void
+     * Privacy:		public
+     * Description:	Sets Product Quantity.
+	 */
 	public void setQuantity(int quantity){
 		this.quantity = quantity;
 	}//end setQuantity
 	
-	/*Sets Product Price*/
+	/*
+     * Function:	setPrice
+     * Type:		void
+     * Privacy:		public
+     * Description:	Sets Product Price.
+	 */
 	public void setPrice(double price){
 		this.price = price;
 	}//end setPrice
+	
+	/*
+     * Function:	insertToWaitList
+     * Type:		boolean
+     * Privacy:		public
+     * Description:	Inserts Product into WaitList.
+	 */
+	public boolean insertToWaitList(Product product) {
+		WaitList.add(product);
+		return true;
+	}//end insertSupplier
 
-    /*Converts Product to string output*/
+    /*
+     * Function:	toString
+     * Type:		String
+     * Privacy:		public
+     * Description:	Converts Product to string output.
+	 */
     public String toString(){
         return "ID: " + id + " Name: " + name + " Price Per Item: $" + price + " Quantity: " + quantity;
     }//end toString

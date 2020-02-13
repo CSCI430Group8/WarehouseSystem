@@ -10,9 +10,14 @@ public class Client implements Serializable {
             name,
             phone,
             address;
-    private List<Product> cart;
+    private List cart = new LinkedList();
 	
-	/*Client Constructor*/
+	/*
+     * Function:	Client
+     * Type:		constructor(generic)
+     * Privacy:		public
+     * Description:	Client Constructor.
+	 */
     Client(String id, String name, String phone, String address){
         this.id = id;
         this.name = name;
@@ -21,52 +26,113 @@ public class Client implements Serializable {
         this.balance = 0.00;//will always start with empty balance
     }//end constructor
 	
-	/*Gets Client Balance*/
+	/*
+     * Function:	getBalance
+     * Type:		double
+     * Privacy:		public
+     * Description:	Gets Client Balance.
+	 */
 	public double getBalance(){
 		return balance;
 	}//end getBalance
 	
-	/*Gets Client ID*/
+	/*
+     * Function:	getId
+     * Type:		String
+     * Privacy:		public
+     * Description:	Gets Client ID.
+	 */
 	public String getId(){
 		return id;
 	}//end getId
 	
-	/*Gets Client Name*/
+	/*
+     * Function:	getName
+     * Type:		String
+     * Privacy:		public
+     * Description:	Gets Client Name.
+	 */
 	public String getName(){
 		return name;
 	}//end getName
 	
-	/*Gets Client Phone Number*/
+	/*
+     * Function:	getPhone
+     * Type:		String
+     * Privacy:		public
+     * Description:	Gets Client Phone Number.
+	 */
 	public String getPhone(){
 		return phone;
 	}//end getPhone
 	
-	/*Gets Client Address*/
+	/*
+     * Function:	getAddress
+     * Type:		String
+     * Privacy:		public
+     * Description:	Gets Client Address.
+	 */
 	public String getAddress(){
 		return address;
 	}//end getAddress
 	
-	/*Sets Client Balance*/
+	/*
+     * Function:	setBalance
+     * Type:		void
+     * Privacy:		public
+     * Description:	Sets Client Balance.
+	 */
 	public void setBalance(double balance){
 		this.balance = balance;
 	}//end setBalance
 	
-	/*Sets Client ID*/
+	/*
+     * Function:	setId
+     * Type:		void
+     * Privacy:		public
+     * Description:	Sets Client ID.
+	 */
 	public void setId(String id){
 		this.id = id;
 	}//end setId
 	
-	/*Sets Client Name*/
+	/*
+     * Function:	setName
+     * Type:		void
+     * Privacy:		public
+     * Description:	Sets Client Name.
+	 */
 	public void setName(String name){
 		this.name = name;
 	}//end setName
 	
-	/*Sets Client Phone Number*/
+	/*
+     * Function:	setPhone
+     * Type:		void
+     * Privacy:		public
+     * Description:	Sets Client Phone Number.
+	 */
 	public void setPhone(String phone){
 		this.phone = phone;
 	}//end setPhone
+	
+	/*
+     * Function:	insertToCart
+     * Type:		boolean
+     * Privacy:		public
+     * Description:	Inserts Product into Cart.
+	 */
+	public boolean insertToCart(Product product) {
+		cart.add(product);
+		return true;
+	}//end insertToCart
 
-    /*Converts Client to string output*/
+    /*
+     * Function:	toString
+     * Type:		String
+     * Privacy:		public
+     * Description:	Converts Client to string output.
+	 */
     public String toString(){
         return "ID: " + id + " Name: " + name + " Balance: " + balance + " Phone Number: " + phone + " Address: " + address;
     }//end display

@@ -8,11 +8,21 @@ public class ProductList implements Serializable {
 	private List products = new LinkedList();
 	private static ProductList productList;
 	
-	/*ProductList Constructor*/
+	/*
+     * Function:	ProductList
+     * Type:		constructor(generic)
+     * Privacy:		private
+     * Description:	ProductList Constructor.
+	 */
 	private ProductList() {
 	}//end constructor
 	
-	/*Creates instance of ProductList*/
+	/*
+     * Function:	instance
+     * Type:		static ProductList
+     * Privacy:		public
+     * Description:	Creates instance of ProductList.
+	 */
 	public static ProductList instance() {
 		if (productList == null) {
 			return (productList = new ProductList());
@@ -22,18 +32,33 @@ public class ProductList implements Serializable {
 		}
 	}//end instance
 	
-	/*Inserts Product into ProductList*/
+	/*
+     * Function:	insertProduct
+     * Type:		boolean
+     * Privacy:		public
+     * Description:	Inserts Product into ProductList.
+	 */
 	public boolean insertProduct(Product product) {
 		products.add(product);
 		return true;
 	}//end insertProduct
 
-	/*Returns an iterator for ProductList*/
+	/*
+     * Function:	getProducts
+     * Type:		Iterator
+     * Privacy:		public
+     * Description:	Returns an iterator for ProductList.
+	 */
 	public Iterator getProducts(){
 		return products.iterator();
 	}//end getProducts
   
-	/*Writes ProductList to disk*/
+	/*
+     * Function:	writeObject
+     * Type:		void
+     * Privacy:		private
+     * Description:	Writes ProductList to disk.
+	 */
 	private void writeObject(java.io.ObjectOutputStream output) {
 		try {
 			output.defaultWriteObject();
@@ -44,7 +69,12 @@ public class ProductList implements Serializable {
 		}
 	}//end writeObject
 	
-	/*Reads ProductList from disk*/
+	/*
+     * Function:	readObject
+     * Type:		void
+     * Privacy:		private
+     * Description:	Reads ProductList from disk.
+	 */
 	private void readObject(java.io.ObjectInputStream input) {
 		try {
 			if (productList != null) {
@@ -68,7 +98,12 @@ public class ProductList implements Serializable {
 		}
 	}//end readObject
 	
-	/*Converts ProductList to string output*/
+	/*
+     * Function:	toString
+     * Type:		String
+     * Privacy:		public
+     * Description:	Converts ProductList to string output.
+	 */
 	public String toString() {
 		return products.toString();
 	}//end toString

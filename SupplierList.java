@@ -8,11 +8,21 @@ public class SupplierList implements Serializable {
 	private List suppliers = new LinkedList();
 	private static SupplierList supplierList;
 	
-	/*SupplierList Constructor*/
+	/*
+     * Function:	SupplierList
+     * Type:		constructor(generic)
+     * Privacy:		private
+     * Description:	SupplierList Constructor.
+	 */
 	private SupplierList() {
 	}//end constructor
 	
-	/*Creates an instance of SupplierList*/
+	/*
+     * Function:	instance
+     * Type:		static SupplierList
+     * Privacy:		public
+     * Description:	Creates an instance of SupplierList.
+	 */
 	public static SupplierList instance() {
 		if (supplierList == null) {
 			return (supplierList = new SupplierList());
@@ -22,18 +32,33 @@ public class SupplierList implements Serializable {
 		}
 	}//end instance
 	
-	/*Inserts Supplier into SupplierList*/
+	/*
+     * Function:	insertSupplier
+     * Type:		boolean
+     * Privacy:		public
+     * Description:	Inserts Supplier into SupplierList.
+	 */
 	public boolean insertSupplier(Supplier supplier) {
 		suppliers.add(supplier);
 		return true;
 	}//end insertSupplier
 
-	/*Returns an iterator for SupplierList*/
+	/*
+     * Function:	getSupplier
+     * Type:		Iterator
+     * Privacy:		public
+     * Description:	Returns an iterator for SupplierList.
+	 */
 	public Iterator getSuppliers(){
 		return suppliers.iterator();
 	}//end getSuppliers
   
-	/*Writes SupplierList to disk*/
+	/*
+     * Function:	writeObject
+     * Type:		void
+     * Privacy:		private
+     * Description:	Writes SupplierList to disk.
+     */
 	private void writeObject(java.io.ObjectOutputStream output) {
 		try {
 			output.defaultWriteObject();
@@ -44,7 +69,12 @@ public class SupplierList implements Serializable {
 		}
 	}//end writeObejct
 	
-	/*Reads SupplierList from disk*/
+	/*
+     * Function:	readObject
+     * Type:		void
+     * Privacy:		private
+     * Description:	Reads SupplierList from disk.
+     */
 	private void readObject(java.io.ObjectInputStream input) {
 		try {
 			if (supplierList != null) {
@@ -68,7 +98,11 @@ public class SupplierList implements Serializable {
 		}
 	}//end readObject
 	
-	/*Converts SupplierList to string output*/
+	/*
+     * Function:	toString
+     * Type:		String
+     * Privacy:		public
+     * Description:	Converts SupplierList to string output*/
 	public String toString() {
 		return suppliers.toString();
 	}//end toString
