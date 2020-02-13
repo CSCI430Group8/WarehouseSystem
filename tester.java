@@ -27,6 +27,25 @@ public class tester {
 	static final int CLIENT = 1,
 					 PRODUCT = 2,
 					 SUPPLIER = 3;
+
+	//product choices
+	static final int PRODUCT_ID = 1,
+                    PRODUCT_NAME = 2,
+                    PRODUCT_PRICE = 3,
+                    PRODUCT_QUANTITY = 4;
+
+    //customer choices
+    static final int CLIENT_ID = 1,
+                    CLIENT_NAME = 2,
+                    CLIENT_PHONE = 3,
+                    CLIENT_ADDRESS = 4,
+                    CLIENT_BALANCE = 5;
+
+    //supplier choices
+    static final int SUPPLIER_ID = 1,
+            SUPPLIER_NAME = 2,
+            SUPPLIER_PHONE = 3,
+            SUPPLIER_ADDRESS = 4;
 					 
 	transient Scanner inputScanner = new Scanner(System.in);//create scanner for input
 	private static tester Tester;
@@ -131,7 +150,7 @@ public class tester {
 						Client nextClient = (Client)(allClients.next());
                         if(nextClient.getId().contentEquals(dummyClient.getId()))//if item is found
                            entryFound = true;
-                    }//end for
+                    }//end while
                     if(entryFound) {
                         System.out.println("ID is already present in system; Item not added.");
                     } else {//When the Client is not listed
@@ -210,6 +229,218 @@ public class tester {
             }//end switch
         }//end while
     }//end method
+
+    /*
+     * Function:	editClientProductsSupplier
+     * Type:		void
+     * Privacy:		public
+     * Description:	Once called will use ask which of the 3 types you will
+     * 				want to add; Clients, Products, or suppliers. Once specified,
+     * 				You will be asked to specify which field on the type that you would
+     *              like to edit.
+     *
+     */
+    public void editClientProductsSupplies(){
+        int input = EXIT + 1;//arbitrary non-exit number
+
+        while(input != EXIT) {
+            int quantity = 0;
+
+            double price = 0;
+
+            String name,
+                    id,
+                    phone,
+                    address;
+
+            System.out.println("\n" + EXIT + ".) Go Back\n" +
+                    CLIENT + ".) Edit Client\n"+
+                    PRODUCT + ".) Edit Product\n"+
+                    SUPPLIER + ".) Edit Suppliers\n");
+
+            boolean entryFound = false,
+                    result = false;
+            input = inputScanner.nextInt();
+            Iterator iterator;
+            String iteratorString;
+
+            switch(input) {
+                case EXIT:
+                    break;
+                case CLIENT:
+                    System.out.print("Input the id of the item to edit.");
+                    id = inputScanner.next();
+
+                    System.out.println("\n" + CLIENT_ID + ".) ID" +
+                            "\n" + CLIENT_NAME + ".) Name" +
+                            "\n" + CLIENT_PHONE + ".) Phone Number" +
+                            "\n" + CLIENT_ADDRESS + ".) Address" +
+                            "\n" + CLIENT_BALANCE + ".) Balance");
+
+                    input = inputScanner.nextInt();
+
+                    Iterator allClients = warehouse.getClients();
+                    Client nextClient = new Client("","","","");//dummy initialization
+
+                    while(!entryFound & allClients.hasNext()){
+                        nextClient = (Client)(allClients.next());
+                        if(nextClient.getId().contentEquals(id)){
+                            entryFound = true;
+                            allClients.remove();//Remove because it's easier to add a modified version
+                        }
+                    }
+
+                    if(entryFound) {
+                        switch (input) {
+                            case CLIENT_ID:
+                                System.out.println("What would you like the new id to be?");
+                                nextClient.setId(inputScanner.next());
+
+                                break;
+                            case CLIENT_NAME:
+                                System.out.println("What would you like the new name to be?");
+                                nextClient.setName(inputScanner.next());
+
+                                break;
+                            case CLIENT_PHONE:
+                                System.out.println("What would you like the new phone number to be?");
+                                nextClient.setPhone(inputScanner.next());
+                                break;
+                            case CLIENT_ADDRESS:
+                                System.out.println("What would you like the new address to be?");
+                                nextClient.setAddress(inputScanner.next());
+                                break;
+                            case CLIENT_BALANCE:
+                                System.out.println("What would you like the new balance to be?");
+                                nextClient.setBalance(inputScanner.nextDouble());
+                                break;
+                            default:
+                                break;
+                        }
+                        /*add to list after editing desired value.*/
+                        warehouse.addClient(nextClient.getId(),nextClient.getName(),nextClient.getPhone(),
+                                nextClient.getAddress(),nextClient.getBalance());
+                    } else {
+                        System.out.println("Could not find ID");
+                    }
+
+                    break;
+                case PRODUCT:
+                    System.out.print("Input the id of the item to edit.");
+                    id = inputScanner.next();
+
+
+                    System.out.println("\n" + PRODUCT_ID + ".) ID" +
+                            "\n" + PRODUCT_NAME + ".) Name" +
+                            "\n" + PRODUCT_PRICE + ".) Price" +
+                            "\n" + PRODUCT_QUANTITY + ".) Quantity");
+
+                    input = inputScanner.nextInt();
+
+                    Iterator allProducts = warehouse.getProducts();
+                    Product nextProduct = new Product("","",1,1);//dummy initialization
+
+                    while(!entryFound & allProducts.hasNext()){
+                        nextProduct = (Product)(allProducts.next());
+                        if(nextProduct.getId().contentEquals(id)){
+                            entryFound = true;
+                            allProducts.remove();//Remove because it's easier to add a modified version
+                        }
+                    }
+
+                    if(entryFound) {
+                        switch (input) {
+                            case PRODUCT_ID:
+                                System.out.println("What would you like the new id to be?");
+                                nextProduct.setId(inputScanner.next());
+
+                                break;
+                            case PRODUCT_NAME:
+                                System.out.println("What would you like the new name to be?");
+                                nextProduct.setName(inputScanner.next());
+
+                                break;
+                            case PRODUCT_PRICE:
+                                System.out.println("What would you like the new price to be?");
+                                nextProduct.setPrice((inputScanner.nextDouble() * 100.0) / 100.0);
+
+
+                                break;
+                            case PRODUCT_QUANTITY:
+                                System.out.println("What would you like the new quantity to be?");
+                                nextProduct.setQuantity(inputScanner.nextInt());
+                                break;
+                            default:
+                                break;
+                        }
+                        /*add to list after editing desired value.*/
+                        warehouse.addProduct(nextProduct.getId(),nextProduct.getName(),nextProduct.getPrice(),
+                                nextProduct.getQuantity());
+                    } else {
+                        System.out.println("Could not find ID");
+                    }
+
+                    break;
+                case SUPPLIER:
+                    System.out.print("Input the id of the item to edit.");
+                    id = inputScanner.next();
+
+                    System.out.println("\n" + SUPPLIER_ID + ".) ID" +
+                            "\n" + SUPPLIER_NAME + ".) Name" +
+                            "\n" + SUPPLIER_PHONE + ".) Phone Number" +
+                            "\n" + SUPPLIER_ADDRESS + ".) Address");
+
+                    input = inputScanner.nextInt();
+
+                    Iterator allSuppliers = warehouse.getSuppliers();
+                    Supplier nextSupplier = new Supplier("","","","");//dummy initialization
+
+                    while(!entryFound & allSuppliers.hasNext()){
+                        nextSupplier = (Supplier)(allSuppliers.next());
+                        if(nextSupplier.getId().contentEquals(id)){
+                            entryFound = true;
+                            allSuppliers.remove();//Remove because it's easier to add a modified version
+                        }
+                    }
+
+                    if(entryFound) {
+                        switch (input) {
+                            case SUPPLIER_ID:
+                                System.out.println("What would you like the new id to be?");
+                                nextSupplier.setId(inputScanner.next());
+
+                                break;
+                            case SUPPLIER_NAME:
+                                System.out.println("What would you like the new name to be?");
+                                nextSupplier.setName(inputScanner.next());
+
+                                break;
+                            case SUPPLIER_PHONE:
+                                System.out.println("What would you like the new phone number to be?");
+                                nextSupplier.setPhone(inputScanner.next());
+
+
+                                break;
+                            case SUPPLIER_ADDRESS:
+                                System.out.println("What would you like the new address to be?");
+                                nextSupplier.setAddress(inputScanner.next());
+                                break;
+                            default:
+                                break;
+                        }
+                        /*add to list after editing desired value.*/
+                        warehouse.addSupplier(nextSupplier.getId(),nextSupplier.getName(),nextSupplier.getPhone(),
+                                nextSupplier.getAddress());
+                    } else {
+                        System.out.println("Could not find ID");
+                    }
+
+                default:
+                    break;
+            }
+        }
+    }
+
 
     /*
      * Function:	acceptClientOrders
@@ -439,6 +670,7 @@ public class tester {
         while(input != EXIT){//Keep looping until user wishes to exit
             System.out.println(EXIT + ".) Exit\n" +
                     ADD_CLIENTS_PRODUCTS_SUPPLIES + ".) Add Clients, Products, or Supplies\n"+
+                    EDIT_CLIENTS_PRODUCTS_SUPPLIES + ".) Edit Clients, Products, or Supplies\n"+
                     ACCEPT_CLIENT_ORDERS + ".) Accept Client Order\n"+
                     ACCEPT_CLIENT_PAYMENT + ".) Accept Client Payment\n"+
                     ACCEPT_SHIPMENT + ".) Accept Shipment\n"+
@@ -460,6 +692,9 @@ public class tester {
                     break;
                 case ADD_CLIENTS_PRODUCTS_SUPPLIES:
                     addClientProductsSupplies();
+                    break;
+                case EDIT_CLIENTS_PRODUCTS_SUPPLIES:
+                    editClientProductsSupplies();
                     break;
                 case ACCEPT_CLIENT_ORDERS:
                     acceptClientOrders();

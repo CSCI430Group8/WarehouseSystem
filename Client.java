@@ -20,6 +20,14 @@ public class Client implements Serializable {
         this.address = address;
         this.balance = 0.00;//will always start with empty balance
     }//end constructor
+
+	Client(String id, String name, String phone, String address, double balance){
+		this.id = id;
+		this.name = name;
+		this.phone = phone;
+		this.address = address;
+		this.balance = balance;
+	}//end constructor
 	
 	/*Gets Client Balance*/
 	public double getBalance(){
@@ -65,6 +73,11 @@ public class Client implements Serializable {
 	public void setPhone(String phone){
 		this.phone = phone;
 	}//end setPhone
+
+	/*Sets Client Address*/
+	public void setAddress(String address){
+		this.address = address;
+	}//end setAddress
 
     /*Converts Client to string output*/
     public String toString(){
