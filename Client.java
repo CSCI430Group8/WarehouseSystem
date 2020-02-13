@@ -10,7 +10,7 @@ public class Client implements Serializable {
             name,
             phone,
             address;
-    private List cart = new LinkedList();
+    private LinkedList<Product> cart = new LinkedList<Product>();
 	
 	/*
      * Function:	Client
@@ -137,8 +137,9 @@ public class Client implements Serializable {
      * Description:	Inserts Product into Cart.
 	 */
 	public boolean insertToCart(Product product) {
-		cart.add(product);
-		return true;
+		boolean result;
+		result = cart.add(product);
+		return result;
 	}//end insertToCart
 	
 	/*Sets Client Address*/

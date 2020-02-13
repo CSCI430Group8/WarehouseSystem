@@ -83,7 +83,7 @@ public class Warehouse implements Serializable {
      * Type:		Client
      * Privacy:		public
      * Description:	This adds a Client to the ClientList, and then it returns 
-					the Client that was added.
+					if the Client that was added.
      */
 	public Client addClient(String id, String name, String phone, String address) {
 		Client client = new Client(id, name, phone, address);
@@ -98,7 +98,7 @@ public class Warehouse implements Serializable {
      * Type:		Client
      * Privacy:		public
      * Description:	This adds a Client to the ClientList, and then it returns
-					the Client that was added. Balance option has been added to method for direct creation.
+					if the Client that was added. Balance option has been added to method for direct creation.
      */
 	public Client addClient(String id, String name, String phone, String address, double balance) {
 		Client client = new Client(id, name, phone, address, balance);
@@ -113,7 +113,7 @@ public class Warehouse implements Serializable {
      * Type:		Supplier
      * Privacy:		public
      * Description:	This adds a Supplier to the SupplierList, and then it returns 
-					the Supplier that was added.
+					if the Supplier that was added.
      */
 	public Supplier addSupplier(String id, String name, String phone, String address) {
 		Supplier supplier = new Supplier(id, name, phone, address);
@@ -128,7 +128,7 @@ public class Warehouse implements Serializable {
      * Type:		Product
      * Privacy:		public
      * Description:	This adds a Product to the ProductList, and then it returns 
-					the Product that was added.
+					if the Product that was added.
      */
 	public Product addProduct(String id, String name, double price, int quantity) {
 		Product product = new Product(id, name, price, quantity);
@@ -136,49 +136,88 @@ public class Warehouse implements Serializable {
 			return (product);
 		}
 		return null;
-	}//end addSupplier
+	}//end addProduct
 	
 	/*
-     * Function:	updateQuantityForProduct
+     * Function:	addToClientCart
      * Type:		boolean
      * Privacy:		public
-     * Description:	This finds a Product with the given ID and updates the quantity
-					of the Product, and then returns if the Product was found.
-     */
-	public boolean updateQuantityForProduct(int quantity, String id) {
-		boolean entryFound = false;
-		Iterator allProducts = inventory.getProducts();
-		while (!entryFound && allProducts.hasNext()){//search for item by id
-			Product nextProduct = (Product)(allProducts.next());
-                if(nextProduct.getId().contentEquals(id)) {//if item is found
-                    entryFound = true;
-                    nextProduct.setQuantity(quantity);
-                }//end if
-        }//end while
-		
-		return entryFound;
-	}//end updateQuantityForProduct
-	
-	/*
-     * Function:	updateQuantityForProduct
-     * Type:		boolean
-     * Privacy:		public
-     * Description:	This finds a Client with the given ID and updates their balance,
-					and then returns if the CLient was found.
-     */
-	public boolean updateBalanceForClient(double balance, String id) {
+     * Description:	This finds the Client using their ID and then 
+					inserts a Product into their Cart.
+	 */
+	public boolean addToClientCart(Product product, String id) {
 		boolean entryFound = false;
 		Iterator allClients = clients.getClients();
 		while (!entryFound && allClients.hasNext()){//search for item by id
 			Client nextClient = (Client)(allClients.next());
                 if(nextClient.getId().contentEquals(id)) {//if item is found
                     entryFound = true;
-                    nextClient.setBalance(balance);
+                    nextClient.insertToCart(product);
                 }//end if
         }//end while
 		
 		return entryFound;
-	}//end updateBalanceForClient
+	}//end addToClientCart
+	
+	/*
+     * Function:	removeClient
+     * Type:		boolean
+     * Privacy:		public
+     * Description:	This removes a Client from the ClientList, and then it returns 
+					if the Client that was removed.
+     */
+	public boolean removeClient(String id) {
+		boolean entryFound = false;
+		Iterator allClients = warehouse.getClients();
+        while(!entryFound & allClients.hasNext()){
+            Client nextClient = (Client)(allClients.next());
+            if(nextClient.getId().contentEquals(id)){
+                entryFound = true;
+                allClients.remove();
+            }
+        }
+		return entryFound;
+	}//end removeClient
+	
+	/*
+     * Function:	removeSupplier
+     * Type:		boolean
+     * Privacy:		public
+     * Description:	This removes a Supplier from the SupplierList, and then it returns 
+					if the Supplier that was removed.
+     */
+	public boolean removeSupplier(String id) {
+		boolean entryFound = false;
+		Iterator allSuppliers = warehouse.getSuppliers();
+        while(!entryFound & allSuppliers.hasNext()){
+            Supplier nextSupplier = (Supplier)(allSuppliers.next());
+            if(nextSupplier.getId().contentEquals(id)){
+                entryFound = true;
+                allSuppliers.remove();//Remove because it's easier to add a modified version
+            }
+        }
+		return entryFound;
+	}//end removeSupplier
+	
+	/*
+     * Function:	removeProduct
+     * Type:		boolean
+     * Privacy:		public
+     * Description:	This removes a Product from the ProductList, and then it returns 
+					if the Product that was removed.
+     */
+	public boolean removeProduct(String id) {
+		boolean entryFound = false;
+		Iterator allProducts = warehouse.getProducts();
+        while(!entryFound & allProducts.hasNext()){
+            Product nextProduct = (Product)(allProducts.next());
+            if(nextProduct.getId().contentEquals(id)){
+                entryFound = true;
+                allProducts.remove();
+            }
+        }
+		return entryFound;
+	}//end removeProduct
 	
 	/*
      * Function:	retrieve
@@ -202,7 +241,7 @@ public class Warehouse implements Serializable {
 			cnfe.printStackTrace();
 			return null;
 		}
-	}//end retieve
+	}//end retrieve
 	
 	/*
      * Function:	save

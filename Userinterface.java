@@ -23,7 +23,7 @@ public class Userinterface {
 					 RETRIEVE = 15,
                      HELP = 16;
 					
-  //Add Choices
+    //Add Choices
   	static final int CLIENT = 1,
   					 PRODUCT = 2,
   					 SUPPLIER = 3;
@@ -34,35 +34,35 @@ public class Userinterface {
                       PRODUCT_PRICE = 3,
                       PRODUCT_QUANTITY = 4;
 
-      //customer choices
-      static final int CLIENT_ID = 1,
+    //customer choices
+    static final int CLIENT_ID = 1,
                       CLIENT_NAME = 2,
                       CLIENT_PHONE = 3,
                       CLIENT_ADDRESS = 4,
                       CLIENT_BALANCE = 5;
 
-      //supplier choices
-      static final int SUPPLIER_ID = 1,
-              SUPPLIER_NAME = 2,
-              SUPPLIER_PHONE = 3,
-              SUPPLIER_ADDRESS = 4;
+    //supplier choices
+    static final int SUPPLIER_ID = 1,
+					  SUPPLIER_NAME = 2,
+					  SUPPLIER_PHONE = 3,
+					  SUPPLIER_ADDRESS = 4;
 					 
 	transient Scanner inputScanner = new Scanner(System.in);//create scanner for input
-	private static Userinterface Tester;
+	private static Userinterface userinterface;
 	private static Warehouse warehouse;
 
 
 	/*
-     * Function:	tester
+     * Function:	Userinterface
      * Type:		constructor(generic)
      * Privacy:		private
-     * Description:	Constructor for tester class. This is made private because
+     * Description:	Constructor for Userinterface class. This is made private because
      * 				it is using the singleton methodology to make sure only one
-     * 				tester can be initialized at a time
+     * 				Userinterface can be initialized at a time
      */
 	private Userinterface() {
 		char input;
-		System.out.println("Would you like to load a save? (Y/N)");
+		System.out.print("Would you like to load a save? (Y/N)");
 		input = inputScanner.next().charAt(0);
     	if(input == ('y') || input == ('Y'))
     		retrieve();
@@ -73,19 +73,19 @@ public class Userinterface {
 	
 	/*
      * Function:	instance
-     * Type:		tester
+     * Type:		Userinterface
      * Privacy:		public
-     * Description:	This is the singleton for tester, which, if were to
-     * 				try an initialize a second tester class it would
+     * Description:	This is the singleton for Userinterface, which, if were to
+     * 				try an initialize a second Userinterface class it would
      * 				restrict access to the constructor and only return a copy
-     *  			of the current tester class.
+     *  			of the current Userinterface class.
      */
 	public static Userinterface instance() {
-		if (Tester == null) {
-			return Tester = new Userinterface();
+		if (userinterface == null) {
+			return userinterface = new Userinterface();
 		} 
 		else {
-			return Tester;
+			return userinterface;
 		}
 	}
 	
@@ -119,10 +119,11 @@ public class Userinterface {
                     phone,
                     address;
 
-            System.out.println("\n" + EXIT + ".) Go Back\n" +
+            System.out.println("\nWhat would you like to add?\n" + 
+					EXIT + ".) Go Back\n" +
                     CLIENT + ".) Add Client\n"+
                     PRODUCT + ".) Add Product\n"+
-                    SUPPLIER + ".) Add Suppliers\n");
+                    SUPPLIER + ".) Add Supplier\n");
 
             boolean entryFound = false,
 					result = false;
@@ -173,15 +174,18 @@ public class Userinterface {
                     quantity = inputScanner.nextInt();
 
                     Product dummyProduct = new Product(id,name,price,quantity);//create dummy entry based on inputs
-                    
+					
+					Product nextProduct = new Product("","",1,1);
 					Iterator allProducts = warehouse.getProducts();
                     /*Check if ID is already found in system. Must update the quantity if found*/
 					while (!entryFound && allProducts.hasNext()){//search for item by id
-						Product nextProduct = (Product)(allProducts.next());
+						nextProduct = (Product)(allProducts.next());
                         if(nextProduct.getId().contentEquals(dummyProduct.getId())) {//if item is found
                             entryFound = true;
-                            result = warehouse.updateQuantityForProduct(nextProduct.getQuantity() + dummyProduct.getQuantity(), dummyProduct.getId());
-							if (result) {
+							allProducts.remove();
+							quantity = nextProduct.getQuantity() + dummyProduct.getQuantity();
+                            dummyProduct = warehouse.addProduct(nextProduct.getId(),nextProduct.getName(),nextProduct.getPrice(),quantity);
+							if (dummyProduct != null) {
 								System.out.println("Product quantity update successful.");
 							}
                         }//end if
@@ -254,10 +258,11 @@ public class Userinterface {
                     phone,
                     address;
 
-            System.out.println("\n" + EXIT + ".) Go Back\n" +
+            System.out.println("\nWhich would you like to edit?\n" + 
+					EXIT + ".) Go Back\n" +
                     CLIENT + ".) Edit Client\n"+
                     PRODUCT + ".) Edit Product\n"+
-                    SUPPLIER + ".) Edit Suppliers\n");
+                    SUPPLIER + ".) Edit Supplier\n");
 
             boolean entryFound = false,
                     result = false;
@@ -269,10 +274,11 @@ public class Userinterface {
                 case EXIT:
                     break;
                 case CLIENT:
-                    System.out.print("Input the id of the item to edit.");
+                    System.out.print("Input the id of the item to edit: ");
                     id = inputScanner.next();
 
-                    System.out.println("\n" + CLIENT_ID + ".) ID" +
+                    System.out.println("\nWhich value would you like to edit? " + 
+							"\n" + CLIENT_ID + ".) ID" +
                             "\n" + CLIENT_NAME + ".) Name" +
                             "\n" + CLIENT_PHONE + ".) Phone Number" +
                             "\n" + CLIENT_ADDRESS + ".) Address" +
@@ -327,11 +333,12 @@ public class Userinterface {
 
                     break;
                 case PRODUCT:
-                    System.out.print("Input the id of the item to edit.");
+                    System.out.print("Input the id of the item to edit: ");
                     id = inputScanner.next();
 
 
-                    System.out.println("\n" + PRODUCT_ID + ".) ID" +
+                    System.out.println("\nWhich value would you like to edit? " +
+							"\n" + PRODUCT_ID + ".) ID" +
                             "\n" + PRODUCT_NAME + ".) Name" +
                             "\n" + PRODUCT_PRICE + ".) Price" +
                             "\n" + PRODUCT_QUANTITY + ".) Quantity");
@@ -383,10 +390,11 @@ public class Userinterface {
 
                     break;
                 case SUPPLIER:
-                    System.out.print("Input the id of the item to edit.");
+                    System.out.print("\nInput the id of the item to edit: ");
                     id = inputScanner.next();
 
-                    System.out.println("\n" + SUPPLIER_ID + ".) ID" +
+                    System.out.println("Which value would you like to edit? " +
+							"\n" + SUPPLIER_ID + ".) ID" +
                             "\n" + SUPPLIER_NAME + ".) Name" +
                             "\n" + SUPPLIER_PHONE + ".) Phone Number" +
                             "\n" + SUPPLIER_ADDRESS + ".) Address");
@@ -471,17 +479,18 @@ public class Userinterface {
     	char input;
     	int ClientIndex = 0;
     	double inputCredit = 0.0;
-		Client client = new Client("0", "0", "0", "0");
+		Client nextClient = new Client("", "", "", ""),
+			   dummyClient = new Client("", "", "", "");
     	
     	
     	/*Check if Client exists (by id)*/
 		Iterator allClients = warehouse.getClients();
         /*Check if ID is already found in system. Can't have different items of same ID*/
 		while (!entryFound && allClients.hasNext()){//search for item by id
-			Client nextClient = (Client)(allClients.next());
+			nextClient = (Client)(allClients.next());
     		if(nextClient.getId().contentEquals(id)){
     			entryFound = true;
-				client = nextClient;
+				allClients.remove();
     		}//end if
     	}//end for
     	
@@ -489,7 +498,7 @@ public class Userinterface {
     		while(!inputVerification) {
     			System.out.print("\nInput Amount to Deposit: ");
     			inputCredit = Math.round(inputScanner.nextDouble() * 100.0) / 100.0;
-    			System.out.print("\nDid you want to deposit $" + inputCredit + " into " + client.getName() + "'s account? (Y/N)");
+    			System.out.print("\nDid you want to deposit $" + inputCredit + " into " + nextClient.getName() + "'s account? (Y/N)");
     			input = inputScanner.next().charAt(0);
     			
     			if(input == ('y') || input == ('Y'))//we have broken the verification cycle
@@ -497,14 +506,15 @@ public class Userinterface {
     			
     		}//end while
     		
-    		result = warehouse.updateBalanceForClient(client.getBalance() + inputCredit, client.getId());
-			if (result) {
+    		dummyClient = warehouse.addClient(nextClient.getId(),nextClient.getName(),nextClient.getPhone(),
+                                nextClient.getAddress(),nextClient.getBalance() + inputCredit);
+			if (dummyClient != null) {
 				System.out.println("Deposit successful.");
 			}
-    		System.out.print("A credit of " + inputCredit + " has been deposited into " + client.getName() + "'s account." );
+    		System.out.print("A credit of " + inputCredit + " has been deposited into " + nextClient.getName() + "'s account.\n" );
     	}//end if
 		else {
-			System.out.print("\nEntry not found.");
+			System.out.print("\nEntry not found.\n");
 		}//end if
     }//end method
     
@@ -627,10 +637,10 @@ public class Userinterface {
      */
 	private void save() {
 		if (warehouse.save()) {
-			System.out.println(" The warehouse has been successfully saved in the file WarehouseData. \n" );
+			System.out.println("The warehouse has been successfully saved in the file WarehouseData. \n" );
 		} 
 		else {
-			System.out.println(" There has been an error in saving the warehouse. \n" );
+			System.out.println("There has been an error in saving the warehouse. \n" );
 		}
 	}//end save
 
@@ -645,7 +655,7 @@ public class Userinterface {
 		try {
 			Warehouse tempWarehouse = Warehouse.retrieve();
 			if (tempWarehouse != null) {
-				System.out.println(" The warehouse has been successfully retrieved from the file WareHouseData. \n" );
+				System.out.println("The warehouse has been successfully retrieved from the file WarehouseData. \n" );
 				warehouse = tempWarehouse;
 			} 
 			else {
@@ -668,7 +678,8 @@ public class Userinterface {
         int input = EXIT + 1; //Arbitrary non-zero(non-exit) number
 
         while(input != EXIT){//Keep looping until user wishes to exit
-            System.out.println(EXIT + ".) Exit\n" +
+            System.out.println("What would you like to do?\n" +
+					EXIT + ".) Exit\n" +
                     ADD_CLIENTS_PRODUCTS_SUPPLIES + ".) Add Clients, Products, or Supplies\n"+
                     EDIT_CLIENTS_PRODUCTS_SUPPLIES + ".) Edit Clients, Products, or Supplies\n"+
                     ACCEPT_CLIENT_ORDERS + ".) Accept Client Order\n"+

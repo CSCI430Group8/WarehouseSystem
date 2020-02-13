@@ -9,7 +9,6 @@ public class Product implements Serializable {
             name;
     private int quantity;
     private double price;
-	private List WaitList = new LinkedList();
 	
 	/*
      * Function:	Product
@@ -103,17 +102,6 @@ public class Product implements Serializable {
 	public void setPrice(double price){
 		this.price = price;
 	}//end setPrice
-	
-	/*
-     * Function:	insertToWaitList
-     * Type:		boolean
-     * Privacy:		public
-     * Description:	Inserts Product into WaitList.
-	 */
-	public boolean insertToWaitList(Product product) {
-		WaitList.add(product);
-		return true;
-	}//end insertSupplier
 
     /*
      * Function:	toString
