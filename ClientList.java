@@ -8,11 +8,21 @@ public class ClientList implements Serializable {
 	private List clients = new LinkedList();
 	private static ClientList clientList;
 	
-	/*ClientList Constructor*/
+	/*
+     * Function:	ClientList
+     * Type:		constructor(generic)
+     * Privacy:		private
+     * Description:	ClientList Constructor.
+	 */
 	private ClientList() {
 	}//end constructor
 	
-	/*Creates an instance of ClientList*/
+	/*
+     * Function:	instance
+     * Type:		static ClientList
+     * Privacy:		public
+     * Description:	Creates an instance of ClientList.
+	 */
 	public static ClientList instance() {
 		if (clientList == null) {
 			return (clientList = new ClientList());
@@ -22,18 +32,32 @@ public class ClientList implements Serializable {
 		}
 	}//end instance
 	
-	/*Inserts a Client into ClientList*/
+	/*
+     * Function:	insertClient
+     * Type:		boolean
+     * Privacy:		public
+     * Description:	Inserts a Client into ClientList.
+	 */
 	public boolean insertClient(Client client) {
 		clients.add(client);
 		return true;
 	}//end insertClient
 
-	/*Returns an iterator for ClientList*/
+	/*
+     * Function:	getClients
+     * Type:		Iterator
+     * Privacy:		public
+     * Description:	Returns an iterator for ClientList*/
 	public Iterator getClients(){
 		return clients.iterator();
 	}//end getClients
   
-	/*Writes ClientList to disk*/
+	/*
+     * Function:	writeObject
+     * Type:		void
+     * Privacy:		private
+     * Description:	Writes ClientList to disk.
+	 */
 	private void writeObject(java.io.ObjectOutputStream output) {
 		try {
 			output.defaultWriteObject();
@@ -44,7 +68,12 @@ public class ClientList implements Serializable {
 		}
 	}//end writeObject
 	
-	/*Reads ClientList from disk*/
+	/*
+     * Function:	readObject
+     * Type:		void
+     * Privacy:		private
+     * Description:	Reads ClientList from disk.
+	 */
 	private void readObject(java.io.ObjectInputStream input) {
 		try {
 			if (clientList != null) {
@@ -68,7 +97,12 @@ public class ClientList implements Serializable {
 		}
 	}//end readObject
 	
-	/*Converts ClientList to string output*/
+	/*
+     * Function:	toString
+     * Type:		String
+     * Privacy:		public
+     * Description:	Converts ClientList to string output
+	 */
 	public String toString() {
 		return clients.toString();
 	}//end toString

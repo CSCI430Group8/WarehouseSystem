@@ -92,7 +92,7 @@ public class Warehouse implements Serializable {
 		}
 		return null;
 	}//end addClient
-
+	
 	/*
      * Function:	addClient(with balance)
      * Type:		Client
@@ -136,7 +136,7 @@ public class Warehouse implements Serializable {
 			return (product);
 		}
 		return null;
-	}//end addProduct
+	}//end addSupplier
 	
 	/*
      * Function:	updateQuantityForProduct
@@ -227,7 +227,7 @@ public class Warehouse implements Serializable {
 	/*
      * Function:	writeObject
      * Type:		void
-     * Privacy:		public
+     * Privacy:		private
      * Description:	Writes Warehouse class to disk.
      */
 	private void writeObject(java.io.ObjectOutputStream output) {
@@ -243,7 +243,7 @@ public class Warehouse implements Serializable {
 	/*
      * Function:	readObject
      * Type:		void
-     * Privacy:		public
+     * Privacy:		private
      * Description:	Reads Warehouse class from disk.
      */
 	private void readObject(java.io.ObjectInputStream input) {
@@ -267,7 +267,7 @@ public class Warehouse implements Serializable {
 	/*
      * Function:	toString
      * Type:		boolean
-     * Privacy:		public
+     * Privacy:		private
      * Description:	Converts Warehouse into string output.
      */
 	public String toString() {
