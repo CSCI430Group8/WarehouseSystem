@@ -5,7 +5,7 @@ import java.io.*;
 
 
 public class Warehouse implements Serializable {
-    Scanner inputScanner = new Scanner(System.in);//create scanner for input
+    transient Scanner inputScanner = new Scanner(System.in);//create scanner for input
 
     private static Warehouse warehouse;
 	private ClientList clients;

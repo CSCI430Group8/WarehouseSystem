@@ -6,28 +6,29 @@ public class tester {
     //Menu Choices
     static final int EXIT = 0,
                      ADD_CLIENTS_PRODUCTS_SUPPLIES = 1,
-                     ACCEPT_CLIENT_ORDERS = 2,
-                     ACCEPT_CLIENT_PAYMENT = 3,
-                     ACCEPT_SHIPMENT = 4,
-                     ADD_ITEM_TO_CART = 5,
+                     EDIT_CLIENTS_PRODUCTS_SUPPLIES = 2,
+                     ACCEPT_CLIENT_ORDERS = 3,
+                     ACCEPT_CLIENT_PAYMENT = 4,
+                     ACCEPT_SHIPMENT = 5,
+                     ADD_ITEM_TO_CART = 6,
     //Query Choices
-                     LIST_CLIENT_TRANSACTIONS = 6,
-                     LIST_SUPPLIER_PRICES = 7,
-                     LIST_NEGATIVE_BALANCES = 8,
-                     LIST_BACKORDERS = 9,
-                     LIST_PURCHASE_PRICES = 10,
-                     LIST_INVENTORY = 11,
-                     LIST_CUSTOMER_TRANSACTIONS = 12,
-					 SAVE = 13,
-					 RETRIEVE = 14,
-                     HELP = 15;
+                     LIST_CLIENT_TRANSACTIONS = 7,
+                     LIST_SUPPLIER_PRICES = 8,
+                     LIST_NEGATIVE_BALANCES = 9,
+                     LIST_BACKORDERS = 10,
+                     LIST_PURCHASE_PRICES = 11,
+                     LIST_INVENTORY = 12,
+                     LIST_CUSTOMER_TRANSACTIONS = 13,
+					 SAVE = 14,
+					 RETRIEVE = 15,
+                     HELP = 16;
 					
 	//Add Choices
 	static final int CLIENT = 1,
 					 PRODUCT = 2,
 					 SUPPLIER = 3;
 					 
-	Scanner inputScanner = new Scanner(System.in);//create scanner for input
+	transient Scanner inputScanner = new Scanner(System.in);//create scanner for input
 	private static tester Tester;
 	private static Warehouse warehouse;
 
