@@ -94,6 +94,21 @@ public class Warehouse implements Serializable {
 	}//end addClient
 	
 	/*
+     * Function:	addClient(with balance)
+     * Type:		Client
+     * Privacy:		public
+     * Description:	This adds a Client to the ClientList, and then it returns
+					the Client that was added. Balance option has been added to method for direct creation.
+     */
+	public Client addClient(String id, String name, String phone, String address, double balance) {
+		Client client = new Client(id, name, phone, address, balance);
+		if (clients.insertClient(client)) {
+			return (client);
+		}
+		return null;
+	}//end addClient
+	
+	/*
      * Function:	addSupplier
      * Type:		Supplier
      * Privacy:		public
