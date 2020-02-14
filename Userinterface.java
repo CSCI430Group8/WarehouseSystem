@@ -18,10 +18,12 @@ public class Userinterface {
                      LIST_BACKORDERS = 10,
                      LIST_PURCHASE_PRICES = 11,
                      LIST_INVENTORY = 12,
-                     LIST_CUSTOMER_TRANSACTIONS = 13,
-					 SAVE = 14,
-					 RETRIEVE = 15,
-                     HELP = 16;
+					 LIST_ALL_CLIENTS = 13,
+					 LIST_ALL_SUPPLIERS = 14,
+                     LIST_CUSTOMER_TRANSACTIONS = 15,
+					 SAVE = 16,
+					 RETRIEVE = 17,
+                     HELP = 18;
 					
     //Add Choices
   	static final int CLIENT = 1,
@@ -151,7 +153,7 @@ public class Userinterface {
 						Client nextClient = (Client)(allClients.next());
                         if(nextClient.getId().contentEquals(dummyClient.getId()))//if item is found
                            entryFound = true;
-                    }//end for
+                    }//end while
                     if(entryFound) {
                         System.out.println("ID is already present in system; Item not added.");
                     } else {//When the Client is not listed
@@ -189,7 +191,7 @@ public class Userinterface {
 								System.out.println("Product quantity update successful.");
 							}
                         }//end if
-                    }//end for
+                    }//end while
 					if(entryFound) {
                         System.out.println("ID is already present in system; Item quantity updated.");
                     } else {//When the Product is not listed
@@ -217,7 +219,7 @@ public class Userinterface {
 						Supplier nextSupplier = (Supplier)(allSuppliers.next());
                         if(nextSupplier.getId().contentEquals(dummySupplier.getId()))//if item is found
                             entryFound = true;
-                    }//end for
+                    }//end while
                     if(entryFound) {
                         System.out.println("ID is already present in system; Item not added.");
                     } else {//When the Product is not listed
@@ -492,7 +494,7 @@ public class Userinterface {
     			entryFound = true;
 				allClients.remove();
     		}//end if
-    	}//end for
+    	}//end while
     	
     	if(entryFound) {
     		while(!inputVerification) {
@@ -579,7 +581,7 @@ public class Userinterface {
         							+"\nName: " + nextClient.getName()
         							+"\nBalance: $" + nextClient.getBalance());
         	
-        }//end for
+        }//end while
     }//end method
     
     /*
@@ -614,7 +616,37 @@ public class Userinterface {
 			Product nextProduct = (Product)(allProducts.next());
             System.out.println(nextProduct.toString());
             System.out.println();
-        }//end for
+        }//end while
+    }//end method
+	
+	/*
+     * Function:	listAllClients
+     * Type:		void
+     * Privacy:		public
+     * Description:	
+     */
+    public void listAllClients(){
+		Iterator allClients = warehouse.getClients();
+		while (allClients.hasNext()){
+			Client nextClient = (Client)(allClients.next());
+            System.out.println(nextClient.toString());
+            System.out.println();
+        }//end while
+    }//end method
+	
+	/*
+     * Function:	listAllSuppliers
+     * Type:		void
+     * Privacy:		public
+     * Description:	
+     */
+    public void listAllSuppliers(){
+		Iterator allSuppliers = warehouse.getSuppliers();
+		while (allSuppliers.hasNext()){
+			Supplier nextSupplier = (Supplier)(allSuppliers.next());
+            System.out.println(nextSupplier.toString());
+            System.out.println();
+        }//end while
     }//end method
     
     /*
@@ -680,8 +712,8 @@ public class Userinterface {
         while(input != EXIT){//Keep looping until user wishes to exit
             System.out.println("What would you like to do?\n" +
 					EXIT + ".) Exit\n" +
-                    ADD_CLIENTS_PRODUCTS_SUPPLIES + ".) Add Clients, Products, or Supplies\n"+
-                    EDIT_CLIENTS_PRODUCTS_SUPPLIES + ".) Edit Clients, Products, or Supplies\n"+
+                    ADD_CLIENTS_PRODUCTS_SUPPLIES + ".) Add Clients, Products, or Suppliers\n"+
+                    EDIT_CLIENTS_PRODUCTS_SUPPLIES + ".) Edit Clients, Products, or Suppliers\n"+
                     ACCEPT_CLIENT_ORDERS + ".) Accept Client Order\n"+
                     ACCEPT_CLIENT_PAYMENT + ".) Accept Client Payment\n"+
                     ACCEPT_SHIPMENT + ".) Accept Shipment\n"+
@@ -692,6 +724,8 @@ public class Userinterface {
                     LIST_BACKORDERS + ".) List Backordered Items\n"+
                     LIST_PURCHASE_PRICES + ".) List Price of Items from Suppliers\n"+
                     LIST_INVENTORY + ".) List Current Inventory\n"+
+					LIST_ALL_CLIENTS + ".) List All Clients\n"+
+					LIST_ALL_SUPPLIERS + ".) List All Suppliers\n"+
                     LIST_CUSTOMER_TRANSACTIONS + ".) List Customer Transactions by Date\n"+
 					SAVE + ".) Save \n" +
 					RETRIEVE + ".) Retrieve \n" +
@@ -736,6 +770,12 @@ public class Userinterface {
                     break;
                 case LIST_INVENTORY:
                     listInventory();
+                    break;
+				case LIST_ALL_CLIENTS:
+                    listAllClients();
+                    break;
+				case LIST_ALL_SUPPLIERS:
+                    listAllSuppliers();
                     break;
                 case LIST_CUSTOMER_TRANSACTIONS:
                     listClientTransactions();
