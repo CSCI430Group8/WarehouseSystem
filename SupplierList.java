@@ -5,7 +5,7 @@ import java.io.*;
 
 public class SupplierList implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private List suppliers = new LinkedList();
+	private LinkedList<Supplier> suppliers = new LinkedList<Supplier>();
 	private static SupplierList supplierList;
 	
 	/*
@@ -39,8 +39,9 @@ public class SupplierList implements Serializable {
      * Description:	Inserts Supplier into SupplierList.
 	 */
 	public boolean insertSupplier(Supplier supplier) {
-		suppliers.add(supplier);
-		return true;
+		boolean result;
+		result = suppliers.add(supplier);
+		return result;
 	}//end insertSupplier
 
 	/*

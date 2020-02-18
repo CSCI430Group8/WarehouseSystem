@@ -5,7 +5,7 @@ import java.io.*;
 
 public class ClientList implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private List clients = new LinkedList();
+	private LinkedList<Client> clients = new LinkedList<Client>();
 	private static ClientList clientList;
 	
 	/*
@@ -39,8 +39,9 @@ public class ClientList implements Serializable {
      * Description:	Inserts a Client into ClientList.
 	 */
 	public boolean insertClient(Client client) {
-		clients.add(client);
-		return true;
+		boolean result;
+		result = clients.add(client);
+		return result;
 	}//end insertClient
 
 	/*

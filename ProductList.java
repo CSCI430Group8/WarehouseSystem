@@ -5,7 +5,7 @@ import java.io.*;
 
 public class ProductList implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private List products = new LinkedList();
+	private LinkedList<Product> products = new LinkedList<Product>();
 	private static ProductList productList;
 	
 	/*
@@ -39,8 +39,9 @@ public class ProductList implements Serializable {
      * Description:	Inserts Product into ProductList.
 	 */
 	public boolean insertProduct(Product product) {
-		products.add(product);
-		return true;
+		boolean result;
+		result = products.add(product);
+		return result;
 	}//end insertProduct
 
 	/*
