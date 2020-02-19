@@ -25,6 +25,7 @@ public class Warehouse implements Serializable {
         clients = ClientList.instance();
         suppliers = SupplierList.instance();
         inventory = ProductList.instance();
+        backorders = BackorderList.instance();
     }//end constructor
 
     /*
