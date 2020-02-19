@@ -161,6 +161,106 @@ public class Warehouse implements Serializable {
 		}
 		return null;
 	}//end addProduct
+
+	/*
+     * Function:	setProductPrice
+     * Type:		boolean
+     * Privacy:		public
+     * Description:
+     */
+	public boolean setProductPrice(String id, double price){
+		return inventory.setProductPrice(id, price);
+	}//end setProductPrice
+
+	/*
+	 * Function:	setProductQuantity
+	 * Type:		boolean
+	 * Privacy:		public
+	 * Description:
+	 */
+	public boolean setProductQuantity(String id, int quantity){
+		return inventory.setProductQuantity(id, quantity);
+	}//end setProductQuantity
+
+	/*
+	 * Function:	setProductName
+	 * Type:		boolean
+	 * Privacy:		public
+	 * Description:
+	 */
+	public boolean setProductName(String id, String name){
+		return inventory.setProductName(id, name);
+	}//end setProductName
+
+	/*
+	 * Function:	setClientBalance
+	 * Type:		boolean
+	 * Privacy:		public
+	 * Description:
+	 */
+	public boolean setClientBalance(String id, double balance){
+		return clients.setClientBalance(id, balance);
+	}//end setClientBalance
+
+	/*
+	 * Function:	setClientName
+	 * Type:		boolean
+	 * Privacy:		public
+	 * Description:
+	 */
+	public boolean setClientName(String id, String name){
+		return clients.setClientName(id, name);
+	}//end setClientName
+
+	/*
+	 * Function:	setClientPhone
+	 * Type:		boolean
+	 * Privacy:		public
+	 * Description:
+	 */
+	public boolean setClientPhone(String id, String phone){
+		return clients.setClientPhone(id, phone);
+	}//end setClientPhone
+
+	/*
+	 * Function:	setClientAddress
+	 * Type:		boolean
+	 * Privacy:		public
+	 * Description:
+	 */
+	public boolean setClientAddress(String id, String address){
+		return clients.setClientAddress(id, address);
+	}//end setClientAddress
+
+	/*
+	 * Function:	setSupplierName
+	 * Type:		boolean
+	 * Privacy:		public
+	 * Description:
+	 */
+	public boolean setSupplierName(String id, String name){
+		return suppliers.setSupplierName(id, name);
+	}//end setSupplierName
+
+	/*
+	 * Function:	setSupplierPhone
+	 * Type:		boolean
+	 * Privacy:		public
+	 * Description:
+	 */
+	public boolean setSupplierPhone(String id, String phone){
+		return suppliers.setSupplierPhone(id, phone);
+	}//end setSupplierPhone
+
+	/*
+	 * Function:	setSupplierAddress
+	 * Type:		boolean
+	 * Privacy:		public
+	 * Description:
+	 */
+	public boolean setSupplierAddress(String id, String address){
+		return suppliers.setSupplierAddress(id, address);
+	}//end setSupplierAddress
 	
 	/*
      * Function:	addToClientCart

@@ -10,6 +10,7 @@ public class Client implements Serializable {
             name,
             phone,
             address;
+    static int currentID;
     private LinkedList<Product> cart = new LinkedList<Product>();
 	
 	/*
@@ -19,7 +20,7 @@ public class Client implements Serializable {
      * Description:	Client Constructor.
 	 */
     Client(String id, String name, String phone, String address){
-        this.id = id;
+    	this.id = id;
         this.name = name;
         this.phone = phone;
         this.address = address;
@@ -154,6 +155,6 @@ public class Client implements Serializable {
      * Description:	Converts Client to string output.
 	 */
     public String toString(){
-        return "ID: " + id + " Name: " + name + " Balance: " + balance + " Phone Number: " + phone + " Address: " + address;
+        return "ID: " + id + " Name: " + name + " Balance: $" + balance + " Phone Number: " + phone + " Address: " + address;
     }//end display
 }

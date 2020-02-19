@@ -53,6 +53,57 @@ public class SupplierList implements Serializable {
 	public Iterator getSuppliers(){
 		return suppliers.iterator();
 	}//end getSuppliers
+
+	/*
+	 * Function:	setSupplierName
+	 * Type:		boolean
+	 * Privacy:		public
+	 * Description:
+	 */
+	public boolean setSupplierName(String id, String name){
+		Boolean entryFound = false;
+		for(int i = 0; !entryFound & i < suppliers.size(); i++){
+			if(suppliers.get(i).getId().contentEquals(id)){
+				entryFound = true;
+				suppliers.get(i).setName(name);
+			}//end if
+		}//end for
+		return entryFound;//product is found and changed
+	}//end setSupplierName
+
+	/*
+	 * Function:	setSupplierName
+	 * Type:		boolean
+	 * Privacy:		public
+	 * Description:
+	 */
+	public boolean setSupplierPhone(String id, String phone){
+		Boolean entryFound = false;
+		for(int i = 0; !entryFound & i < suppliers.size(); i++){
+			if(suppliers.get(i).getId().contentEquals(id)){
+				entryFound = true;
+				suppliers.get(i).setPhone(phone);
+			}//end if
+		}//end for
+		return entryFound;//product is found and changed
+	}//end setSupplierPhone
+
+	/*
+	 * Function:	setSupplierName
+	 * Type:		boolean
+	 * Privacy:		public
+	 * Description:
+	 */
+	public boolean setSupplierAddress(String id, String address){
+		Boolean entryFound = false;
+		for(int i = 0; !entryFound & i < suppliers.size(); i++){
+			if(suppliers.get(i).getId().contentEquals(id)){
+				entryFound = true;
+				suppliers.get(i).setAddress(address);
+			}//end if
+		}//end for
+		return entryFound;//product is found and changed
+	}//end setSupplierAddress
   
 	/*
      * Function:	writeObject
@@ -68,7 +119,7 @@ public class SupplierList implements Serializable {
 		catch(IOException ioe) {
 			ioe.printStackTrace();
 		}
-	}//end writeObejct
+	}//end writeObject
 	
 	/*
      * Function:	readObject

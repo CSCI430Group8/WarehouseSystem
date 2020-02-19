@@ -52,12 +52,80 @@ public class ClientList implements Serializable {
 	public Iterator getClients(){
 		return clients.iterator();
 	}//end getClients
-  
+
 	/*
-     * Function:	writeObject
-     * Type:		void
-     * Privacy:		private
-     * Description:	Writes ClientList to disk.
+	 * Function:	setClientBalance
+	 * Type:		boolean
+	 * Privacy:		public
+	 * Description:
+	 */
+	public boolean setClientBalance(String id, double balance){
+		Boolean entryFound = false;
+		for(int i = 0; !entryFound & i < clients.size(); i++){
+			if(clients.get(i).getId().contentEquals(id)){
+				entryFound = true;
+				clients.get(i).setBalance(balance);
+			}//end if
+		}//end for
+		return entryFound;//product is found and changed
+	}//end setClientBalance
+
+	/*
+	 * Function:	setClientName
+	 * Type:		boolean
+	 * Privacy:		public
+	 * Description:
+	 */
+	public boolean setClientName(String id, String name){
+		Boolean entryFound = false;
+		for(int i = 0; !entryFound & i < clients.size(); i++){
+			if(clients.get(i).getId().contentEquals(id)){
+				entryFound = true;
+				clients.get(i).setName(name);
+			}//end if
+		}//end for
+		return entryFound;//product is found and changed
+	}//end setClientName
+
+	/*
+	 * Function:	setClientPhone
+	 * Type:		boolean
+	 * Privacy:		public
+	 * Description:
+	 */
+	public boolean setClientPhone(String id, String phone){
+		Boolean entryFound = false;
+		for(int i = 0; !entryFound & i < clients.size(); i++){
+			if(clients.get(i).getId().contentEquals(id)){
+				entryFound = true;
+				clients.get(i).setPhone(phone);
+			}//end if
+		}//end for
+		return entryFound;//product is found and changed
+	}//end setClientPhone
+
+	/*
+	 * Function:	setClientAddress
+	 * Type:		boolean
+	 * Privacy:		public
+	 * Description:
+	 */
+	public boolean setClientAddress(String id, String address){
+		Boolean entryFound = false;
+		for(int i = 0; !entryFound & i < clients.size(); i++){
+			if(clients.get(i).getId().contentEquals(id)){
+				entryFound = true;
+				clients.get(i).setAddress(address);
+			}//end if
+		}//end for
+		return entryFound;//product is found and changed
+	}//end setClientAddress
+
+	/*
+	 * Function:	writeObject
+	 * Type:		void
+	 * Privacy:		private
+	 * Description:	Writes ClientList to disk.
 	 */
 	private void writeObject(java.io.ObjectOutputStream output) {
 		try {

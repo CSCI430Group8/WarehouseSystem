@@ -30,23 +30,20 @@ public class Userinterface {
   					 SUPPLIER = 3;
 
   	//product choices
-  	static final int PRODUCT_ID = 1,
-                      PRODUCT_NAME = 2,
-                      PRODUCT_PRICE = 3,
-                      PRODUCT_QUANTITY = 4;
+  	static final int  PRODUCT_NAME = 1,
+                      PRODUCT_PRICE = 2,
+                      PRODUCT_QUANTITY = 3;
 
     //customer choices
-    static final int CLIENT_ID = 1,
-                      CLIENT_NAME = 2,
-                      CLIENT_PHONE = 3,
-                      CLIENT_ADDRESS = 4,
-                      CLIENT_BALANCE = 5;
+    static final int  CLIENT_NAME = 1,
+                      CLIENT_PHONE = 2,
+                      CLIENT_ADDRESS = 3,
+                      CLIENT_BALANCE = 4;
 
     //supplier choices
-    static final int SUPPLIER_ID = 1,
-					  SUPPLIER_NAME = 2,
-					  SUPPLIER_PHONE = 3,
-					  SUPPLIER_ADDRESS = 4;
+    static final int  SUPPLIER_NAME = 1,
+					  SUPPLIER_PHONE = 2,
+					  SUPPLIER_ADDRESS = 3;
 					 
 	transient Scanner inputScanner = new Scanner(System.in);//create scanner for input
 	private static Userinterface userinterface;
@@ -250,26 +247,13 @@ public class Userinterface {
         int input = EXIT + 1;//arbitrary non-exit number
 
         while(input != EXIT) {
-            int quantity = 0;
-
-            double price = 0;
-
-            String name,
-                    id,
-                    phone,
-                    address;
-
             System.out.println("\nWhich would you like to edit?\n" + 
 					EXIT + ".) Go Back\n" +
                     CLIENT + ".) Edit Client\n"+
                     PRODUCT + ".) Edit Product\n"+
                     SUPPLIER + ".) Edit Supplier\n");
-
-            boolean entryFound = false,
-                    result = false;
+            String id;
             input = inputScanner.nextInt();
-            Iterator iterator;
-            String iteratorString;
 
             switch(input) {
                 case EXIT:
@@ -278,8 +262,7 @@ public class Userinterface {
                     System.out.print("Input the id of the item to edit: ");
                     id = inputScanner.next();
 
-                    System.out.println("\nWhich value would you like to edit? " + 
-							"\n" + CLIENT_ID + ".) ID" +
+                    System.out.println("\nWhich value would you like to edit? " +
                             "\n" + CLIENT_NAME + ".) Name" +
                             "\n" + CLIENT_PHONE + ".) Phone Number" +
                             "\n" + CLIENT_ADDRESS + ".) Address" +
@@ -287,51 +270,38 @@ public class Userinterface {
 
                     input = inputScanner.nextInt();
 
-                    Iterator allClients = warehouse.getClients();
-                    Client nextClient = new Client("","","","");//dummy initialization
-
-                    while(!entryFound & allClients.hasNext()){
-                        nextClient = (Client)(allClients.next());
-                        if(nextClient.getId().contentEquals(id)){
-                            entryFound = true;
-                            allClients.remove();//Remove because it's easier to add a modified version
-                        }
-                    }
-
-                    if(entryFound) {
-                        switch (input) {
-                            case CLIENT_ID:
-                                System.out.println("What would you like the new id to be?");
-                                nextClient.setId(inputScanner.next());
-
-                                break;
-                            case CLIENT_NAME:
-                                System.out.println("What would you like the new name to be?");
-                                nextClient.setName(inputScanner.next());
-
-                                break;
-                            case CLIENT_PHONE:
-                                System.out.println("What would you like the new phone number to be?");
-                                nextClient.setPhone(inputScanner.next());
-                                break;
-                            case CLIENT_ADDRESS:
-                                System.out.println("What would you like the new address to be?");
-                                nextClient.setAddress(inputScanner.next());
-                                break;
-                            case CLIENT_BALANCE:
-                                System.out.println("What would you like the new balance to be?");
-                                nextClient.setBalance(inputScanner.nextDouble());
-                                break;
-                            default:
-                                break;
-                        }
-                        /*add to list after editing desired value.*/
-                        warehouse.addClient(nextClient.getId(),nextClient.getName(),nextClient.getPhone(),
-                                nextClient.getAddress(),nextClient.getBalance());
-                    } else {
-                        System.out.println("Could not find ID");
-                    }
-
+                    switch (input) {
+                        case CLIENT_NAME:
+                            System.out.println("Input the new name.");
+                            if(warehouse.setClientName(id, inputScanner.next()))
+                                System.out.println("Name has been changed.");
+                            else
+                                System.out.println("ID not found, name not changed.");
+                            break;
+                        case CLIENT_PHONE:
+                            System.out.println("Input the new phone number.");
+                            if(warehouse.setClientPhone(id, inputScanner.next()))
+                                System.out.println("Phone number has been changed.");
+                            else
+                                System.out.println("ID not found, phone number not changed.");
+                            break;
+                        case CLIENT_ADDRESS:
+                            System.out.println("Input the new address.");
+                            if(warehouse.setClientAddress(id, inputScanner.next()))
+                                System.out.println("Address has been changed.");
+                            else
+                                System.out.println("ID not found, address not changed.");
+                            break;
+                        case CLIENT_BALANCE:
+                            System.out.println("Input the new balance.");
+                            if(warehouse.setClientBalance(id, Math.round(inputScanner.nextDouble() * 100.0) / 100.0))//round to 2 decimal places
+                                System.out.println("Balance has been changed.");
+                            else
+                                System.out.println("ID not found, balance not changed.");
+                            break;
+                        default:
+                            break;
+                    }//end switch
                     break;
                 case PRODUCT:
                     System.out.print("Input the id of the item to edit: ");
@@ -339,55 +309,37 @@ public class Userinterface {
 
 
                     System.out.println("\nWhich value would you like to edit? " +
-							"\n" + PRODUCT_ID + ".) ID" +
                             "\n" + PRODUCT_NAME + ".) Name" +
                             "\n" + PRODUCT_PRICE + ".) Price" +
                             "\n" + PRODUCT_QUANTITY + ".) Quantity");
 
                     input = inputScanner.nextInt();
 
-                    Iterator allProducts = warehouse.getProducts();
-                    Product nextProduct = new Product("","",1,1);//dummy initialization
-
-                    while(!entryFound & allProducts.hasNext()){
-                        nextProduct = (Product)(allProducts.next());
-                        if(nextProduct.getId().contentEquals(id)){
-                            entryFound = true;
-                            allProducts.remove();//Remove because it's easier to add a modified version
-                        }
-                    }
-
-                    if(entryFound) {
-                        switch (input) {
-                            case PRODUCT_ID:
-                                System.out.println("What would you like the new id to be?");
-                                nextProduct.setId(inputScanner.next());
-
-                                break;
-                            case PRODUCT_NAME:
-                                System.out.println("What would you like the new name to be?");
-                                nextProduct.setName(inputScanner.next());
-
-                                break;
-                            case PRODUCT_PRICE:
-                                System.out.println("What would you like the new price to be?");
-                                nextProduct.setPrice((inputScanner.nextDouble() * 100.0) / 100.0);
-
-
-                                break;
-                            case PRODUCT_QUANTITY:
-                                System.out.println("What would you like the new quantity to be?");
-                                nextProduct.setQuantity(inputScanner.nextInt());
-                                break;
-                            default:
-                                break;
-                        }
-                        /*add to list after editing desired value.*/
-                        warehouse.addProduct(nextProduct.getId(),nextProduct.getName(),nextProduct.getPrice(),
-                                nextProduct.getQuantity());
-                    } else {
-                        System.out.println("Could not find ID");
-                    }
+                    switch (input) {
+                        case PRODUCT_NAME:
+                            System.out.println("Input the new name.");
+                            if(warehouse.setProductName(id, inputScanner.next()))
+                                System.out.println("Name has been changed.");
+                            else
+                                System.out.println("ID not found, name not changed.");
+                            break;
+                        case PRODUCT_PRICE:
+                            System.out.println("Input the new price.");
+                            if(warehouse.setProductPrice(id, Math.round(inputScanner.nextDouble() * 100.0) / 100.0))//round to 2 decimal places
+                                System.out.println("Price has been changed.");
+                            else
+                                System.out.println("ID not found, price not changed.");
+                            break;
+                        case PRODUCT_QUANTITY:
+                            System.out.println("Input the new quantity.");
+                            if(warehouse.setProductQuantity(id, inputScanner.nextInt()))
+                                System.out.println("Quantity has been changed.");
+                            else
+                                System.out.println("ID not found, quantity not changed.");
+                            break;
+                        default:
+                            break;
+                    }//end switch
 
                     break;
                 case SUPPLIER:
@@ -395,56 +347,39 @@ public class Userinterface {
                     id = inputScanner.next();
 
                     System.out.println("Which value would you like to edit? " +
-							"\n" + SUPPLIER_ID + ".) ID" +
                             "\n" + SUPPLIER_NAME + ".) Name" +
                             "\n" + SUPPLIER_PHONE + ".) Phone Number" +
                             "\n" + SUPPLIER_ADDRESS + ".) Address");
 
                     input = inputScanner.nextInt();
 
-                    Iterator allSuppliers = warehouse.getSuppliers();
-                    Supplier nextSupplier = new Supplier("","","","");//dummy initialization
+                    switch (input) {
+                        case SUPPLIER_NAME:
+                            System.out.println("Input the new name.");
+                            if(warehouse.setSupplierName(id, inputScanner.next()))
+                                System.out.println("Name has been changed.");
+                            else
+                                System.out.println("ID not found, name not changed.");
+                            break;
+                        case SUPPLIER_PHONE:
+                            System.out.println("Input the new phone number.");
+                            if(warehouse.setSupplierPhone(id, inputScanner.next()))
+                                System.out.println("Phone number has been changed.");
+                            else
+                                System.out.println("ID not found, phone number not changed.");
+                            break;
+                        case SUPPLIER_ADDRESS:
+                            System.out.println("Input the new address.");
+                            if(warehouse.setSupplierAddress(id, inputScanner.next()))
+                                System.out.println("Address has been changed.");
+                            else
+                                System.out.println("ID not found, address not changed.");
+                            break;
+                        default:
+                            break;
+                    }//end switch
 
-                    while(!entryFound & allSuppliers.hasNext()){
-                        nextSupplier = (Supplier)(allSuppliers.next());
-                        if(nextSupplier.getId().contentEquals(id)){
-                            entryFound = true;
-                            allSuppliers.remove();//Remove because it's easier to add a modified version
-                        }
-                    }
-
-                    if(entryFound) {
-                        switch (input) {
-                            case SUPPLIER_ID:
-                                System.out.println("What would you like the new id to be?");
-                                nextSupplier.setId(inputScanner.next());
-
-                                break;
-                            case SUPPLIER_NAME:
-                                System.out.println("What would you like the new name to be?");
-                                nextSupplier.setName(inputScanner.next());
-
-                                break;
-                            case SUPPLIER_PHONE:
-                                System.out.println("What would you like the new phone number to be?");
-                                nextSupplier.setPhone(inputScanner.next());
-
-
-                                break;
-                            case SUPPLIER_ADDRESS:
-                                System.out.println("What would you like the new address to be?");
-                                nextSupplier.setAddress(inputScanner.next());
-                                break;
-                            default:
-                                break;
-                        }//end switch
-                        /*add to list after editing desired value.*/
-                        warehouse.addSupplier(nextSupplier.getId(),nextSupplier.getName(),nextSupplier.getPhone(),
-                                nextSupplier.getAddress());
-                    } else {
-                        System.out.println("Could not find ID");
-                    }
-
+                    break;
                 default:
                     break;
             }//end switch
