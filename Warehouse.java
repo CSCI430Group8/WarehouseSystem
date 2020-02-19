@@ -57,17 +57,6 @@ public class Warehouse implements Serializable {
 	}//end getClients
 
 	/*
-     * Function:	getClientBalance
-     * Type:		Double
-     * Privacy:		public
-     * Description:	returns a balance from a client, if the id does not exist then return 0
-     * THIS SHOULD BE DELETED AND THE FUNCTION acceptClientPayment THAT USES THIS SHOULD BE REPLACED WITH AN ITERATOR
-     */
-	public double getClientBalance(String id) {
-		return clients.getClientBalance(id);
-	}//end getClients
-	
-	/*
      * Function:	getSuppliers
      * Type:		Iterator
      * Privacy:		public
