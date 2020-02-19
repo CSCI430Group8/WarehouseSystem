@@ -11,6 +11,7 @@ public class Warehouse implements Serializable {
 	private ClientList clients;
 	private SupplierList suppliers;
 	private ProductList inventory;
+	private BackorderList backorders;
 
     /*
      * Function:	Warehouse
@@ -76,6 +77,28 @@ public class Warehouse implements Serializable {
      */
 	public Iterator getProducts() {
 		return inventory.getProducts();
+	}//end getProducts
+	
+	/*
+     * Function:	getBackorders
+     * Type:		Iterator
+     * Privacy:		public
+     * Description:	This returns an iterator for the BackorderList that allows
+					for traversal through the different backorders within the
+					list for the tester.
+     */
+	public Iterator getBackorders() {
+		return backorders.getBackorders();
+	}//end getProducts
+	
+	/*
+     * Function:	addBackorders
+     * Type:		void
+     * Privacy:		public
+     * Description:	Add an order to the backorder list.
+     */
+	public void addBackorders(String id, LinkedList<Product> orderedItems) {
+		backorders.addBackorder(id, orderedItems);
 	}//end getProducts
 	
 	/*

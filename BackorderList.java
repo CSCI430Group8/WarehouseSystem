@@ -1,8 +1,11 @@
 import java.io.IOException;
+import java.io.Serializable;
+import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-public class BackorderList {
+public class BackorderList implements Serializable {
+	private static final long serialVersionUID = 1L;
 	private LinkedList<Order> backorders = new LinkedList<Order>();
 	private static BackorderList backorderList;
 	
@@ -36,9 +39,11 @@ public class BackorderList {
      * Privacy:		public
      * Description:	Inserts Order into BackorderList.
 	 */
-	public boolean insertProduct(Order order) {
+	public boolean addBackorder(String id, LinkedList<Product> orderedItems) {
 		boolean result;
-		result = backorders.add(order);
+		GregorianCalendar currentDate = new GregorianCalendar();
+		Order newOrder = new Order(currentDate, id, orderedItems);
+		result = backorders.add(newOrder);
 		return result;
 	}//end insertProduct
 

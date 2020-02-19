@@ -1,14 +1,13 @@
 import java.text.DecimalFormat;
 import java.util.*;
 import java.io.*;
-import java.util.GregorianCalendar;
 
 
 public class Order implements Serializable {
 	private static final long serialVersionUID = 1L;
     private String id;
     private GregorianCalendar date;
-    ProductList orderedItems;
+    private LinkedList<Product> orderedItems = new LinkedList<Product>();
 	
 	/*
      * Function:	Order
@@ -16,7 +15,7 @@ public class Order implements Serializable {
      * Privacy:		public
      * Description:	Order Constructor.
 	 */
-	Order(GregorianCalendar date, String id, ProductList orderedItems){
+	Order(GregorianCalendar date, String id, LinkedList<Product> orderedItems){
         this.id = id;
         this.date = date;
         this.orderedItems = orderedItems;
@@ -48,7 +47,7 @@ public class Order implements Serializable {
      * Privacy:		public
      * Description:	Gets product list from order.
 	 */
-	public ProductList getOrder(){
+	public LinkedList<Product> getOrder(){
 		return orderedItems;
 	}//end getOrder
 	
@@ -79,7 +78,7 @@ public class Order implements Serializable {
      * Privacy:		public
      * Description:	Sets items ordered in order.
 	 */
-	public void setOrderedItems(ProductList orderedItems){
+	public void setOrderedItems(LinkedList<Product> orderedItems){
 		this.orderedItems = orderedItems;
 	}//end setOrderedItems
 	

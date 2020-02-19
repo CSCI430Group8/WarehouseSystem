@@ -1,6 +1,5 @@
 import java.util.*;
 import java.io.*;
-import java.util.Scanner;
 
 public class Userinterface {
 	//Menu Choices
@@ -462,6 +461,32 @@ public class Userinterface {
      */
     public void acceptClientOrders(){
         System.out.println("Dummy Method.");
+        System.out.println("Method modified for testing backorders / orders");
+        String id = "1";//using test client's id
+        LinkedList<Product> dummyCart = new LinkedList<Product>();
+        Iterator items = warehouse.getProducts();
+        Product dummyProduct = new Product("1","1",1,1);
+        
+        /*Create the dummy order with testing product*/
+        if(items.hasNext()) {
+        	dummyProduct = (Product)(items.next());
+            dummyProduct.setQuantity(100);
+            dummyCart.add(dummyProduct);
+            
+            //warehouse.addBackorders(id, dummyCart);
+        } else {
+            System.out.println("iterator does not have next");
+        }
+        
+        /*Find the item ID*/
+        /*subtract ordered items from inventory*/
+        /*For testing purposes, a backorder will be triggered purposely*/
+        
+        
+        
+        
+        
+        
     }//end method
 
     /*
@@ -591,7 +616,13 @@ public class Userinterface {
      * Description:	
      */
     public void listBackorders(){
-        System.out.println("Dummy Method.");
+        Iterator allBackorders = warehouse.getBackorders();
+        while (allBackorders.hasNext()) {//List all backorders
+        	Order nextBackorder = (Order)(allBackorders.next());
+        	System.out.println(nextBackorder.toString());
+    	GregorianCalendar date = new GregorianCalendar();
+    	System.out.println(date);
+        }
     }//end method
     
     /*
@@ -645,6 +676,21 @@ public class Userinterface {
 		while (allSuppliers.hasNext()){
 			Supplier nextSupplier = (Supplier)(allSuppliers.next());
             System.out.println(nextSupplier.toString());
+            System.out.println();
+        }//end while
+    }//end method
+    
+    /*
+     * Function:	listAllBackorders
+     * Type:		void
+     * Privacy:		public
+     * Description:	
+     */
+    public void listAllBackorders(){
+		Iterator allBackorders = warehouse.getBackorders();
+		while (allBackorders.hasNext()){
+			Order nextBackorder = (Order)(allBackorders.next());
+            System.out.println(nextBackorder.toString());
             System.out.println();
         }//end while
     }//end method
