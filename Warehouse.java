@@ -98,7 +98,7 @@ public class Warehouse implements Serializable {
      * Privacy:		public
      * Description:	Add an order to the backorder list.
      */
-	public void addBackorders(String clientId, LinkedList<Product> orderedItems) {
+	public void addBackorder(String clientId, LinkedList<Product> orderedItems) {
 		backorders.addBackorder(clientId, orderedItems);
 	}//end getProducts
 	
