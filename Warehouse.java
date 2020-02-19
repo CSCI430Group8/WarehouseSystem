@@ -109,8 +109,8 @@ public class Warehouse implements Serializable {
      * Description:	This adds a Client to the ClientList, and then it returns 
 					if the Client that was added.
      */
-	public Client addClient(String id, String name, String phone, String address) {
-		Client client = new Client(id, name, phone, address);
+	public Client addClient(String name, String phone, String address) {
+		Client client = new Client(name, phone, address);
 		if (clients.insertClient(client)) {
 			return (client);
 		}
@@ -124,8 +124,8 @@ public class Warehouse implements Serializable {
      * Description:	This adds a Supplier to the SupplierList, and then it returns 
 					if the Supplier that was added.
      */
-	public Supplier addSupplier(String id, String name, String phone, String address) {
-		Supplier supplier = new Supplier(id, name, phone, address);
+	public Supplier addSupplier(String name, String phone, String address) {
+		Supplier supplier = new Supplier(name, phone, address);
 		if (suppliers.insertSupplier(supplier)) {
 			return (supplier);
 		}
@@ -139,8 +139,8 @@ public class Warehouse implements Serializable {
      * Description:	This adds a Product to the ProductList, and then it returns 
 					if the Product that was added.
      */
-	public Product addProduct(String id, String name, double price, int quantity) {
-		Product product = new Product(id, name, price, quantity);
+	public Product addProduct(String name, double price, int quantity) {
+		Product product = new Product(name, price, quantity);
 		if (inventory.insertProduct(product)) {
 			return (product);
 		}
