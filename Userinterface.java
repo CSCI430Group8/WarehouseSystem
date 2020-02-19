@@ -396,22 +396,6 @@ public class Userinterface {
      */
     public void acceptClientOrders(){
         System.out.println("Dummy Method.");
-        System.out.println("Method modified for testing backorders / orders");
-        System.out.println("Adds a dummy order to a dummy cart and then adds to backorder");
-        String id = "1";//using test client's id
-        LinkedList<Product> dummyCart = new LinkedList<Product>();
-        Iterator items = warehouse.getProducts();
-        Product dummyProduct = new Product("1","1",1,1);
-        
-        /*Create the dummy cart with testing product*/
-        dummyCart.add(dummyProduct);
-
-
-        
-        /*Find the item ID*/
-        /*subtract ordered items from inventory*/
-        /*For testing purposes, a backorder will be triggered purposely*/
-        warehouse.addBackorders(id, dummyCart);
 
     }//end method
 
@@ -430,45 +414,39 @@ public class Userinterface {
 				result = false,
     			inputVerification = false;
     	char input;
-    	int ClientIndex = 0;
-    	double inputCredit = 0.0;
-		Client nextClient = new Client("", "", "", ""),
-			   dummyClient = new Client("", "", "", "");
-    	
-    	
-    	/*Check if Client exists (by id)*/
-		Iterator allClients = warehouse.getClients();
-        /*Check if ID is already found in system. Can't have different items of same ID*/
-		while (!entryFound && allClients.hasNext()){//search for item by id
-			nextClient = (Client)(allClients.next());
-    		if(nextClient.getId().contentEquals(id)){
-    			entryFound = true;
-				allClients.remove();
-    		}//end if
-    	}//end while
-    	
-    	if(entryFound) {
-    		while(!inputVerification) {
-    			System.out.print("\nInput Amount to Deposit: ");
-    			inputCredit = Math.round(inputScanner.nextDouble() * 100.0) / 100.0;
-    			System.out.print("\nDid you want to deposit $" + inputCredit + " into " + nextClient.getName() + "'s account? (Y/N)");
-    			input = inputScanner.next().charAt(0);
-    			
-    			if(input == ('y') || input == ('Y'))//we have broken the verification cycle
-    				inputVerification = true;
-    			
-    		}//end while
-    		
-    		dummyClient = warehouse.addClient(nextClient.getId(),nextClient.getName(),nextClient.getPhone(),
-                                nextClient.getAddress(),nextClient.getBalance() + inputCredit);
-			if (dummyClient != null) {
-				System.out.println("Deposit successful.");
-			}
-    		System.out.print("A credit of " + inputCredit + " has been deposited into " + nextClient.getName() + "'s account.\n" );
-    	}//end if
-		else {
-			System.out.print("\nEntry not found.\n");
-		}//end if
+    	double inputCredit = 0.0,
+                clientBalance = 0.0;
+
+        while(!inputVerification) {
+            System.out.print("\nInput Amount to Deposit: ");
+            inputCredit = Math.round(inputScanner.nextDouble() * 100.0) / 100.0;
+            System.out.print("\nDid you want to deposit $" + inputCredit + " into account with client ID: " + id + " (Y/N)");
+            input = inputScanner.next().charAt(0);
+
+            if(input == ('y') || input == ('Y'))//we have broken the verification cycle
+                inputVerification = true;
+
+        }//end while
+
+        /*find client's current balance*/
+        Iterator allClients = warehouse.getClients();
+        Client nextClient;
+        while(!entryFound & allClients.hasNext()){
+            nextClient = (Client)allClients.next();
+            if(nextClient.getId().contentEquals(id)) {
+                entryFound = true;
+                clientBalance = nextClient.getBalance();
+            }
+        }
+
+
+        if(entryFound){
+            if(warehouse.setClientBalance(id, clientBalance + inputCredit))
+                System.out.println("Balance has been added to account ID: " + id);
+        } else {
+            System.out.println("ID " + id + " not found. Balance has not been deposited.");
+        }
+
     }//end method
     
     /*

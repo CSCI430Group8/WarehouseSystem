@@ -55,6 +55,17 @@ public class Warehouse implements Serializable {
 	public Iterator getClients() {
 		return clients.getClients();
 	}//end getClients
+
+	/*
+     * Function:	getClientBalance
+     * Type:		Double
+     * Privacy:		public
+     * Description:	returns a balance from a client, if the id does not exist then return 0
+     * THIS SHOULD BE DELETED AND THE FUNCTION acceptClientPayment THAT USES THIS SHOULD BE REPLACED WITH AN ITERATOR
+     */
+	public double getClientBalance(String id) {
+		return clients.getClientBalance(id);
+	}//end getClients
 	
 	/*
      * Function:	getSuppliers
@@ -111,21 +122,6 @@ public class Warehouse implements Serializable {
      */
 	public Client addClient(String id, String name, String phone, String address) {
 		Client client = new Client(id, name, phone, address);
-		if (clients.insertClient(client)) {
-			return (client);
-		}
-		return null;
-	}//end addClient
-	
-	/*
-     * Function:	addClient(with balance)
-     * Type:		Client
-     * Privacy:		public
-     * Description:	This adds a Client to the ClientList, and then it returns
-					if the Client that was added. Balance option has been added to method for direct creation.
-     */
-	public Client addClient(String id, String name, String phone, String address, double balance) {
-		Client client = new Client(id, name, phone, address, balance);
 		if (clients.insertClient(client)) {
 			return (client);
 		}

@@ -26,20 +26,6 @@ public class Client implements Serializable {
         this.address = address;
         this.balance = 0.00;//will always start with empty balance
     }//end constructor
-    
-    /*
-     * Function:	Client
-     * Type:		constructor(including balance)
-     * Privacy:		public
-     * Description:	Client Constructor.
-	 */
-    Client(String id, String name, String phone, String address, double balance){
-		this.id = id;
-		this.name = name;
-		this.phone = phone;
-		this.address = address;
-		this.balance = balance;
-	}//end constructor
 	
 	/*
      * Function:	getBalance

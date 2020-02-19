@@ -122,6 +122,24 @@ public class ClientList implements Serializable {
 	}//end setClientAddress
 
 	/*
+	 * Function:	getClientBalance
+	 * Type:		Double
+	 * Privacy:		public
+	 * Description:	returns a balance from a client, if the id does not exist then return 0
+	 */
+	public double getClientBalance(String id) {
+		Boolean entryFound = false;
+		double clientBalance = 0;
+		for(int i = 0; !entryFound & i < clients.size(); i++){
+			if(clients.get(i).getId().contentEquals(id)){
+				entryFound = true;
+				clientBalance = clients.get(i).getBalance();
+			}//end if
+		}//end for
+		return clientBalance;
+	}//end getClients
+
+	/*
 	 * Function:	writeObject
 	 * Type:		void
 	 * Privacy:		private
