@@ -9,6 +9,7 @@ public class Product implements Serializable {
             name;
     private int quantity;
     private double price;
+	private static int currentID = 1;
 	
 	/*
      * Function:	Product
@@ -16,8 +17,8 @@ public class Product implements Serializable {
      * Privacy:		public
      * Description:	Product Constructor.
 	 */
-	Product(String id, String name, double price, int quantity){
-        this.id = id;
+	Product(String name, double price, int quantity){
+		this.id = String.valueOf(currentID++);
         this.name = name;
         this.price = price;
         this.quantity = quantity;

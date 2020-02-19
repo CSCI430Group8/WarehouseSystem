@@ -8,6 +8,7 @@ public class Supplier implements Serializable {
             name,
             phone,
             address;
+	private static int currentID = 1;
 	
 	/*
      * Function:	Supplier
@@ -15,8 +16,8 @@ public class Supplier implements Serializable {
      * Privacy:		public
      * Description:	Supplier Constructor.
 	 */	
-    Supplier(String id, String name, String phone, String address){
-        this.id = id;
+    Supplier(String name, String phone, String address){
+		this.id = String.valueOf(currentID++);
         this.name = name;
         this.phone = phone;
         this.address = address;

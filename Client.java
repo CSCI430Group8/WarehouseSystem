@@ -10,7 +10,7 @@ public class Client implements Serializable {
             name,
             phone,
             address;
-    static int currentID;
+    private static int currentID = 1;
     private LinkedList<Product> cart = new LinkedList<Product>();
 	
 	/*
@@ -19,8 +19,8 @@ public class Client implements Serializable {
      * Privacy:		public
      * Description:	Client Constructor.
 	 */
-    Client(String id, String name, String phone, String address){
-    	this.id = id;
+    Client(String name, String phone, String address){
+    	this.id = String.valueOf(currentID++);
         this.name = name;
         this.phone = phone;
         this.address = address;

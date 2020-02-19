@@ -109,11 +109,9 @@ public class Userinterface {
         while(input != EXIT) {
 
             int quantity = 0;
-			
             double price = 0;
-			
+
             String name,
-                    id,
                     phone,
                     address;
 
@@ -123,8 +121,6 @@ public class Userinterface {
                     PRODUCT + ".) Add Product\n"+
                     SUPPLIER + ".) Add Supplier\n");
 
-            boolean entryFound = false,
-					result = false;
             input = inputScanner.nextInt();
 			
 
@@ -132,38 +128,20 @@ public class Userinterface {
                 case EXIT:
                     break;
                 case CLIENT:
-					entryFound = false;
-                    System.out.print("\nClient ID: ");
-                    id = inputScanner.next();
                     System.out.print("\nName: ");
                     name = inputScanner.next();
                     System.out.print("\nPhone Number: ");
                     phone = inputScanner.next();
                     System.out.print("\nAddress: ");
                     address = inputScanner.next();
-                    Client dummyClient = new Client(id, name, phone, address);
+                    Client dummyClient;
 
-					Iterator allClients = warehouse.getClients();
-                    /*Check if ID is already found in system. Can't have different items of same ID*/
-					while (!entryFound && allClients.hasNext()){//search for item by id
-						Client nextClient = (Client)(allClients.next());
-                        if(nextClient.getId().contentEquals(dummyClient.getId()))//if item is found
-                           entryFound = true;
-                    }//end while
-                    if(entryFound) {
-                        System.out.println("ID is already present in system; Item not added.");
-                    } else {//When the Client is not listed
-                        dummyClient = warehouse.addClient(id, name, phone, address);
-						if (dummyClient == null) {
-							System.out.println("Could not add client, try again.");
-						}
+                    dummyClient = warehouse.addClient(name, phone, address);
+                    if (dummyClient == null) {
+                        System.out.println("Could not add client, try again.");
                     }
                     break;
                 case PRODUCT:
-					entryFound = false;
-                    /*Inputs for Product*/
-                    System.out.print("\nProduct ID: ");
-                    id = inputScanner.next();
                     System.out.print("\nProduct Name: ");
                     name = inputScanner.next();
                     System.out.print("\nProduct Price: ");
@@ -171,59 +149,27 @@ public class Userinterface {
                     System.out.print("\nProduct Quantity: ");
                     quantity = inputScanner.nextInt();
 
-                    Product dummyProduct = new Product(id,name,price,quantity);//create dummy entry based on inputs
-					
-					Product nextProduct = new Product("","",1,1);
-					Iterator allProducts = warehouse.getProducts();
-                    /*Check if ID is already found in system. Must update the quantity if found*/
-					while (!entryFound && allProducts.hasNext()){//search for item by id
-						nextProduct = (Product)(allProducts.next());
-                        if(nextProduct.getId().contentEquals(dummyProduct.getId())) {//if item is found
-                            entryFound = true;
-							allProducts.remove();
-							quantity = nextProduct.getQuantity() + dummyProduct.getQuantity();
-                            dummyProduct = warehouse.addProduct(nextProduct.getId(),nextProduct.getName(),nextProduct.getPrice(),quantity);
-							if (dummyProduct != null) {
-								System.out.println("Product quantity update successful.");
-							}
-                        }//end if
-                    }//end while
-					if(entryFound) {
-                        System.out.println("ID is already present in system; Item quantity updated.");
-                    } else {//When the Product is not listed
-                        dummyProduct = warehouse.addProduct(id, name, price, quantity);
-						if (dummyProduct == null) {
-							System.out.println("Could not add product, try again.");
-						}
+                    Product dummyProduct;//create dummy entry based on inputs
+
+					dummyProduct = warehouse.addProduct(name, price, quantity);
+					if (dummyProduct == null) {
+					    System.out.println("Could not add product, try again.");
                     }
                     break;
                 case SUPPLIER:
-					entryFound = false;
-                    System.out.print("\nSupplier ID: ");
-                    id = inputScanner.next();
                     System.out.print("\nName: ");
                     name = inputScanner.next();
                     System.out.print("\nPhone Number: ");
                     phone = inputScanner.next();
                     System.out.print("\nAddress: ");
                     address = inputScanner.next();
-                    Supplier dummySupplier = new Supplier(id, name, phone, address);
+                    Supplier dummySupplier;
 
-					Iterator allSuppliers = warehouse.getSuppliers();
-                    /*Check if ID is already found in system. Can't have different suppliers of same ID*/
-					while (!entryFound && allSuppliers.hasNext()){//search for supllier by id
-						Supplier nextSupplier = (Supplier)(allSuppliers.next());
-                        if(nextSupplier.getId().contentEquals(dummySupplier.getId()))//if item is found
-                            entryFound = true;
-                    }//end while
-                    if(entryFound) {
-                        System.out.println("ID is already present in system; Item not added.");
-                    } else {//When the Product is not listed
-                        dummySupplier = warehouse.addSupplier(id, name, phone, address);
-						if (dummySupplier == null) {
-							System.out.println("Could not add supplier, try again.");
-						}
-                    }//end if-else
+                    dummySupplier = warehouse.addSupplier(name, phone, address);
+                    if (dummySupplier == null) {
+                        System.out.println("Could not add supplier, try again.");
+                    }
+
                     break;
                 default:
                     System.out.println("Not a valid input.\n");
