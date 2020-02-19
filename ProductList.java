@@ -53,12 +53,63 @@ public class ProductList implements Serializable {
 	public Iterator getProducts(){
 		return products.iterator();
 	}//end getProducts
-  
+
 	/*
-     * Function:	writeObject
-     * Type:		void
-     * Privacy:		private
-     * Description:	Writes ProductList to disk.
+	 * Function:	setProductPrice
+	 * Type:		boolean
+	 * Privacy:		public
+	 * Description:
+	 */
+	public boolean setProductPrice(String id, double price){
+		Boolean entryFound = false;
+		for(int i = 0; !entryFound & i < products.size(); i++){
+			if(products.get(i).getId().contentEquals(id)){
+				entryFound = true;
+				products.get(i).setPrice(price);
+			}//end if
+		}//end for
+		return entryFound;//product is found and changed
+	}//end setProductName
+
+	/*
+	 * Function:	setProductQuantity
+	 * Type:		boolean
+	 * Privacy:		public
+	 * Description:
+	 */
+	public boolean setProductQuantity(String id, int quantity){
+		Boolean entryFound = false;
+		for(int i = 0; !entryFound & i < products.size(); i++){
+			if(products.get(i).getId().contentEquals(id)){
+				entryFound = true;
+				products.get(i).setQuantity(quantity);
+			}//end if
+		}//end for
+		return entryFound;//product is found and changed
+	}//end setProductQuantity
+
+	/*
+	 * Function:	setProductName
+	 * Type:		boolean
+	 * Privacy:		public
+	 * Description:
+	 */
+	public boolean setProductName(String id, String name){
+		Boolean entryFound = false;
+		for(int i = 0; !entryFound & i < products.size(); i++){
+			if(products.get(i).getId().contentEquals(id)){
+				entryFound = true;
+				products.get(i).setName(name);
+			}//end if
+		}//end for
+		return entryFound;//product is found and changed
+	}//end setProductName
+
+	/*
+	 * Function:	writeObject
+	 * Type:		void
+	 * Privacy:		private
+	 * Description:	Writes ProductList to disk.
 	 */
 	private void writeObject(java.io.ObjectOutputStream output) {
 		try {

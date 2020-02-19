@@ -11,6 +11,7 @@ public class Warehouse implements Serializable {
 	private ClientList clients;
 	private SupplierList suppliers;
 	private ProductList inventory;
+	private BackorderList backorders;
 
     /*
      * Function:	Warehouse
@@ -24,6 +25,7 @@ public class Warehouse implements Serializable {
         clients = ClientList.instance();
         suppliers = SupplierList.instance();
         inventory = ProductList.instance();
+        backorders = BackorderList.instance();
     }//end constructor
 
     /*
@@ -53,7 +55,7 @@ public class Warehouse implements Serializable {
 	public Iterator getClients() {
 		return clients.getClients();
 	}//end getClients
-	
+
 	/*
      * Function:	getSuppliers
      * Type:		Iterator
@@ -79,6 +81,28 @@ public class Warehouse implements Serializable {
 	}//end getProducts
 	
 	/*
+     * Function:	getBackorders
+     * Type:		Iterator
+     * Privacy:		public
+     * Description:	This returns an iterator for the BackorderList that allows
+					for traversal through the different backorders within the
+					list for the tester.
+     */
+	public Iterator getBackorders() {
+		return backorders.getBackorders();
+	}//end getProducts
+	
+	/*
+     * Function:	addBackorders
+     * Type:		void
+     * Privacy:		public
+     * Description:	Add an order to the backorder list.
+     */
+	public void addBackorders(String clientId, LinkedList<Product> orderedItems) {
+		backorders.addBackorder(clientId, orderedItems);
+	}//end getProducts
+	
+	/*
      * Function:	addClient
      * Type:		Client
      * Privacy:		public
@@ -87,21 +111,6 @@ public class Warehouse implements Serializable {
      */
 	public Client addClient(String id, String name, String phone, String address) {
 		Client client = new Client(id, name, phone, address);
-		if (clients.insertClient(client)) {
-			return (client);
-		}
-		return null;
-	}//end addClient
-	
-	/*
-     * Function:	addClient(with balance)
-     * Type:		Client
-     * Privacy:		public
-     * Description:	This adds a Client to the ClientList, and then it returns
-					if the Client that was added. Balance option has been added to method for direct creation.
-     */
-	public Client addClient(String id, String name, String phone, String address, double balance) {
-		Client client = new Client(id, name, phone, address, balance);
 		if (clients.insertClient(client)) {
 			return (client);
 		}
@@ -137,6 +146,106 @@ public class Warehouse implements Serializable {
 		}
 		return null;
 	}//end addProduct
+
+	/*
+     * Function:	setProductPrice
+     * Type:		boolean
+     * Privacy:		public
+     * Description:
+     */
+	public boolean setProductPrice(String id, double price){
+		return inventory.setProductPrice(id, price);
+	}//end setProductPrice
+
+	/*
+	 * Function:	setProductQuantity
+	 * Type:		boolean
+	 * Privacy:		public
+	 * Description:
+	 */
+	public boolean setProductQuantity(String id, int quantity){
+		return inventory.setProductQuantity(id, quantity);
+	}//end setProductQuantity
+
+	/*
+	 * Function:	setProductName
+	 * Type:		boolean
+	 * Privacy:		public
+	 * Description:
+	 */
+	public boolean setProductName(String id, String name){
+		return inventory.setProductName(id, name);
+	}//end setProductName
+
+	/*
+	 * Function:	setClientBalance
+	 * Type:		boolean
+	 * Privacy:		public
+	 * Description:
+	 */
+	public boolean setClientBalance(String id, double balance){
+		return clients.setClientBalance(id, balance);
+	}//end setClientBalance
+
+	/*
+	 * Function:	setClientName
+	 * Type:		boolean
+	 * Privacy:		public
+	 * Description:
+	 */
+	public boolean setClientName(String id, String name){
+		return clients.setClientName(id, name);
+	}//end setClientName
+
+	/*
+	 * Function:	setClientPhone
+	 * Type:		boolean
+	 * Privacy:		public
+	 * Description:
+	 */
+	public boolean setClientPhone(String id, String phone){
+		return clients.setClientPhone(id, phone);
+	}//end setClientPhone
+
+	/*
+	 * Function:	setClientAddress
+	 * Type:		boolean
+	 * Privacy:		public
+	 * Description:
+	 */
+	public boolean setClientAddress(String id, String address){
+		return clients.setClientAddress(id, address);
+	}//end setClientAddress
+
+	/*
+	 * Function:	setSupplierName
+	 * Type:		boolean
+	 * Privacy:		public
+	 * Description:
+	 */
+	public boolean setSupplierName(String id, String name){
+		return suppliers.setSupplierName(id, name);
+	}//end setSupplierName
+
+	/*
+	 * Function:	setSupplierPhone
+	 * Type:		boolean
+	 * Privacy:		public
+	 * Description:
+	 */
+	public boolean setSupplierPhone(String id, String phone){
+		return suppliers.setSupplierPhone(id, phone);
+	}//end setSupplierPhone
+
+	/*
+	 * Function:	setSupplierAddress
+	 * Type:		boolean
+	 * Privacy:		public
+	 * Description:
+	 */
+	public boolean setSupplierAddress(String id, String address){
+		return suppliers.setSupplierAddress(id, address);
+	}//end setSupplierAddress
 	
 	/*
      * Function:	addToClientCart
