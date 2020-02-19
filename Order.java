@@ -5,8 +5,8 @@ import java.io.*;
 
 public class Order implements Serializable {
 	private static final long serialVersionUID = 1L;
-    private String id;
-    private GregorianCalendar date;
+    private String id,
+			date;
     private LinkedList<Product> orderedItems = new LinkedList<Product>();
 	
 	/*
@@ -15,7 +15,7 @@ public class Order implements Serializable {
      * Privacy:		public
      * Description:	Order Constructor.
 	 */
-	Order(GregorianCalendar date, String id, LinkedList<Product> orderedItems){
+	Order(String date, String id, LinkedList<Product> orderedItems){
         this.id = id;
         this.date = date;
         this.orderedItems = orderedItems;
@@ -37,7 +37,7 @@ public class Order implements Serializable {
      * Privacy:		public
      * Description:	Gets Order Date.
 	 */
-	public GregorianCalendar getDate(){
+	public String getDate(){
 		return date;
 	}//end getName
 	
@@ -68,7 +68,7 @@ public class Order implements Serializable {
      * Privacy:		public
      * Description:	Sets Order Date.
 	 */
-	public void setDate(GregorianCalendar date){
+	public void setDate(String date){
 		this.date = date;
 	}//end setDate
 	
@@ -90,6 +90,6 @@ public class Order implements Serializable {
      * Description:	Converts Product to string output.
 	 */
     public String toString(){
-        return "Date: " + date + " ID: " + id + "List of Products" + orderedItems;
+        return "Date: " + date + " ID: " + id + " List of Products: " + " Ordered Items: " + orderedItems;
     }//end toString
 }

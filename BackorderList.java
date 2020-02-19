@@ -1,14 +1,16 @@
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.LinkedList;
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 
 public class BackorderList implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private LinkedList<Order> backorders = new LinkedList<Order>();
 	private static BackorderList backorderList;
-	
+	transient DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss");
+
 	/*
      * Function:	BackorderList
      * Type:		constructor(generic)
@@ -27,7 +29,7 @@ public class BackorderList implements Serializable {
 	public static BackorderList instance() {
 		if (backorderList == null) {
 			return (backorderList = new BackorderList());
-		} 
+		}
 		else {
 			return backorderList;
 		}
@@ -41,8 +43,8 @@ public class BackorderList implements Serializable {
 	 */
 	public boolean addBackorder(String id, LinkedList<Product> orderedItems) {
 		boolean result;
-		GregorianCalendar currentDate = new GregorianCalendar();
-		Order newOrder = new Order(currentDate, id, orderedItems);
+		LocalDateTime now = LocalDateTime.now();
+		Order newOrder = new Order(dtf.format(now), id, orderedItems);
 		result = backorders.add(newOrder);
 		return result;
 	}//end insertProduct
@@ -55,7 +57,7 @@ public class BackorderList implements Serializable {
 	 */
 	public Iterator getBackorders(){
 		return backorders.iterator();
-	}//end getProducts
+	}//end getBackorders
   
 	/*
      * Function:	writeObject
@@ -110,5 +112,6 @@ public class BackorderList implements Serializable {
 	 */
 	public String toString() {
 		return backorders.toString();
+
 	}//end toString
 }

@@ -462,31 +462,22 @@ public class Userinterface {
     public void acceptClientOrders(){
         System.out.println("Dummy Method.");
         System.out.println("Method modified for testing backorders / orders");
+        System.out.println("Adds a dummy order to a dummy cart and then adds to backorder");
         String id = "1";//using test client's id
         LinkedList<Product> dummyCart = new LinkedList<Product>();
         Iterator items = warehouse.getProducts();
         Product dummyProduct = new Product("1","1",1,1);
         
-        /*Create the dummy order with testing product*/
-        if(items.hasNext()) {
-        	dummyProduct = (Product)(items.next());
-            dummyProduct.setQuantity(100);
-            dummyCart.add(dummyProduct);
-            
-            //warehouse.addBackorders(id, dummyCart);
-        } else {
-            System.out.println("iterator does not have next");
-        }
+        /*Create the dummy cart with testing product*/
+        dummyCart.add(dummyProduct);
+
+
         
         /*Find the item ID*/
         /*subtract ordered items from inventory*/
         /*For testing purposes, a backorder will be triggered purposely*/
-        
-        
-        
-        
-        
-        
+        warehouse.addBackorders(id, dummyCart);
+
     }//end method
 
     /*
@@ -620,8 +611,6 @@ public class Userinterface {
         while (allBackorders.hasNext()) {//List all backorders
         	Order nextBackorder = (Order)(allBackorders.next());
         	System.out.println(nextBackorder.toString());
-    	GregorianCalendar date = new GregorianCalendar();
-    	System.out.println(date);
         }
     }//end method
     
