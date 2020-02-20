@@ -118,6 +118,16 @@ public class Client implements Serializable {
 	}//end setPhone
 	
 	/*
+     * Function:	setAddress
+     * Type:		void
+     * Privacy:		public
+     * Description:	Sets Client Address.
+	 */
+	public void setAddress(String address){
+		this.address = address;
+	}//end setAddress
+	
+	/*
      * Function:	insertToCart
      * Type:		boolean
      * Privacy:		public
@@ -128,11 +138,6 @@ public class Client implements Serializable {
 		result = cart.add(product);
 		return result;
 	}//end insertToCart
-	
-	/*Sets Client Address*/
-	public void setAddress(String address){
-		this.address = address;
-	}//end setAddress
 
     /*
      * Function:	toString
