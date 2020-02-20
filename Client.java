@@ -11,7 +11,7 @@ public class Client implements Serializable {
             name,
             phone,
             address;
-    private LinkedList<Product> cart = new LinkedList<Product>();
+    private LinkedList<Product> ShoppingCart = new LinkedList<Product>();
 	
 	/*
      * Function:	Client
@@ -131,13 +131,23 @@ public class Client implements Serializable {
      * Function:	insertToCart
      * Type:		boolean
      * Privacy:		public
-     * Description:	Inserts Product into Cart.
+     * Description:	Inserts Product into ShoppingCart.
 	 */
 	public boolean insertToCart(Product product) {
 		boolean result;
-		result = cart.add(product);
+		result = ShoppingCart.add(product);
 		return result;
 	}//end insertToCart
+	
+	/*
+     * Function:	getCartItems
+     * Type:		Iterator
+     * Privacy:		public
+     * Description:	Returns an iterator for ShoppingCart
+	 */
+	public Iterator getCartItems(){
+		return ShoppingCart.iterator();
+	}//end getClients
 
     /*
      * Function:	toString

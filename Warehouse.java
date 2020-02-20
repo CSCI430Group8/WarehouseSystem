@@ -93,6 +93,18 @@ public class Warehouse implements Serializable {
 	}//end getProducts
 	
 	/*
+     * Function:	getCartItems
+     * Type:		Iterator
+     * Privacy:		public
+     * Description:	This returns an iterator for the Client ShoppingCart that allows
+					for traversal through the different items within the
+					shopping cart of the client.
+     */
+	public Iterator getCartItems(Client client) {
+		return client.getCartItems();
+	}//end getProducts
+	
+	/*
      * Function:	addBackorders
      * Type:		void
      * Privacy:		public
@@ -254,18 +266,11 @@ public class Warehouse implements Serializable {
      * Description:	This finds the Client using their ID and then 
 					inserts a Product into their Cart.
 	 */
-	public boolean addToClientCart(Product product, String id) {
-		boolean entryFound = false;
-		Iterator allClients = clients.getClients();
-		while (!entryFound && allClients.hasNext()){//search for item by id
-			Client nextClient = (Client)(allClients.next());
-                if(nextClient.getId().contentEquals(id)) {//if item is found
-                    entryFound = true;
-                    nextClient.insertToCart(product);
-                }//end if
-        }//end while
-		
-		return entryFound;
+	public boolean addToClientCart(Client client, Product product, int quantity) {
+		/* Copy product to add in cart */
+		Product newProduct = new Product(product);
+		newProduct.setQuantity(quantity);
+		return client.insertToCart(newProduct);
 	}//end addToClientCart
 	
 	/*

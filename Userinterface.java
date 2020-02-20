@@ -20,9 +20,10 @@ public class Userinterface {
 					 LIST_ALL_CLIENTS = 13,
 					 LIST_ALL_SUPPLIERS = 14,
                      LIST_CUSTOMER_TRANSACTIONS = 15,
-					 SAVE = 16,
-					 RETRIEVE = 17,
-                     HELP = 18;
+					 LIST_ALL_ITEMS_AND_QUANTITIES_IN_CLIENT_CART = 16,
+					 SAVE = 17,
+					 RETRIEVE = 18,
+                     HELP = 19;
 					
     //Add Choices
   	static final int CLIENT = 1,
@@ -413,8 +414,52 @@ public class Userinterface {
      * 				The client will be specified using their ID.
      */
     public void addItemsToCart(){
-        System.out.println("Dummy Method.");
-        
+		int quantity = 0;
+		String clientId,
+				productId;
+				
+		boolean clientFound = false,
+				productFound = false,
+				result = false;
+				
+		System.out.print("\nInput Client ID: ");
+		clientId = inputScanner.next();
+		
+        Iterator allClients = warehouse.getClients();
+        Client nextClient;
+        while(!clientFound & allClients.hasNext()){
+            nextClient = (Client)allClients.next();
+            if(nextClient.getId().contentEquals(clientId)) {
+                clientFound = true;
+				System.out.print("\nInput the ID of the product to add to cart: ");
+				productId = inputScanner.next();
+		
+				Iterator allProducts = warehouse.getProducts();
+				Product nextProduct;
+				while(!productFound & allProducts.hasNext()){
+					nextProduct = (Product)allProducts.next();
+					if(nextProduct.getId().contentEquals(productId)) {
+						productFound = true;
+						System.out.print("\nInput the quantity of the product to add to cart: ");
+						quantity = inputScanner.nextInt();
+						result = warehouse.addToClientCart(nextClient, nextProduct, quantity);
+						if(result) {
+							System.out.println("\nItem successfully added to cart");
+						}
+						else {
+							System.out.println("\nFailed to add item to cart, try again");
+						}
+					}
+				}
+            }
+        }
+		
+		if(!clientFound){
+			System.out.println("\nClient not found, try again");
+		}
+		else if(!productFound){
+				System.out.println("\nProduct not found, try again");	
+		}
     }//end method
 
     /*Queries*/
@@ -552,7 +597,39 @@ public class Userinterface {
     public void listCustomerTransactions(){
         System.out.println("Dummy Method.");
     }//end method	
-
+	
+	/*
+     * Function:	listAllItemsAndQuantitiesInClientCart
+     * Type:		void
+     * Privacy:		public
+     * Description:	
+     */
+	public void listAllItemsAndQuantitiesInClientCart(){
+		String id;
+		boolean entryFound = false;
+	
+		System.out.print("\nInput Client ID: ");
+		id = inputScanner.next();
+		
+        Iterator allClients = warehouse.getClients();
+        Client nextClient;
+        while(!entryFound & allClients.hasNext()){
+            nextClient = (Client)allClients.next();
+            if(nextClient.getId().contentEquals(id)) {
+                entryFound = true;
+				Iterator allCartItems = warehouse.getCartItems(nextClient);
+				while (allCartItems.hasNext()){
+					Product nextCartItem = (Product)(allCartItems.next());
+					System.out.println("Product Name: " + nextCartItem.getName() + " Product Quantity: " + nextCartItem.getQuantity());
+					System.out.println();
+				}
+            }
+        }
+	
+		if(!entryFound) {
+			System.out.println("\nClient not found, try again");
+		}
+    }//end method	
 
 	/*
      * Function:	save
@@ -621,6 +698,7 @@ public class Userinterface {
 					LIST_ALL_CLIENTS + ".) List All Clients\n"+
 					LIST_ALL_SUPPLIERS + ".) List All Suppliers\n"+
                     LIST_CUSTOMER_TRANSACTIONS + ".) List Customer Transactions by Date\n"+
+					LIST_ALL_ITEMS_AND_QUANTITIES_IN_CLIENT_CART + ".) List All Items and Quantities in Client's Cart\n"+
 					SAVE + ".) Save \n" +
 					RETRIEVE + ".) Retrieve \n" +
                     HELP + ".) Help");
@@ -673,6 +751,9 @@ public class Userinterface {
                     break;
                 case LIST_CUSTOMER_TRANSACTIONS:
                     listClientTransactions();
+                    break;
+				case LIST_ALL_ITEMS_AND_QUANTITIES_IN_CLIENT_CART:
+					listAllItemsAndQuantitiesInClientCart();
                     break;
 				case SAVE:
 					save();

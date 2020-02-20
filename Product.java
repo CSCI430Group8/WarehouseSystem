@@ -25,6 +25,19 @@ public class Product implements Serializable {
     }//end constructor
 	
 	/*
+     * Function:	Product
+     * Type:		copy constructor(generic)
+     * Privacy:		public
+     * Description:	Product Copy Constructor.
+	 */
+	Product(Product oldProduct){
+        this.id = oldProduct.getId();
+        this.name = oldProduct.getName();
+        this.price = oldProduct.getPrice();
+        this.quantity = oldProduct.getQuantity();
+    }//end constructor
+	
+	/*
      * Function:	getId
      * Type:		String
      * Privacy:		public
