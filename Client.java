@@ -6,11 +6,11 @@ import java.io.*;
 public class Client implements Serializable {
 	private static final long serialVersionUID = 1L;
     private double balance;
+	private static final String CLIENT_STRING = "C";
     private String id,
             name,
             phone,
             address;
-    private static int currentID = 1;
     private LinkedList<Product> cart = new LinkedList<Product>();
 	
 	/*
@@ -20,7 +20,7 @@ public class Client implements Serializable {
      * Description:	Client Constructor.
 	 */
     Client(String name, String phone, String address){
-    	this.id = String.valueOf(currentID++);
+        id = CLIENT_STRING + (ClientIdServer.instance()).getId();
         this.name = name;
         this.phone = phone;
         this.address = address;

@@ -302,7 +302,7 @@ public class Warehouse implements Serializable {
             Supplier nextSupplier = (Supplier)(allSuppliers.next());
             if(nextSupplier.getId().contentEquals(id)){
                 entryFound = true;
-                allSuppliers.remove();//Remove because it's easier to add a modified version
+                allSuppliers.remove();
             }
         }
 		return entryFound;
@@ -340,6 +340,9 @@ public class Warehouse implements Serializable {
 			FileInputStream file = new FileInputStream("WarehouseData");
 			ObjectInputStream input = new ObjectInputStream(file);
 			input.readObject();
+			ClientIdServer.retrieve(input);
+			ProductIdServer.retrieve(input);
+			SupplierIdServer.retrieve(input);
 			return warehouse;
 		} 
 		catch(IOException ioe) {
@@ -364,6 +367,9 @@ public class Warehouse implements Serializable {
 			FileOutputStream file = new FileOutputStream("WarehouseData");
 			ObjectOutputStream output = new ObjectOutputStream(file);
 			output.writeObject(warehouse);
+			output.writeObject(ClientIdServer.instance());
+			output.writeObject(ProductIdServer.instance());
+			output.writeObject(SupplierIdServer.instance());
 			return true;
 		} 
 		catch(IOException ioe) {
