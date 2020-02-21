@@ -5,11 +5,11 @@ import java.io.*;
 
 public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
+	private static final String PRODUCT_STRING = "P";
     private String id,
             name;
     private int quantity;
     private double price;
-	private static int currentID = 1;
 	
 	/*
      * Function:	Product
@@ -18,10 +18,23 @@ public class Product implements Serializable {
      * Description:	Product Constructor.
 	 */
 	Product(String name, double price, int quantity){
-		this.id = String.valueOf(currentID++);
+        id = PRODUCT_STRING + (ProductIdServer.instance()).getId();
         this.name = name;
         this.price = price;
         this.quantity = quantity;
+    }//end constructor
+	
+	/*
+     * Function:	Product
+     * Type:		copy constructor(generic)
+     * Privacy:		public
+     * Description:	Product Copy Constructor.
+	 */
+	Product(Product oldProduct){
+        this.id = oldProduct.getId();
+        this.name = oldProduct.getName();
+        this.price = oldProduct.getPrice();
+        this.quantity = oldProduct.getQuantity();
     }//end constructor
 	
 	/*

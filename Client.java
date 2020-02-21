@@ -6,12 +6,12 @@ import java.io.*;
 public class Client implements Serializable {
 	private static final long serialVersionUID = 1L;
     private double balance;
+	private static final String CLIENT_STRING = "C";
     private String id,
             name,
             phone,
             address;
-    private static int currentID = 1;
-    private LinkedList<Product> cart = new LinkedList<Product>();
+    private LinkedList<Product> ShoppingCart = new LinkedList<Product>();
 	
 	/*
      * Function:	Client
@@ -20,7 +20,7 @@ public class Client implements Serializable {
      * Description:	Client Constructor.
 	 */
     Client(String name, String phone, String address){
-    	this.id = String.valueOf(currentID++);
+        id = CLIENT_STRING + (ClientIdServer.instance()).getId();
         this.name = name;
         this.phone = phone;
         this.address = address;
@@ -118,21 +118,36 @@ public class Client implements Serializable {
 	}//end setPhone
 	
 	/*
-     * Function:	insertToCart
-     * Type:		boolean
+     * Function:	setAddress
+     * Type:		void
      * Privacy:		public
-     * Description:	Inserts Product into Cart.
+     * Description:	Sets Client Address.
 	 */
-	public boolean insertToCart(Product product) {
-		boolean result;
-		result = cart.add(product);
-		return result;
-	}//end insertToCart
-	
-	/*Sets Client Address*/
 	public void setAddress(String address){
 		this.address = address;
 	}//end setAddress
+	
+	/*
+     * Function:	insertToCart
+     * Type:		boolean
+     * Privacy:		public
+     * Description:	Inserts Product into ShoppingCart.
+	 */
+	public boolean insertToCart(Product product) {
+		boolean result;
+		result = ShoppingCart.add(product);
+		return result;
+	}//end insertToCart
+	
+	/*
+     * Function:	getCartItems
+     * Type:		Iterator
+     * Privacy:		public
+     * Description:	Returns an iterator for ShoppingCart
+	 */
+	public Iterator getCartItems(){
+		return ShoppingCart.iterator();
+	}//end getClients
 
     /*
      * Function:	toString

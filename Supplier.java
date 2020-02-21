@@ -4,11 +4,11 @@ import java.io.*;
 
 public class Supplier implements Serializable {
 	private static final long serialVersionUID = 1L;
+	private static final String SUPPLIER_STRING = "S";
 	private String id,
             name,
             phone,
             address;
-	private static int currentID = 1;
 	
 	/*
      * Function:	Supplier
@@ -17,7 +17,7 @@ public class Supplier implements Serializable {
      * Description:	Supplier Constructor.
 	 */	
     Supplier(String name, String phone, String address){
-		this.id = String.valueOf(currentID++);
+        id = SUPPLIER_STRING + (SupplierIdServer.instance()).getId();
         this.name = name;
         this.phone = phone;
         this.address = address;
