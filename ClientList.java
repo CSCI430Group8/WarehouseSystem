@@ -54,6 +54,40 @@ public class ClientList implements Serializable {
 	}//end getClients
 
 	/*
+	 * Function:	getClientBalance
+	 * Type:		double
+	 * Privacy:		public
+	 * Description:
+	 */
+	public double getClientBalance(String id){
+		double balance = -1;
+		for(int i = 0; i < clients.size(); i++){
+			if(clients.get(i).getId().contentEquals(id)){
+				return clients.get(i).getBalance();
+			}//end if
+		}//end for
+		return balance;//returns -1 if not found
+	}//end getClientBalance
+
+	/*
+     * Function:	getCartItems
+     * Type:		Iterator
+     * Privacy:		public
+     * Description:	This returns an iterator for the Client ShoppingCart that allows
+					for traversal through the different items within the
+					shopping cart of the client.
+     */
+	public Iterator getCartItems(String id){
+		for(int i = 0; i < clients.size(); i++){
+			if(clients.get(i).getId().contentEquals(id)){
+				return clients.get(i).getCartItems();
+			}
+		}
+
+		return null;
+	}//end getProducts
+
+	/*
 	 * Function:	setClientBalance
 	 * Type:		boolean
 	 * Privacy:		public

@@ -59,7 +59,7 @@ public class ProductList implements Serializable {
 	 * Type:		boolean
 	 * Privacy:		public
 	 * Description:
-	 */
+			*/
 	public boolean setProductPrice(String id, double price){
 		Boolean entryFound = false;
 		for(int i = 0; !entryFound & i < products.size(); i++){
@@ -69,7 +69,23 @@ public class ProductList implements Serializable {
 			}//end if
 		}//end for
 		return entryFound;//product is found and changed
-	}//end setProductName
+	}//end setProductPrice
+
+	/*
+	 * Function:	getProductPrice
+	 * Type:		double
+	 * Privacy:		public
+	 * Description:
+	 */
+	public double getProductPrice(String id){
+		double price = -1;
+		for(int i = 0; i < products.size(); i++){
+			if(products.get(i).getId().contentEquals(id)){
+				return products.get(i).getPrice();
+			}//end if
+		}//end for
+		return price;//product is not found, return -1
+	}//end setProductPrice
 
 	/*
 	 * Function:	setProductQuantity
@@ -89,6 +105,22 @@ public class ProductList implements Serializable {
 	}//end setProductQuantity
 
 	/*
+	 * Function:	getProductQuantity
+	 * Type:		int
+	 * Privacy:		public
+	 * Description:
+	 */
+	public int getProductQuantity(String id){
+		int quantity = -1;
+		for(int i = 0; i < products.size(); i++){
+			if(products.get(i).getId().contentEquals(id)){
+				return products.get(i).getQuantity();
+			}//end if
+		}//end for
+		return quantity;//product is not found, return -1
+	}//end setProductPrice
+
+	/*
 	 * Function:	setProductName
 	 * Type:		boolean
 	 * Privacy:		public
@@ -104,6 +136,21 @@ public class ProductList implements Serializable {
 		}//end for
 		return entryFound;//product is found and changed
 	}//end setProductName
+
+	/*
+	 * Function:	getProductName
+	 * Type:		int
+	 * Privacy:		public
+	 * Description:
+	 */
+	public String getProductName(String id){
+		for(int i = 0; i < products.size(); i++){
+			if(products.get(i).getId().contentEquals(id)){
+				return products.get(i).getName();
+			}//end if
+		}//end for
+		return null;//product is not found, return -1
+	}//end setProductPrice
 
 	/*
 	 * Function:	writeObject

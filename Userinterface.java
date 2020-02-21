@@ -343,19 +343,64 @@ public class Userinterface {
      */ 
     public void acceptClientOrders(){
         System.out.println("Accepting clients orders.");
-		Client result;
-    do {
-      String orderID = getToken("Enter order ID");
-      result = warehouse.processOrder(orderID);
-      if (result != null) {
-        System.out.println(result);
-      } else {
-        System.out.println("Not valid order");
-      }
-      if (!yesOrNo("Process more orders?")) {
-        break;
-      }
-    } while (true);
+		boolean orderFound = false,
+                backorderFound = false;
+		String clientId;
+		LinkedList<Product> dummyOrder = new LinkedList<Product>();
+		LinkedList<Product> dummyBackorder = new LinkedList<Product>();
+		Product dummyProduct;
+		int orderRemainder = 0;
+
+
+		System.out.println("Input the client's ID to checkout");
+        clientId = inputScanner.next();
+
+		Iterator clientCart = warehouse.getCartItems(clientId);
+		while (clientCart.hasNext()){//while client's cart is not empty
+		    orderRemainder = 0;
+            dummyProduct = (Product)clientCart.next();
+            if (dummyProduct.getQuantity() > warehouse.getProductQuantity(dummyProduct.getId())){//if quantity in cart is greater than inventory
+                orderRemainder = dummyProduct.getQuantity() - warehouse.getProductQuantity(dummyProduct.getId());//cart quantity - warehouse quantity
+
+                /*adding item to order goes here*/
+
+                dummyProduct.setQuantity(orderRemainder);
+                dummyBackorder.add(dummyProduct);
+                clientCart.remove();
+                backorderFound = true;
+
+                warehouse.setProductQuantity(dummyProduct.getId(), 0);//set warehouse quantity to 0
+            } else {//client ordered less product than was available
+                /*Subtract order quantity from warehouse quantity*/
+                warehouse.setProductQuantity(dummyProduct.getId(), warehouse.getProductQuantity(dummyProduct.getId()) - dummyProduct.getQuantity());
+                dummyOrder.add(dummyProduct);//product added to order
+                clientCart.remove();
+                orderFound = true;
+            }
+        }
+
+		double totalPrice = 0;
+		if(orderFound){
+		    warehouse.addOrder(clientId, dummyOrder);
+
+		   /*deduct price of all items from account*/
+            for (int i = 0; i < dummyOrder.size(); i++){
+                totalPrice += dummyOrder.get(i).getPrice() * dummyOrder.get(i).getQuantity();
+            }
+            warehouse.setClientBalance(clientId, warehouse.getClientBalance(clientId) - totalPrice);
+        }
+		if(backorderFound){
+            warehouse.addBackorder(clientId, dummyBackorder);
+
+            /*deduct price of all items from account*/
+            for (int i = 0; i < dummyBackorder.size(); i++){
+                totalPrice += dummyBackorder.get(i).getPrice() * dummyBackorder.get(i).getQuantity();
+            }
+            warehouse.setClientBalance(clientId, warehouse.getClientBalance(clientId) - totalPrice);
+        }
+
+
+
   } //END DYLAN'S SECTION
 	 
 
@@ -630,7 +675,7 @@ public class Userinterface {
             nextClient = (Client)allClients.next();
             if(nextClient.getId().contentEquals(id)) {
                 entryFound = true;
-				Iterator allCartItems = warehouse.getCartItems(nextClient);
+				Iterator allCartItems = warehouse.getCartItems(nextClient.getId());
 				while (allCartItems.hasNext()){
 					Product nextCartItem = (Product)(allCartItems.next());
 					System.out.println("Product Name: " + nextCartItem.getName() + " Product Quantity: " + nextCartItem.getQuantity());

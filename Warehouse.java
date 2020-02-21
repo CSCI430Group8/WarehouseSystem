@@ -12,6 +12,7 @@ public class Warehouse implements Serializable {
 	private SupplierList suppliers;
 	private ProductList inventory;
 	private BackorderList backorders;
+	private OrderList orders;
 
     /*
      * Function:	Warehouse
@@ -26,6 +27,7 @@ public class Warehouse implements Serializable {
         suppliers = SupplierList.instance();
         inventory = ProductList.instance();
         backorders = BackorderList.instance();
+        orders = OrderList.instance();
     }//end constructor
 
     /*
@@ -100,18 +102,28 @@ public class Warehouse implements Serializable {
 					for traversal through the different items within the
 					shopping cart of the client.
      */
-	public Iterator getCartItems(Client client) {
-		return client.getCartItems();
+	public Iterator getCartItems(String id) {
+		return clients.getCartItems(id);
 	}//end getProducts
 	
 	/*
-     * Function:	addBackorders
+     * Function:	addBackorder
      * Type:		void
      * Privacy:		public
      * Description:	Add an order to the backorder list.
      */
 	public void addBackorder(String clientId, LinkedList<Product> orderedItems) {
 		backorders.addBackorder(clientId, orderedItems);
+	}//end getProducts
+
+	/*
+	 * Function:	addOrder
+	 * Type:		void
+	 * Privacy:		public
+	 * Description:	Add an order to the backorder list.
+	 */
+	public void addOrder(String clientId, LinkedList<Product> orderedItems) {
+		orders.addOrder(clientId, orderedItems);
 	}//end getProducts
 	
 	/*
@@ -170,6 +182,16 @@ public class Warehouse implements Serializable {
 	}//end setProductPrice
 
 	/*
+	 * Function:	getProductPrice
+	 * Type:		double
+	 * Privacy:		public
+	 * Description:
+	 */
+	public double getProductPrice(String id){
+		return inventory.getProductPrice(id);
+	}//end getProductPrice
+
+	/*
 	 * Function:	setProductQuantity
 	 * Type:		boolean
 	 * Privacy:		public
@@ -178,6 +200,16 @@ public class Warehouse implements Serializable {
 	public boolean setProductQuantity(String id, int quantity){
 		return inventory.setProductQuantity(id, quantity);
 	}//end setProductQuantity
+
+	/*
+	 * Function:	getProductQuantity
+	 * Type:		int
+	 * Privacy:		public
+	 * Description:
+	 */
+	public int getProductQuantity(String id){
+		return inventory.getProductQuantity(id);
+	}//end getProductQuantity
 
 	/*
 	 * Function:	setProductName
@@ -190,6 +222,16 @@ public class Warehouse implements Serializable {
 	}//end setProductName
 
 	/*
+	 * Function:	getProductName
+	 * Type:		String
+	 * Privacy:		public
+	 * Description:
+	 */
+	public String getProductName(String id){
+		return inventory.getProductName(id);
+	}//end getProductName
+
+	/*
 	 * Function:	setClientBalance
 	 * Type:		boolean
 	 * Privacy:		public
@@ -198,6 +240,16 @@ public class Warehouse implements Serializable {
 	public boolean setClientBalance(String id, double balance){
 		return clients.setClientBalance(id, balance);
 	}//end setClientBalance
+
+	/*
+	 * Function:	getClientBalance
+	 * Type:		double
+	 * Privacy:		public
+	 * Description:
+	 */
+	public double getClientBalance(String id){
+		return clients.getClientBalance(id);
+	}//end getProductPrice
 
 	/*
 	 * Function:	setClientName
@@ -272,6 +324,14 @@ public class Warehouse implements Serializable {
 		newProduct.setQuantity(quantity);
 		return client.insertToCart(newProduct);
 	}//end addToClientCart
+
+	/*
+     * Function:	addToOrder
+     * Type:		boolean
+     * Privacy:		public
+     * Description:	This finds the Client using their ID and then
+					inserts a Product into their Cart.
+	 */
 	
 	/*
      * Function:	removeClient
