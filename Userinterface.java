@@ -332,19 +332,32 @@ public class Userinterface {
             }//end switch
         }//end while
     }//end method
-    
-    /*
+	 
+	 /* DYLAN'S SECTION
      * Function:	acceptClientOrders
      * Type:		void
      * Privacy:		public
      * Description:	Client would like to purchase the items in their cart.
      * 				Takes the items in their cart and removes them from inventory
      * 				then charges the price of the items to their stock.
-     */
+     */ 
     public void acceptClientOrders(){
-        System.out.println("Dummy Method.");
-
-    }//end method
+        System.out.println("Accepting clients orders.");
+		Client result;
+    do {
+      String orderID = getToken("Enter order ID");
+      result = warehouse.processOrder(orderID);
+      if (result != null) {
+        System.out.println(result);
+      } else {
+        System.out.println("Not valid order");
+      }
+      if (!yesOrNo("Process more orders?")) {
+        break;
+      }
+    } while (true);
+  } //END DYLAN'S SECTION
+	 
 
     /*
      * Function:	acceptClientPayment
