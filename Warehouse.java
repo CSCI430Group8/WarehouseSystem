@@ -13,6 +13,7 @@ public class Warehouse implements Serializable {
 	private ProductList inventory;
 	private BackorderList backorders;
 	private OrderList orders;
+    private Transaction transaction;
 
     /*
      * Function:	Warehouse
@@ -45,7 +46,7 @@ public class Warehouse implements Serializable {
         }
         return warehouse;
     }//end instance
-	
+
 	/*
      * Function:	getClients
      * Type:		Iterator
@@ -81,7 +82,7 @@ public class Warehouse implements Serializable {
 	public Iterator getProducts() {
 		return inventory.getProducts();
 	}//end getProducts
-	
+
 	/*
      * Function:	getBackorders
      * Type:		Iterator
@@ -93,7 +94,7 @@ public class Warehouse implements Serializable {
 	public Iterator getBackorders() {
 		return backorders.getBackorders();
 	}//end getProducts
-	
+
 	/*
      * Function:	getCartItems
      * Type:		Iterator
@@ -105,7 +106,22 @@ public class Warehouse implements Serializable {
 	public Iterator getCartItems(String id) {
 		return clients.getCartItems(id);
 	}//end getProducts
-	
+
+    /*
+     * Function:    getTransactions
+     * Type:        Iterator
+     * Privacy:     public
+     * Description: This returns a list of transactions for a specific date.
+     */
+    public Iterator getTransactions(String clientId, Calendar date) {
+    Client client = ClientList.search(clientId);
+    if (client == null) {
+      return(null);
+    }
+    return client.getTransactions(date);
+    }//end getTransactions
+
+
 	/*
      * Function:	addBackorder
      * Type:		void
@@ -125,12 +141,12 @@ public class Warehouse implements Serializable {
 	public void addOrder(String clientId, LinkedList<Product> orderedItems) {
 		orders.addOrder(clientId, orderedItems);
 	}//end getProducts
-	
+
 	/*
      * Function:	addClient
      * Type:		Client
      * Privacy:		public
-     * Description:	This adds a Client to the ClientList, and then it returns 
+     * Description:	This adds a Client to the ClientList, and then it returns
 					if the Client that was added.
      */
 	public Client addClient(String name, String phone, String address) {
@@ -140,12 +156,12 @@ public class Warehouse implements Serializable {
 		}
 		return null;
 	}//end addClient
-	
+
 	/*
      * Function:	addSupplier
      * Type:		Supplier
      * Privacy:		public
-     * Description:	This adds a Supplier to the SupplierList, and then it returns 
+     * Description:	This adds a Supplier to the SupplierList, and then it returns
 					if the Supplier that was added.
      */
 	public Supplier addSupplier(String name, String phone, String address) {
@@ -155,12 +171,12 @@ public class Warehouse implements Serializable {
 		}
 		return null;
 	}//end addSupplier
-	
+
 	/*
      * Function:	addProduct
      * Type:		Product
      * Privacy:		public
-     * Description:	This adds a Product to the ProductList, and then it returns 
+     * Description:	This adds a Product to the ProductList, and then it returns
 					if the Product that was added.
      */
 	public Product addProduct(String name, double price, int quantity) {
@@ -170,6 +186,10 @@ public class Warehouse implements Serializable {
 		}
 		return null;
 	}//end addProduct
+
+
+
+
 
 	/*
      * Function:	setProductPrice
@@ -310,12 +330,12 @@ public class Warehouse implements Serializable {
 	public boolean setSupplierAddress(String id, String address){
 		return suppliers.setSupplierAddress(id, address);
 	}//end setSupplierAddress
-	
+
 	/*
      * Function:	addToClientCart
      * Type:		boolean
      * Privacy:		public
-     * Description:	This finds the Client using their ID and then 
+     * Description:	This finds the Client using their ID and then
 					inserts a Product into their Cart.
 	 */
 	public boolean addToClientCart(Client client, Product product, int quantity) {
@@ -332,12 +352,12 @@ public class Warehouse implements Serializable {
      * Description:	This finds the Client using their ID and then
 					inserts a Product into their Cart.
 	 */
-	
+
 	/*
      * Function:	removeClient
      * Type:		boolean
      * Privacy:		public
-     * Description:	This removes a Client from the ClientList, and then it returns 
+     * Description:	This removes a Client from the ClientList, and then it returns
 					if the Client that was removed.
      */
 	public boolean removeClient(String id) {
@@ -352,12 +372,12 @@ public class Warehouse implements Serializable {
         }
 		return entryFound;
 	}//end removeClient
-	
+
 	/*
      * Function:	removeSupplier
      * Type:		boolean
      * Privacy:		public
-     * Description:	This removes a Supplier from the SupplierList, and then it returns 
+     * Description:	This removes a Supplier from the SupplierList, and then it returns
 					if the Supplier that was removed.
      */
 	public boolean removeSupplier(String id) {
@@ -372,12 +392,12 @@ public class Warehouse implements Serializable {
         }
 		return entryFound;
 	}//end removeSupplier
-	
+
 	/*
      * Function:	removeProduct
      * Type:		boolean
      * Privacy:		public
-     * Description:	This removes a Product from the ProductList, and then it returns 
+     * Description:	This removes a Product from the ProductList, and then it returns
 					if the Product that was removed.
      */
 	public boolean removeProduct(String id) {
@@ -392,7 +412,7 @@ public class Warehouse implements Serializable {
         }
 		return entryFound;
 	}//end removeProduct
-	
+
 	/*
      * Function:	retrieve
      * Type:		Warehouse
@@ -409,17 +429,17 @@ public class Warehouse implements Serializable {
 			ProductIdServer.retrieve(input);
 			SupplierIdServer.retrieve(input);
 			return warehouse;
-		} 
+		}
 		catch(IOException ioe) {
 			ioe.printStackTrace();
 			return null;
-		} 
+		}
 		catch(ClassNotFoundException cnfe) {
 			cnfe.printStackTrace();
 			return null;
 		}
 	}//end retrieve
-	
+
 	/*
      * Function:	save
      * Type:		boolean
@@ -436,13 +456,13 @@ public class Warehouse implements Serializable {
 			output.writeObject(ProductIdServer.instance());
 			output.writeObject(SupplierIdServer.instance());
 			return true;
-		} 
+		}
 		catch(IOException ioe) {
 			ioe.printStackTrace();
 			return false;
 		}
 	}//end save
-	
+
 	/*
      * Function:	writeObject
      * Type:		void
@@ -453,12 +473,12 @@ public class Warehouse implements Serializable {
 		try {
 			output.defaultWriteObject();
 			output.writeObject(warehouse);
-		} 
+		}
 		catch(IOException ioe) {
 			System.out.println(ioe);
 		}
 	}//end writeObject
-	
+
 	/*
      * Function:	readObject
      * Type:		void
@@ -470,19 +490,19 @@ public class Warehouse implements Serializable {
 			input.defaultReadObject();
 			if (warehouse == null) {
 				warehouse = (Warehouse) input.readObject();
-			} 
+			}
 			else {
 				input.readObject();
 			}
-		} 
+		}
 		catch(IOException ioe) {
 			ioe.printStackTrace();
-		} 
+		}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
 	}//end readObject
-	
+
 	/*
      * Function:	toString
      * Type:		boolean
