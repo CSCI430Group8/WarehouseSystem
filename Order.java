@@ -1,4 +1,6 @@
 import java.text.DecimalFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.io.*;
 
@@ -8,6 +10,8 @@ public class Order implements Serializable {
     private String id,
 			date;
     private LinkedList<Product> orderedItems = new LinkedList<Product>();
+	transient DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss");
+	LocalDateTime now;
 	
 	/*
      * Function:	Order
@@ -15,11 +19,24 @@ public class Order implements Serializable {
      * Privacy:		public
      * Description:	Order Constructor.
 	 */
-	Order(String date, String id, LinkedList<Product> orderedItems){
-        this.id = id;
-        this.date = date;
+	Order(String id, LinkedList<Product> orderedItems){
+		now = LocalDateTime.now();
+		this.id = id;
+        this.date = dtf.format(now);
         this.orderedItems = orderedItems;
     }//end constructor
+
+	/*
+	 * Function:	Order
+	 * Type:		constructor(generic)
+	 * Privacy:		public
+	 * Description:	Order Constructor.
+	 */
+	Order(String id){
+		now = LocalDateTime.now();
+		this.id = id;
+		this.date = dtf.format(now);
+	}//end constructor
 	
 	/*
      * Function:	getId
@@ -81,7 +98,16 @@ public class Order implements Serializable {
 	public void setOrderedItems(LinkedList<Product> orderedItems){
 		this.orderedItems = orderedItems;
 	}//end setOrderedItems
-	
+
+	/*
+	 * Function:	addToOrder
+	 * Type:		boolean
+	 * Privacy:		public
+	 * Description:	Sets items ordered in order.
+	 */
+	public void addToCart(Product product){
+		this.orderedItems.add(product);
+	}//end setOrderedItems
 
     /*
      * Function:	toString

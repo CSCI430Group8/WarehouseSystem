@@ -43,8 +43,7 @@ public class BackorderList implements Serializable {
 	 */
 	public boolean addBackorder(String id, LinkedList<Product> orderedItems) {
 		boolean result;
-		LocalDateTime now = LocalDateTime.now();
-		Order newOrder = new Order(dtf.format(now), id, orderedItems);
+		Order newOrder = new Order(id, orderedItems);
 		result = backorders.add(newOrder);
 		return result;
 	}//end insertProduct
