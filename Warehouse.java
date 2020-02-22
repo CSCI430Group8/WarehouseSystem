@@ -93,6 +93,18 @@ public class Warehouse implements Serializable {
 	public Iterator getBackorders() {
 		return backorders.getBackorders();
 	}//end getProducts
+
+	/*
+     * Function:	getOrders
+     * Type:		Iterator
+     * Privacy:		public
+     * Description:	This returns an iterator for the OrderList that allows
+					for traversal through the different orders within the
+					list for the tester.
+     */
+	public Iterator getOrders() {
+		return orders.getOrders();
+	}//end getProducts
 	
 	/*
      * Function:	getCartItems
@@ -202,6 +214,16 @@ public class Warehouse implements Serializable {
 	}//end setProductQuantity
 
 	/*
+	 * Function:	setProductBackorderQuantity
+	 * Type:		boolean
+	 * Privacy:		public
+	 * Description:
+	 */
+	public boolean setProductBackorderQuantity(String id, int quantity){
+		return inventory.setProductBackorderQuantity(id, quantity);
+	}//end setProductQuantity
+
+	/*
 	 * Function:	getProductQuantity
 	 * Type:		int
 	 * Privacy:		public
@@ -209,6 +231,16 @@ public class Warehouse implements Serializable {
 	 */
 	public int getProductQuantity(String id){
 		return inventory.getProductQuantity(id);
+	}//end getProductQuantity
+
+	/*
+	 * Function:	getProductBackorderQuantity
+	 * Type:		int
+	 * Privacy:		public
+	 * Description:
+	 */
+	public int getProductBackorderQuantity(String id){
+		return inventory.getProductBackorderQuantity(id);
 	}//end getProductQuantity
 
 	/*

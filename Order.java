@@ -10,7 +10,7 @@ public class Order implements Serializable {
     private String id,
 			date;
     private LinkedList<Product> orderedItems = new LinkedList<Product>();
-	transient DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy HH:mm:ss");
+	transient DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 	LocalDateTime now;
 	
 	/*
@@ -60,13 +60,10 @@ public class Order implements Serializable {
 	
 	/*
      * Function:	getOrder
-     * Type:		ProductList
+     * Type:		Iterator
      * Privacy:		public
      * Description:	Gets product list from order.
 	 */
-	public LinkedList<Product> getOrder(){
-		return orderedItems;
-	}//end getOrder
 	
 	
 	/*

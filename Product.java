@@ -8,7 +8,8 @@ public class Product implements Serializable {
 	private static final String PRODUCT_STRING = "P";
     private String id,
             name;
-    private int quantity;
+    private int quantity,
+			backorderQuantity;
     private double price;
 	
 	/*
@@ -22,6 +23,7 @@ public class Product implements Serializable {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
+        this.backorderQuantity = 0;
     }//end constructor
 	
 	/*
@@ -35,6 +37,7 @@ public class Product implements Serializable {
         this.name = oldProduct.getName();
         this.price = oldProduct.getPrice();
         this.quantity = oldProduct.getQuantity();
+        this.backorderQuantity = oldProduct.getBackorderQuantity();
     }//end constructor
 	
 	/*
@@ -65,6 +68,16 @@ public class Product implements Serializable {
 	 */
 	public int getQuantity(){
 		return quantity;
+	}//end getQuantity
+
+	/*
+	 * Function:	getBackorderQuantity
+	 * Type:		int
+	 * Privacy:		public
+	 * Description:	Gets Product's Backorder Quantity.
+	 */
+	public int getBackorderQuantity(){
+		return backorderQuantity;
 	}//end getQuantity
 	
 	/*
@@ -106,6 +119,16 @@ public class Product implements Serializable {
 	public void setQuantity(int quantity){
 		this.quantity = quantity;
 	}//end setQuantity
+
+	/*
+	 * Function:	getBackorderQuantity
+	 * Type:		int
+	 * Privacy:		public
+	 * Description:	Gets Product's Backorder Quantity.
+	 */
+	public void setBackorderQuantity(int newQuantity){
+		this.backorderQuantity = newQuantity;
+	}//end getQuantity
 	
 	/*
      * Function:	setPrice
@@ -124,6 +147,6 @@ public class Product implements Serializable {
      * Description:	Converts Product to string output.
 	 */
     public String toString(){
-        return "ID: " + id + " Name: " + name + " Price Per Item: $" + price + " Quantity: " + quantity;
+        return "ID: " + id + " Name: " + name + " Price Per Item: $" + price + " Quantity: " + quantity + " Backordered Quantity: " + backorderQuantity;
     }//end toString
 }
