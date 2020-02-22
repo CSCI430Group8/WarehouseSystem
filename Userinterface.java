@@ -6,7 +6,7 @@ public class Userinterface {
     static final int EXIT = 0,
                      ADD_CLIENTS_PRODUCTS_SUPPLIES = 1,
                      EDIT_CLIENTS_PRODUCTS_SUPPLIES = 2,
-                     ACCEPT_CLIENT_ORDERS = 3,
+                     PROCESS_CLIENT_ORDERS = 3,
                      ACCEPT_CLIENT_PAYMENT = 4,
                      ACCEPT_SHIPMENT = 5,
                      ADD_ITEM_TO_CART = 6,
@@ -342,7 +342,7 @@ public class Userinterface {
      * 				Takes the items in their cart and removes them from inventory
      * 				then charges the price of the items to their stock.
      */ 
-    public void acceptClientOrders(){
+    public void processClientOrders(){
         System.out.println("Accepting clients orders.");
 		boolean orderFound = false,
                 backorderFound = false;
@@ -741,7 +741,7 @@ public class Userinterface {
 					EXIT + ".) Exit\n" +
                     ADD_CLIENTS_PRODUCTS_SUPPLIES + ".) Add Clients, Products, or Suppliers\n"+
                     EDIT_CLIENTS_PRODUCTS_SUPPLIES + ".) Edit Clients, Products, or Suppliers\n"+
-                    ACCEPT_CLIENT_ORDERS + ".) Accept Client Order\n"+
+                    PROCESS_CLIENT_ORDERS + ".) Process Client Order\n"+
                     ACCEPT_CLIENT_PAYMENT + ".) Accept Client Payment\n"+
                     ACCEPT_SHIPMENT + ".) Accept Shipment\n"+
                     ADD_ITEM_TO_CART + ".) Add Items to Cart\n"+
@@ -767,8 +767,8 @@ public class Userinterface {
                 case EDIT_CLIENTS_PRODUCTS_SUPPLIES:
                     editClientProductsSupplies();
                     break;
-                case ACCEPT_CLIENT_ORDERS:
-                    acceptClientOrders();
+                case PROCESS_CLIENT_ORDERS:
+                    processClientOrders();
                     break;
                 case ACCEPT_CLIENT_PAYMENT:
                     acceptClientPayment();
