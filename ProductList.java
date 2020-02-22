@@ -121,6 +121,39 @@ public class ProductList implements Serializable {
 	}//end setProductPrice
 
 	/*
+	 * Function:	setProductQuantity
+	 * Type:		boolean
+	 * Privacy:		public
+	 * Description:
+	 */
+	public boolean setProductBackorderQuantity(String id, int backorderQuantity){
+		Boolean entryFound = false;
+		for(int i = 0; !entryFound & i < products.size(); i++){
+			if(products.get(i).getId().contentEquals(id)){
+				entryFound = true;
+				products.get(i).setBackorderQuantity(backorderQuantity);
+			}//end if
+		}//end for
+		return entryFound;//product is found and changed
+	}//end setProductQuantity
+
+	/*
+	 * Function:	getProductBackorderQuantity
+	 * Type:		int
+	 * Privacy:		public
+	 * Description:
+	 */
+	public int getProductBackorderQuantity(String id){
+		int quantity = -1;
+		for(int i = 0; i < products.size(); i++){
+			if(products.get(i).getId().contentEquals(id)){
+				return products.get(i).getBackorderQuantity();
+			}//end if
+		}//end for
+		return quantity;//product is not found, return -1
+	}//end setProductPrice
+
+	/*
 	 * Function:	setProductName
 	 * Type:		boolean
 	 * Privacy:		public

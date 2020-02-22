@@ -19,11 +19,10 @@ public class Userinterface {
                      LIST_INVENTORY = 12,
 					 LIST_ALL_CLIENTS = 13,
 					 LIST_ALL_SUPPLIERS = 14,
-                     LIST_CUSTOMER_TRANSACTIONS = 15,
-					 LIST_ALL_ITEMS_AND_QUANTITIES_IN_CLIENT_CART = 16,
-					 SAVE = 17,
-					 RETRIEVE = 18,
-                     HELP = 19;
+					 LIST_ALL_ITEMS_AND_QUANTITIES_IN_CLIENT_CART = 15,
+					 SAVE = 16,
+					 RETRIEVE = 17,
+                     HELP = 18;
 					
     //Add Choices
   	static final int CLIENT = 1,
@@ -359,12 +358,10 @@ public class Userinterface {
 		while (clientCart.hasNext()){//while client's cart is not empty
 		    orderRemainder = 0;
             dummyProduct = (Product)clientCart.next();
-            if (dummyProduct.getQuantity() > warehouse.getProductQuantity(dummyProduct.getId())){//if quantity in cart is greater than inventory
+            if (dummyProduct.getQuantity() > warehouse.getProductQuantity(dummyProduct.getId())){//if quantity in cart is greater than inventory (backorder)
                 orderRemainder = dummyProduct.getQuantity() - warehouse.getProductQuantity(dummyProduct.getId());//cart quantity - warehouse quantity
-
-                /*adding item to order goes here*/
-
-                dummyProduct.setQuantity(orderRemainder);
+                warehouse.setProductBackorderQuantity(dummyProduct.getId(),orderRemainder);//update backorders
+                dummyProduct.setQuantity(orderRemainder);//update orders
                 dummyBackorder.add(dummyProduct);
                 clientCart.remove();
                 backorderFound = true;
@@ -647,16 +644,6 @@ public class Userinterface {
             System.out.println();
         }//end while
     }//end method
-    
-    /*
-     * Function:	listCustomerTransactions
-     * Type:		void
-     * Privacy:		public
-     * Description:	
-     */
-    public void listCustomerTransactions(){
-        System.out.println("Dummy Method.");
-    }//end method	
 	
 	/*
      * Function:	listAllItemsAndQuantitiesInClientCart
@@ -749,7 +736,7 @@ public class Userinterface {
                     ACCEPT_CLIENT_PAYMENT + ".) Accept Client Payment\n"+
                     ACCEPT_SHIPMENT + ".) Accept Shipment\n"+
                     ADD_ITEM_TO_CART + ".) Add Items to Cart\n"+
-                    LIST_CLIENT_TRANSACTIONS + ".) List Client Transactions\n"+
+                    LIST_CLIENT_TRANSACTIONS + ".) List Client Transactions by Date\n"+
                     LIST_SUPPLIER_PRICES + ".) List Supplier Prices\n"+
                     LIST_NEGATIVE_BALANCES + ".) List Clients with Negative Balances\n"+
                     LIST_BACKORDERS + ".) List Backordered Items\n"+
@@ -757,7 +744,6 @@ public class Userinterface {
                     LIST_INVENTORY + ".) List Current Inventory\n"+
 					LIST_ALL_CLIENTS + ".) List All Clients\n"+
 					LIST_ALL_SUPPLIERS + ".) List All Suppliers\n"+
-                    LIST_CUSTOMER_TRANSACTIONS + ".) List Customer Transactions by Date\n"+
 					LIST_ALL_ITEMS_AND_QUANTITIES_IN_CLIENT_CART + ".) List All Items and Quantities in Client's Cart\n"+
 					SAVE + ".) Save \n" +
 					RETRIEVE + ".) Retrieve \n" +
@@ -808,9 +794,6 @@ public class Userinterface {
                     break;
 				case LIST_ALL_SUPPLIERS:
                     listAllSuppliers();
-                    break;
-                case LIST_CUSTOMER_TRANSACTIONS:
-                    listClientTransactions();
                     break;
 				case LIST_ALL_ITEMS_AND_QUANTITIES_IN_CLIENT_CART:
 					listAllItemsAndQuantitiesInClientCart();
