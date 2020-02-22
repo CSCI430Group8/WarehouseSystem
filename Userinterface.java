@@ -356,7 +356,13 @@ public class Userinterface {
 		System.out.println("Input the client's ID to checkout");
         clientId = inputScanner.next();
 
+
+
 		Iterator clientCart = warehouse.getCartItems(clientId);
+		if (clientCart == null){
+		    System.out.println("ID does not exist.");
+		    return;
+        }
 		while (clientCart.hasNext()){//while client's cart is not empty
 		    orderRemainder = 0;
             dummyProduct = (Product)clientCart.next();
