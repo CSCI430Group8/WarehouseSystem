@@ -343,7 +343,7 @@ public class Userinterface {
      * 				then charges the price of the items to their stock.
      */ 
     public void processClientOrders(){
-        System.out.println("Accepting clients orders.");
+        System.out.println("Processing clients orders.");
 		boolean orderFound = false,
                 backorderFound = false;
 		String clientId;
