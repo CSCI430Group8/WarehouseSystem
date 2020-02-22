@@ -24,7 +24,7 @@ public class Userinterface {
 					 SAVE = 17,
 					 RETRIEVE = 18,
                      HELP = 19;
-
+					
     //Add Choices
   	static final int CLIENT = 1,
   					 PRODUCT = 2,
@@ -45,7 +45,7 @@ public class Userinterface {
     static final int  SUPPLIER_NAME = 1,
 					  SUPPLIER_PHONE = 2,
 					  SUPPLIER_ADDRESS = 3;
-
+					 
 	transient Scanner inputScanner = new Scanner(System.in);//create scanner for input
 	private static Userinterface userinterface;
 	private static Warehouse warehouse;
@@ -69,7 +69,7 @@ public class Userinterface {
 			warehouse = Warehouse.instance();
 		}
 	}
-
+	
 	/*
      * Function:	instance
      * Type:		Userinterface
@@ -82,12 +82,12 @@ public class Userinterface {
 	public static Userinterface instance() {
 		if (userinterface == null) {
 			return userinterface = new Userinterface();
-		}
+		} 
 		else {
 			return userinterface;
 		}
 	}
-
+	
 	/*Business Processes*/
 
     /*
@@ -101,7 +101,7 @@ public class Userinterface {
      * 				will be asked to verify this data, if it is not correct you will
      * 				be asked to retype the data. After this has happened, if you are
      * 				entering a Product you will be asked if you wish to enter another.
-     *
+     * 
      */
     public void addClientProductsSupplies(){
 
@@ -116,14 +116,14 @@ public class Userinterface {
                     phone,
                     address;
 
-            System.out.println("\nWhat would you like to add?\n" +
+            System.out.println("\nWhat would you like to add?\n" + 
 					EXIT + ".) Go Back\n" +
                     CLIENT + ".) Add Client\n"+
                     PRODUCT + ".) Add Product\n"+
                     SUPPLIER + ".) Add Supplier\n");
 
             input = inputScanner.nextInt();
-
+			
 
             switch(input){
                 case EXIT:
@@ -179,7 +179,7 @@ public class Userinterface {
         }//end while
     }//end method
 
-
+    
     /*
      * Function:	editClientProductsSupplier
      * Type:		void
@@ -194,7 +194,7 @@ public class Userinterface {
         int input = EXIT + 1;//arbitrary non-exit number
 
         while(input != EXIT) {
-            System.out.println("\nWhich would you like to edit?\n" +
+            System.out.println("\nWhich would you like to edit?\n" + 
 					EXIT + ".) Go Back\n" +
                     CLIENT + ".) Edit Client\n"+
                     PRODUCT + ".) Edit Product\n"+
@@ -332,7 +332,7 @@ public class Userinterface {
             }//end switch
         }//end while
     }//end method
-
+	 
 	 /* DYLAN'S SECTION
      * Function:	acceptClientOrders
      * Type:		void
@@ -340,7 +340,7 @@ public class Userinterface {
      * Description:	Client would like to purchase the items in their cart.
      * 				Takes the items in their cart and removes them from inventory
      * 				then charges the price of the items to their stock.
-     */
+     */ 
     public void acceptClientOrders(){
         System.out.println("Accepting clients orders.");
 		boolean orderFound = false,
@@ -402,7 +402,7 @@ public class Userinterface {
 
 
   } //END DYLAN'S SECTION
-
+	 
 
     /*
      * Function:	acceptClientPayment
@@ -453,17 +453,17 @@ public class Userinterface {
         }
 
     }//end method
-
+    
     /*
      * Function:	acceptShipment
      * Type:		void
      * Privacy:		public
-     * Description:
+     * Description:	
      */
     public void acceptShipments(){
         System.out.println("Dummy Method.");
     }//end method
-
+    
     /*
      * Function:	addItemsToCart
      * Type:		void
@@ -475,14 +475,14 @@ public class Userinterface {
 		int quantity = 0;
 		String clientId,
 				productId;
-
+				
 		boolean clientFound = false,
 				productFound = false,
 				result = false;
-
+				
 		System.out.print("\nInput Client ID: ");
 		clientId = inputScanner.next();
-
+		
         Iterator allClients = warehouse.getClients();
         Client nextClient;
         while(!clientFound & allClients.hasNext()){
@@ -491,7 +491,7 @@ public class Userinterface {
                 clientFound = true;
 				System.out.print("\nInput the ID of the product to add to cart: ");
 				productId = inputScanner.next();
-
+		
 				Iterator allProducts = warehouse.getProducts();
 				Product nextProduct;
 				while(!productFound & allProducts.hasNext()){
@@ -511,49 +511,54 @@ public class Userinterface {
 				}
             }
         }
-
+		
 		if(!clientFound){
 			System.out.println("\nClient not found, try again");
 		}
 		else if(!productFound){
-				System.out.println("\nProduct not found, try again");
+				System.out.println("\nProduct not found, try again");	
 		}
     }//end method
 
     /*Queries*/
 
     /*
-     * Function:  listClientTransactions
-     * Type:    void
-     * Privacy:   public
-     * Description: List all transaction on a date for specific client
+     * Function:	listClientTransactions
+     * Type:		void
+     * Privacy:		public
+     * Description:	list client transactions based on date
      */
     public void listClientTransactions(){
-        Iterator result;
-        String clientID = getToken("Enter CLient id");
-        Calendar date  = getDate("Please enter the date for which you want records as mm/dd/yy");
-        result = library.getTransactions(clientID,date);
-        if (result == null) {
-          System.out.println("Invalid Client ID");
-        } else {
-          while(result.hasNext()) {
-            Transaction transaction = (Transaction) result.next();
-            System.out.println(transaction.getType() + "   "   + transaction.getTitle() + "\n");
-          }
-          System.out.println("\n  There are no more transactions \n" );
-        }
-    }//end method
+        Iterator allOrders = warehouse.getOrders();
 
+        System.out.println("ID of client to look up");
+
+        String clientID = inputScanner.next();
+
+        System.out.println("Date to look up (mm/dd/yyyy)");
+
+        String date = inputScanner.next();
+
+        while (allOrders.hasNext()) {//List all backorders
+            Order nextOrder = (Order)(allOrders.next());
+            if(nextOrder.getId().contentEquals(clientID) & nextOrder.getDate().contentEquals(date)){//if id matches
+                System.out.println(nextOrder.toString());
+            }
+        }
+
+
+    }//end method
+    
     /*
      * Function:	listSupplierPrices
      * Type:		void
      * Privacy:		public
-     * Description:
+     * Description:	
      */
     public void listSupplierPrices(){
         System.out.println("Dummy Method.");
     }//end method
-
+    
     /*
      * Function:	listNegativeBalances
      * Type:		void
@@ -570,15 +575,15 @@ public class Userinterface {
         		System.out.println("\nID: " + nextClient.getId()
         							+"\nName: " + nextClient.getName()
         							+"\nBalance: $" + nextClient.getBalance());
-
+        	
         }//end while
     }//end method
-
+    
     /*
      * Function:	listBackorders
      * Type:		void
      * Privacy:		public
-     * Description:
+     * Description:	
      */
     public void listBackorders(){
         Iterator allBackorders = warehouse.getBackorders();
@@ -587,22 +592,22 @@ public class Userinterface {
         	System.out.println(nextBackorder.toString());
         }
     }//end method
-
+    
     /*
      * Function:	listPurchasePrices
      * Type:		void
      * Privacy:		public
-     * Description:
+     * Description:	
      */
     public void listPurchasePrices(){
         System.out.println("Dummy Method.");
     }//end method
-
+    
     /*
      * Function:	listInventory
      * Type:		void
      * Privacy:		public
-     * Description:
+     * Description:	
      */
     public void listInventory(){
 		Iterator allProducts = warehouse.getProducts();
@@ -612,12 +617,12 @@ public class Userinterface {
             System.out.println();
         }//end while
     }//end method
-
+	
 	/*
      * Function:	listAllClients
      * Type:		void
      * Privacy:		public
-     * Description:
+     * Description:	
      */
     public void listAllClients(){
 		Iterator allClients = warehouse.getClients();
@@ -627,12 +632,12 @@ public class Userinterface {
             System.out.println();
         }//end while
     }//end method
-
+	
 	/*
      * Function:	listAllSuppliers
      * Type:		void
      * Privacy:		public
-     * Description:
+     * Description:	
      */
     public void listAllSuppliers(){
 		Iterator allSuppliers = warehouse.getSuppliers();
@@ -642,45 +647,30 @@ public class Userinterface {
             System.out.println();
         }//end while
     }//end method
-
-    /*
-     * Function:	listAllBackorders
-     * Type:		void
-     * Privacy:		public
-     * Description:
-     */
-    public void listAllBackorders(){
-		Iterator allBackorders = warehouse.getBackorders();
-		while (allBackorders.hasNext()){
-			Order nextBackorder = (Order)(allBackorders.next());
-            System.out.println(nextBackorder.toString());
-            System.out.println();
-        }//end while
-    }//end method
-
+    
     /*
      * Function:	listCustomerTransactions
      * Type:		void
      * Privacy:		public
-     * Description:
+     * Description:	
      */
     public void listCustomerTransactions(){
         System.out.println("Dummy Method.");
-    }//end method
-
+    }//end method	
+	
 	/*
      * Function:	listAllItemsAndQuantitiesInClientCart
      * Type:		void
      * Privacy:		public
-     * Description:
+     * Description:	
      */
 	public void listAllItemsAndQuantitiesInClientCart(){
 		String id;
 		boolean entryFound = false;
-
+	
 		System.out.print("\nInput Client ID: ");
 		id = inputScanner.next();
-
+		
         Iterator allClients = warehouse.getClients();
         Client nextClient;
         while(!entryFound & allClients.hasNext()){
@@ -695,11 +685,11 @@ public class Userinterface {
 				}
             }
         }
-
+	
 		if(!entryFound) {
 			System.out.println("\nClient not found, try again");
 		}
-    }//end method
+    }//end method	
 
 	/*
      * Function:	save
@@ -711,7 +701,7 @@ public class Userinterface {
 	private void save() {
 		if (warehouse.save()) {
 			System.out.println("The warehouse has been successfully saved in the file WarehouseData. \n" );
-		}
+		} 
 		else {
 			System.out.println("There has been an error in saving the warehouse. \n" );
 		}
@@ -730,12 +720,12 @@ public class Userinterface {
 			if (tempWarehouse != null) {
 				System.out.println("The warehouse has been successfully retrieved from the file WarehouseData. \n" );
 				warehouse = tempWarehouse;
-			}
+			} 
 			else {
 				System.out.println("File doesnt exist; creating new warehouse. \n" );
 				warehouse = Warehouse.instance();
 			}
-		}
+		} 
 		catch(Exception cnfe) {
 			cnfe.printStackTrace();
 		}
@@ -840,7 +830,7 @@ public class Userinterface {
             System.out.println();//spacing for ui
         }//end while
     }//end process
-
+	
 	public static void main(String[] s) {
 		Userinterface.instance().process();
 	}//end main

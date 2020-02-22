@@ -54,7 +54,7 @@ public class OrderList implements Serializable {
      * Privacy:		public
      * Description:	Returns an iterator for BackorderList.
      */
-    public Iterator getBackorders(){
+    public Iterator getOrders(){
         return orders.iterator();
     }//end getBackorders
 
