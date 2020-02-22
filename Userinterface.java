@@ -15,14 +15,13 @@ public class Userinterface {
                      LIST_SUPPLIER_PRICES = 8,
                      LIST_NEGATIVE_BALANCES = 9,
                      LIST_BACKORDERS = 10,
-                     LIST_PURCHASE_PRICES = 11,
-                     LIST_INVENTORY = 12,
-					 LIST_ALL_CLIENTS = 13,
-					 LIST_ALL_SUPPLIERS = 14,
-					 LIST_ALL_ITEMS_AND_QUANTITIES_IN_CLIENT_CART = 15,
-					 SAVE = 16,
-					 RETRIEVE = 17,
-                     HELP = 18;
+                     LIST_INVENTORY = 11,
+					 LIST_ALL_CLIENTS = 12,
+					 LIST_ALL_SUPPLIERS = 13,
+					 LIST_ALL_ITEMS_AND_QUANTITIES_IN_CLIENT_CART = 14,
+					 SAVE = 15,
+					 RETRIEVE = 16,
+                     HELP = 17;
 					
     //Add Choices
   	static final int CLIENT = 1,
@@ -113,7 +112,8 @@ public class Userinterface {
 
             String name,
                     phone,
-                    address;
+                    address,
+                    supplier;
 
             System.out.println("\nWhat would you like to add?\n" + 
 					EXIT + ".) Go Back\n" +
@@ -144,6 +144,8 @@ public class Userinterface {
                 case PRODUCT:
                     System.out.print("\nProduct Name: ");
                     name = inputScanner.next();
+                    System.out.print("\nSupplier Name: ");
+                    supplier = inputScanner.next();
                     System.out.print("\nProduct Price: ");
                     price = Math.round(inputScanner.nextDouble() * 100.0) / 100.0;//rounds to 2 decimals
                     System.out.print("\nProduct Quantity: ");
@@ -151,7 +153,7 @@ public class Userinterface {
 
                     Product dummyProduct;//create dummy entry based on inputs
 
-					dummyProduct = warehouse.addProduct(name, price, quantity);
+					dummyProduct = warehouse.addProduct(name, supplier, price, quantity);
 					if (dummyProduct == null) {
 					    System.out.println("Could not add product, try again.");
                     }
@@ -540,8 +542,8 @@ public class Userinterface {
             Order nextOrder = (Order)(allOrders.next());
             if(nextOrder.getId().contentEquals(clientID) & nextOrder.getDate().contentEquals(date)){//if id matches
                 System.out.println(nextOrder.toString());
-            }
-        }
+            }//end if
+        }//end while
 
 
     }//end method
@@ -550,10 +552,21 @@ public class Userinterface {
      * Function:	listSupplierPrices
      * Type:		void
      * Privacy:		public
-     * Description:	
+     * Description:	Grabs a list of products (by name, not ID) and lists the different prices for each manufacturer
      */
     public void listSupplierPrices(){
-        System.out.println("Dummy Method.");
+        Iterator allProducts = warehouse.getProducts();
+
+        System.out.println("Name of product to look up");
+
+        String searchedName = inputScanner.next();
+
+        while (allProducts.hasNext()) {//List all backorders
+            Product nextProduct = (Product)(allProducts.next());
+            if(nextProduct.getName().contentEquals(searchedName)){//if name matches searched name
+                System.out.println(nextProduct.toString());
+            }//end if
+        }//end while
     }//end method
     
     /*
@@ -588,16 +601,6 @@ public class Userinterface {
         	Order nextBackorder = (Order)(allBackorders.next());
         	System.out.println(nextBackorder.toString());
         }
-    }//end method
-    
-    /*
-     * Function:	listPurchasePrices
-     * Type:		void
-     * Privacy:		public
-     * Description:	
-     */
-    public void listPurchasePrices(){
-        System.out.println("Dummy Method.");
     }//end method
     
     /*
@@ -737,10 +740,9 @@ public class Userinterface {
                     ACCEPT_SHIPMENT + ".) Accept Shipment\n"+
                     ADD_ITEM_TO_CART + ".) Add Items to Cart\n"+
                     LIST_CLIENT_TRANSACTIONS + ".) List Client Transactions by Date\n"+
-                    LIST_SUPPLIER_PRICES + ".) List Supplier Prices\n"+
+                    LIST_SUPPLIER_PRICES + ".) List Supplier's Prices\n"+
                     LIST_NEGATIVE_BALANCES + ".) List Clients with Negative Balances\n"+
                     LIST_BACKORDERS + ".) List Backordered Items\n"+
-                    LIST_PURCHASE_PRICES + ".) List Price of Items from Suppliers\n"+
                     LIST_INVENTORY + ".) List Current Inventory\n"+
 					LIST_ALL_CLIENTS + ".) List All Clients\n"+
 					LIST_ALL_SUPPLIERS + ".) List All Suppliers\n"+
@@ -782,9 +784,6 @@ public class Userinterface {
                     break;
                 case LIST_BACKORDERS:
                     listBackorders();
-                    break;
-                case LIST_PURCHASE_PRICES:
-                    listPurchasePrices();
                     break;
                 case LIST_INVENTORY:
                     listInventory();
