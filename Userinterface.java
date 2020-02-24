@@ -10,18 +10,19 @@ public class Userinterface {
                      ACCEPT_CLIENT_PAYMENT = 4,
                      ACCEPT_SHIPMENT = 5,
                      ADD_ITEM_TO_CART = 6,
+					 EDIT_CLIENT_CART = 7,
     //Query Choices
-                     LIST_CLIENT_TRANSACTIONS = 7,
-                     LIST_SUPPLIER_PRICES = 8,
-                     LIST_NEGATIVE_BALANCES = 9,
-                     LIST_BACKORDERS = 10,
-                     LIST_INVENTORY = 11,
-					 LIST_ALL_CLIENTS = 12,
-					 LIST_ALL_SUPPLIERS = 13,
-					 LIST_ALL_ITEMS_AND_QUANTITIES_IN_CLIENT_CART = 14,
-					 SAVE = 15,
-					 RETRIEVE = 16,
-                     HELP = 17;
+                     LIST_CLIENT_TRANSACTIONS = 8,
+                     LIST_SUPPLIER_PRICES = 9,
+                     LIST_NEGATIVE_BALANCES = 10,
+                     LIST_BACKORDERS = 11,
+                     LIST_INVENTORY = 12,
+					 LIST_ALL_CLIENTS = 13,
+					 LIST_ALL_SUPPLIERS = 14,
+					 LIST_ALL_ITEMS_AND_QUANTITIES_IN_CLIENT_CART = 15,
+					 SAVE = 16,
+					 RETRIEVE = 17,
+                     HELP = 18;
 					
     //Add Choices
   	static final int CLIENT = 1,
@@ -43,6 +44,11 @@ public class Userinterface {
     static final int  SUPPLIER_NAME = 1,
 					  SUPPLIER_PHONE = 2,
 					  SUPPLIER_ADDRESS = 3;
+					  
+	//edit cart choices
+    static final int  CHANGE_QUANTITY = 1,
+					  REMOVE_ITEM = 2,
+					  DO_NOTHING = 3;
 					 
 	transient Scanner inputScanner = new Scanner(System.in);//create scanner for input
 	private static Userinterface userinterface;
@@ -524,6 +530,87 @@ public class Userinterface {
 				System.out.println("\nProduct not found, try again");	
 		}
     }//end method
+	
+	/*
+     * Function:	editClientCart
+     * Type:		void
+     * Privacy:		public
+     * Description:	Edits items in a client's cart. There is the choice to either
+     * 				change the quantity of, remove, or doing to each item in the cart.
+     */
+    public void editClientCart(){
+		String id;
+		boolean entryFound = false,
+				result = false;
+		int quantity = 0,
+			input = EXIT + 1;//arbitrary non-exit number
+		
+		LinkedList<String> removalItems = new LinkedList<String>();
+	
+		System.out.print("\nInput Client ID: ");
+		id = inputScanner.next();
+		
+        Iterator allClients = warehouse.getClients();
+        Client nextClient;
+        while(!entryFound & allClients.hasNext() & input != EXIT){
+            nextClient = (Client)allClients.next();
+            if(nextClient.getId().contentEquals(id)) {
+                entryFound = true;
+				Iterator allCartItems = warehouse.getCartItems(nextClient.getId());
+				while (allCartItems.hasNext() & input != EXIT){
+					Product nextCartItem = (Product)(allCartItems.next());
+					System.out.println("Product Name: " + nextCartItem.getName() + " Product Quantity: " + nextCartItem.getQuantity());
+					
+					System.out.println("\nWhat would you like to do to this item?\n" + 
+							EXIT + ".) Exit\n" +
+							CHANGE_QUANTITY + ".) Change Quantity of Item\n" +
+							REMOVE_ITEM + ".) Remove Item From Shopping Cart\n"+
+							DO_NOTHING + ".) Do Nothing To The Item\n");
+					
+					input = inputScanner.nextInt();
+					
+					switch(input){
+						case EXIT:
+							break;
+						case CHANGE_QUANTITY:
+							System.out.print("\nEnter New Item Quantity: ");
+							quantity = inputScanner.nextInt();
+							result = warehouse.setCartItemQuant(id, nextCartItem.getId(), quantity);
+							if(result) {
+								System.out.println("\nQuantity successfully changed in cart");
+							}
+							else {
+								System.out.println("\nFailed to change quantity, try again");
+							}
+							break;
+						case REMOVE_ITEM:
+							removalItems.add(nextCartItem.getId());
+							break;
+						case DO_NOTHING:
+							break;
+						default:
+							System.out.println("Not a valid input.\n");
+							break;
+					}//end switch
+				}
+            }
+        }
+		
+		/* Remove Items from Cart*/
+		Iterator itemsToRemove = removalItems.iterator();
+		while (itemsToRemove.hasNext()){
+			String nextItemToRemove = (String)(itemsToRemove.next());
+			result = warehouse.removeCartItem(id, nextItemToRemove);
+			if(result) {
+				System.out.println("\nItem successfully removed from cart");
+			}
+			else {
+				System.out.println("\nFailed toremove item, try again");
+			}
+		}
+		
+		System.out.print("\nAll items edited.");
+    }//end method
 
     /*Queries*/
 
@@ -745,6 +832,7 @@ public class Userinterface {
                     ACCEPT_CLIENT_PAYMENT + ".) Accept Client Payment\n"+
                     ACCEPT_SHIPMENT + ".) Accept Shipment\n"+
                     ADD_ITEM_TO_CART + ".) Add Items to Cart\n"+
+					EDIT_CLIENT_CART + ".) Edit Client's Shopping Cart\n"+
                     LIST_CLIENT_TRANSACTIONS + ".) List Client Transactions by Date\n"+
                     LIST_SUPPLIER_PRICES + ".) List Supplier's Prices\n"+
                     LIST_NEGATIVE_BALANCES + ".) List Clients with Negative Balances\n"+
@@ -779,6 +867,9 @@ public class Userinterface {
                 case ADD_ITEM_TO_CART:
                     addItemsToCart();
                     break;
+				case EDIT_CLIENT_CART:
+					editClientCart();
+					break;
                 case LIST_CLIENT_TRANSACTIONS:
                     listClientTransactions();
                     break;

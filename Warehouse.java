@@ -252,6 +252,27 @@ public class Warehouse implements Serializable {
 	public boolean setProductName(String id, String name){
 		return inventory.setProductName(id, name);
 	}//end setProductName
+	
+	/*
+	 * Function:	setCartItemQuant
+	 * Type:		boolean
+	 * Privacy:		public
+	 * Description:
+	 */
+	public boolean setCartItemQuant(String clientId, String productId, int quantity){
+		boolean result = false,
+				entryFound = false;
+		Iterator allClients = warehouse.getClients();
+        Client nextClient;
+        while(!entryFound & allClients.hasNext()){
+            nextClient = (Client)allClients.next();
+            if(nextClient.getId().contentEquals(clientId)) {
+                entryFound = true;
+				result = nextClient.setCartItemQuant(productId, quantity);
+            }
+        }
+		return result;
+	}//end setCartItemQuant
 
 	/*
 	 * Function:	getProductName
@@ -424,6 +445,27 @@ public class Warehouse implements Serializable {
         }
 		return entryFound;
 	}//end removeProduct
+	
+	/*
+	 * Function:	removeCartItem
+	 * Type:		boolean
+	 * Privacy:		public
+	 * Description:
+	 */
+	public boolean removeCartItem(String clientId, String productId){
+		boolean result = false,
+				entryFound = false;
+		Iterator allClients = warehouse.getClients();
+        Client nextClient;
+        while(!entryFound & allClients.hasNext()){
+            nextClient = (Client)allClients.next();
+            if(nextClient.getId().contentEquals(clientId)) {
+                entryFound = true;
+				result = nextClient.removeCartItem(productId);
+            }
+        }
+		return result;
+	}//end removeCartItem
 	
 	/*
      * Function:	retrieve
