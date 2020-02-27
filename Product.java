@@ -1,4 +1,5 @@
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.*;
 import java.io.*;
 
@@ -12,6 +13,7 @@ public class Product implements Serializable {
     private int quantity,
 			backorderQuantity;
     private double price;
+    NumberFormat format;
 	
 	/*
      * Function:	Product
@@ -26,6 +28,7 @@ public class Product implements Serializable {
         this.quantity = quantity;
         this.backorderQuantity = 0;
         this.supplier = supplier;
+        this.format = new DecimalFormat("#0.00");
     }//end constructor
 	
 	/*
@@ -159,6 +162,6 @@ public class Product implements Serializable {
      * Description:	Converts Product to string output.
 	 */
     public String toString(){
-        return "ID: " + id + " Name: " + name + " Supplier: " + supplier + " Price Per Item: $" + price + " Quantity: " + quantity + " Backordered Quantity: " + backorderQuantity;
+        return "ID: " + id + " Name: " + name + " Supplier: " + supplier + " Price Per Item: $" + format.format(price) + " Quantity: " + quantity + " Backordered Quantity: " + backorderQuantity;
     }//end toString
 }
