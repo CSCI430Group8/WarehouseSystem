@@ -162,6 +162,6 @@ public class Product implements Serializable {
      * Description:	Converts Product to string output.
 	 */
     public String toString(){
-        return "ID: " + id + " Name: " + name + " Supplier: " + supplier + " Price Per Item: $" + format.format(price) + " Quantity: " + quantity + " Backordered Quantity: " + backorderQuantity;
+        return "ID: " + id + " Name: " + name + " Supplier: " + supplier + " Price Per Item: $" + " Price: " + price + " Quantity: " + quantity + " Backordered Quantity: " + backorderQuantity;
     }//end toString
 }
