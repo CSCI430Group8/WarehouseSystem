@@ -128,6 +128,44 @@ public class Client implements Serializable {
 	}//end setAddress
 	
 	/*
+     * Function:	setCartItemQuant
+     * Type:		boolean
+     * Privacy:		public
+     * Description:	Sets new quantity for item in ShoppingCart.
+	 */
+	public boolean setCartItemQuant(String productId, int quantity) {
+		boolean entryFound = false;
+		Iterator allCartItems = getCartItems();
+		while (allCartItems.hasNext() & !entryFound){
+			Product nextCartItem = (Product)(allCartItems.next());
+			if(nextCartItem.getId().contentEquals(productId)) { 
+				entryFound = true;
+				nextCartItem.setQuantity(quantity);
+			}
+		}
+		return entryFound;
+	}//end setCartItemQuant
+	
+	/*
+     * Function:	removeCartItem
+     * Type:		boolean
+     * Privacy:		public
+     * Description:	Removes Product from ShoppingCart.
+	 */
+	public boolean removeCartItem(String productId) {
+		boolean entryFound = false;
+		Iterator allCartItems = getCartItems();
+		while (allCartItems.hasNext() & !entryFound){
+			Product nextCartItem = (Product)(allCartItems.next());
+			if(nextCartItem.getId().contentEquals(productId)) { 
+				entryFound = true;
+				allCartItems.remove();
+			}
+		}
+		return entryFound;
+	}//end removeCartItem
+	
+	/*
      * Function:	insertToCart
      * Type:		boolean
      * Privacy:		public

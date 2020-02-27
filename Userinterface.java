@@ -6,22 +6,23 @@ public class Userinterface {
     static final int EXIT = 0,
                      ADD_CLIENTS_PRODUCTS_SUPPLIES = 1,
                      EDIT_CLIENTS_PRODUCTS_SUPPLIES = 2,
-                     ACCEPT_CLIENT_ORDERS = 3,
+                     PROCESS_CLIENT_ORDERS = 3,
                      ACCEPT_CLIENT_PAYMENT = 4,
                      ACCEPT_SHIPMENT = 5,
                      ADD_ITEM_TO_CART = 6,
+					 EDIT_CLIENT_CART = 7,
     //Query Choices
-                     LIST_CLIENT_TRANSACTIONS = 7,
-                     LIST_SUPPLIER_PRICES = 8,
-                     LIST_NEGATIVE_BALANCES = 9,
-                     LIST_BACKORDERS = 10,
-                     LIST_INVENTORY = 11,
-					 LIST_ALL_CLIENTS = 12,
-					 LIST_ALL_SUPPLIERS = 13,
-					 LIST_ALL_ITEMS_AND_QUANTITIES_IN_CLIENT_CART = 14,
-					 SAVE = 15,
-					 RETRIEVE = 16,
-                     HELP = 17;
+                     LIST_CLIENT_TRANSACTIONS = 8,
+                     LIST_SUPPLIER_PRICES = 9,
+                     LIST_NEGATIVE_BALANCES = 10,
+                     LIST_BACKORDERS = 11,
+                     LIST_INVENTORY = 12,
+					 LIST_ALL_CLIENTS = 13,
+					 LIST_ALL_SUPPLIERS = 14,
+					 LIST_ALL_ITEMS_AND_QUANTITIES_IN_CLIENT_CART = 15,
+					 SAVE = 16,
+					 RETRIEVE = 17,
+                     HELP = 18;
 					
     //Add Choices
   	static final int CLIENT = 1,
@@ -43,6 +44,11 @@ public class Userinterface {
     static final int  SUPPLIER_NAME = 1,
 					  SUPPLIER_PHONE = 2,
 					  SUPPLIER_ADDRESS = 3;
+					  
+	//edit cart choices
+    static final int  CHANGE_QUANTITY = 1,
+					  REMOVE_ITEM = 2,
+					  DO_NOTHING = 3;
 					 
 	transient Scanner inputScanner = new Scanner(System.in);//create scanner for input
 	private static Userinterface userinterface;
@@ -342,8 +348,8 @@ public class Userinterface {
      * 				Takes the items in their cart and removes them from inventory
      * 				then charges the price of the items to their stock.
      */ 
-    public void acceptClientOrders(){
-        System.out.println("Accepting clients orders.");
+    public void processClientOrders(){
+        System.out.println("Processing clients orders.");
 		boolean orderFound = false,
                 backorderFound = false;
 		String clientId;
@@ -368,7 +374,7 @@ public class Userinterface {
             dummyProduct = (Product)clientCart.next();
             if (dummyProduct.getQuantity() > warehouse.getProductQuantity(dummyProduct.getId())){//if quantity in cart is greater than inventory (backorder)
                 orderRemainder = dummyProduct.getQuantity() - warehouse.getProductQuantity(dummyProduct.getId());//cart quantity - warehouse quantity
-                warehouse.setProductBackorderQuantity(dummyProduct.getId(),orderRemainder);//update backorders
+                warehouse.addProductBackorderQuantity(dummyProduct.getId(), (dummyProduct.getQuantity() - warehouse.getProductQuantity(dummyProduct.getId())));//update backorders
                 dummyProduct.setQuantity(orderRemainder);//update orders
                 dummyBackorder.add(dummyProduct);
                 clientCart.remove();
@@ -377,7 +383,7 @@ public class Userinterface {
                 warehouse.setProductQuantity(dummyProduct.getId(), 0);//set warehouse quantity to 0
             } else {//client ordered less product than was available
                 /*Subtract order quantity from warehouse quantity*/
-                warehouse.setProductQuantity(dummyProduct.getId(), warehouse.getProductQuantity(dummyProduct.getId()) - dummyProduct.getQuantity());
+                warehouse.addProductQuantity(dummyProduct.getId(), - dummyProduct.getQuantity());
                 dummyOrder.add(dummyProduct);//product added to order
                 clientCart.remove();
                 orderFound = true;
@@ -466,7 +472,73 @@ public class Userinterface {
      * Description:	
      */
     public void acceptShipments(){
-        System.out.println("Dummy Method.");
+        System.out.println("Method in progress.");
+        Boolean verification = true;
+        String productId;
+        int productQuantity;
+        Iterator currentStock = warehouse.getProducts(),
+        		currentBackorder = warehouse.getBackorders(),
+        		nextOrder;
+        Product nextProduct,
+        		nextBackorderProduct;
+        Order nextBackorder;
+        
+        /*Catalog all items from shipment, add to stock*/
+        while(verification) {//while there are still products in shipment
+        	System.out.println("Input product ID: ");
+        	productId = inputScanner.next();
+        	System.out.println("Input product quantity: ");
+        	productQuantity = inputScanner.nextInt();
+        	
+        	
+        	/*Add shipment's inventory to stock*/
+        	while(currentStock.hasNext()) {
+        		nextProduct = (Product)currentStock.next();
+        		if(nextProduct.getId().contentEquals(productId)) {
+        			warehouse.addProductQuantity(productId, productQuantity);
+        		}//end if
+        	}//end while
+        	
+        	System.out.println("Would you like to add another product from the shipment? (y/n)");
+        	if(inputScanner.next().charAt(0) != 'y') {
+        		verification = false;
+        	}//end if
+        	
+        }//end while
+        
+        /*Try to fill backorders from newly updated stock*/
+        while(currentBackorder.hasNext()) {
+        	nextBackorder = (Order)currentBackorder.next();//get next backorder
+        	nextOrder = nextBackorder.getProducts();
+        	System.out.println("Should this backorder be filled? (y/n)");
+        	System.out.println(nextBackorder);
+        	/*If current backorder is to be filled*/
+        	if(inputScanner.next().charAt(0) == 'y') {//current backorder should be filled
+        		while(nextOrder.hasNext()) {//iterate through current backorder
+        			nextBackorderProduct = (Product)nextOrder.next();
+        			String backorderId = nextBackorderProduct.getId();
+        			int backorderQuantity = nextBackorderProduct.getQuantity();
+        			if(backorderQuantity > warehouse.getProductQuantity(backorderId)) {//backOrder quantity > inventory
+        				int remainder = nextBackorderProduct.getQuantity() - warehouse.getProductQuantity(backorderId);
+        				warehouse.addProductBackorderQuantity(backorderId, -(backorderQuantity - remainder));
+        				warehouse.setProductQuantity(backorderId, 0);//stock removed from inventory
+        				nextBackorderProduct.setQuantity(remainder);
+        			} else {//backOrder quantity <= inventory stock
+        				warehouse.addProductQuantity(backorderId, -backorderQuantity);//subtract inventory by backorder quantity
+        				warehouse.addProductBackorderQuantity(backorderId, -backorderQuantity);
+        				nextOrder.remove();
+        			}//end if
+        			
+        		}//end while
+        	}//end if
+        	
+        	/*if backorder has been completely fulfilled delete from list*/
+        	nextOrder = nextBackorder.getProducts();
+        	if(!nextOrder.hasNext()){//remove backorders with no product contents
+        	 currentBackorder.remove();
+        	}//end if
+        	
+        }//end while/   
     }//end method
     
     /*
@@ -523,6 +595,87 @@ public class Userinterface {
 		else if(!productFound){
 				System.out.println("\nProduct not found, try again");	
 		}
+    }//end method
+	
+	/*
+     * Function:	editClientCart
+     * Type:		void
+     * Privacy:		public
+     * Description:	Edits items in a client's cart. There is the choice to either
+     * 				change the quantity of, remove, or doing to each item in the cart.
+     */
+    public void editClientCart(){
+		String id;
+		boolean entryFound = false,
+				result = false;
+		int quantity = 0,
+			input = EXIT + 1;//arbitrary non-exit number
+		
+		LinkedList<String> removalItems = new LinkedList<String>();
+	
+		System.out.print("\nInput Client ID: ");
+		id = inputScanner.next();
+		
+        Iterator allClients = warehouse.getClients();
+        Client nextClient;
+        while(!entryFound & allClients.hasNext() & input != EXIT){
+            nextClient = (Client)allClients.next();
+            if(nextClient.getId().contentEquals(id)) {
+                entryFound = true;
+				Iterator allCartItems = warehouse.getCartItems(nextClient.getId());
+				while (allCartItems.hasNext() & input != EXIT){
+					Product nextCartItem = (Product)(allCartItems.next());
+					System.out.println("Product Name: " + nextCartItem.getName() + " Product Quantity: " + nextCartItem.getQuantity());
+					
+					System.out.println("\nWhat would you like to do to this item?\n" + 
+							EXIT + ".) Exit\n" +
+							CHANGE_QUANTITY + ".) Change Quantity of Item\n" +
+							REMOVE_ITEM + ".) Remove Item From Shopping Cart\n"+
+							DO_NOTHING + ".) Do Nothing To The Item\n");
+					
+					input = inputScanner.nextInt();
+					
+					switch(input){
+						case EXIT:
+							break;
+						case CHANGE_QUANTITY:
+							System.out.print("\nEnter New Item Quantity: ");
+							quantity = inputScanner.nextInt();
+							result = warehouse.setCartItemQuant(id, nextCartItem.getId(), quantity);
+							if(result) {
+								System.out.println("\nQuantity successfully changed in cart");
+							}
+							else {
+								System.out.println("\nFailed to change quantity, try again");
+							}
+							break;
+						case REMOVE_ITEM:
+							removalItems.add(nextCartItem.getId());
+							break;
+						case DO_NOTHING:
+							break;
+						default:
+							System.out.println("Not a valid input.\n");
+							break;
+					}//end switch
+				}
+            }
+        }
+		
+		/* Remove Items from Cart*/
+		Iterator itemsToRemove = removalItems.iterator();
+		while (itemsToRemove.hasNext()){
+			String nextItemToRemove = (String)(itemsToRemove.next());
+			result = warehouse.removeCartItem(id, nextItemToRemove);
+			if(result) {
+				System.out.println("\nItem successfully removed from cart");
+			}
+			else {
+				System.out.println("\nFailed toremove item, try again");
+			}
+		}
+		
+		System.out.print("\nAll items edited.");
     }//end method
 
     /*Queries*/
@@ -741,10 +894,11 @@ public class Userinterface {
 					EXIT + ".) Exit\n" +
                     ADD_CLIENTS_PRODUCTS_SUPPLIES + ".) Add Clients, Products, or Suppliers\n"+
                     EDIT_CLIENTS_PRODUCTS_SUPPLIES + ".) Edit Clients, Products, or Suppliers\n"+
-                    ACCEPT_CLIENT_ORDERS + ".) Accept Client Order\n"+
+                    PROCESS_CLIENT_ORDERS + ".) Process Client Order\n"+
                     ACCEPT_CLIENT_PAYMENT + ".) Accept Client Payment\n"+
                     ACCEPT_SHIPMENT + ".) Accept Shipment\n"+
                     ADD_ITEM_TO_CART + ".) Add Items to Cart\n"+
+					EDIT_CLIENT_CART + ".) Edit Client's Shopping Cart\n"+
                     LIST_CLIENT_TRANSACTIONS + ".) List Client Transactions by Date\n"+
                     LIST_SUPPLIER_PRICES + ".) List Supplier's Prices\n"+
                     LIST_NEGATIVE_BALANCES + ".) List Clients with Negative Balances\n"+
@@ -767,8 +921,8 @@ public class Userinterface {
                 case EDIT_CLIENTS_PRODUCTS_SUPPLIES:
                     editClientProductsSupplies();
                     break;
-                case ACCEPT_CLIENT_ORDERS:
-                    acceptClientOrders();
+                case PROCESS_CLIENT_ORDERS:
+                    processClientOrders();
                     break;
                 case ACCEPT_CLIENT_PAYMENT:
                     acceptClientPayment();
@@ -779,6 +933,9 @@ public class Userinterface {
                 case ADD_ITEM_TO_CART:
                     addItemsToCart();
                     break;
+				case EDIT_CLIENT_CART:
+					editClientCart();
+					break;
                 case LIST_CLIENT_TRANSACTIONS:
                     listClientTransactions();
                     break;
