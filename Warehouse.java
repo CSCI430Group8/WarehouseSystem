@@ -212,6 +212,16 @@ public class Warehouse implements Serializable {
 	public boolean setProductQuantity(String id, int quantity){
 		return inventory.setProductQuantity(id, quantity);
 	}//end setProductQuantity
+	
+	/*
+	 * Function:	addProductQuantity
+	 * Type:		boolean
+	 * Privacy:		public
+	 * Description:
+	 */
+	public boolean addProductQuantity(String id, int quantity){
+		return inventory.setProductQuantity(id, inventory.getProductQuantity(id) + quantity);
+	}//end addProductQuantity
 
 	/*
 	 * Function:	setProductBackorderQuantity
@@ -222,6 +232,16 @@ public class Warehouse implements Serializable {
 	public boolean setProductBackorderQuantity(String id, int quantity){
 		return inventory.setProductBackorderQuantity(id, quantity);
 	}//end setProductQuantity
+	
+	/*
+	 * Function:	addProductBackorderQuantity
+	 * Type:		boolean
+	 * Privacy:		public
+	 * Description:
+	 */
+	public boolean addProductBackorderQuantity(String id, int quantity){
+		return inventory.setProductBackorderQuantity(id, inventory.getProductBackorderQuantity(id) + quantity);
+	}//end addProductQuantity
 
 	/*
 	 * Function:	getProductQuantity

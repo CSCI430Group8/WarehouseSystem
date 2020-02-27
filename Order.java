@@ -59,6 +59,16 @@ public class Order implements Serializable {
 	}//end getName
 	
 	/*
+     * Function:	getProducts
+     * Type:		Iterator
+     * Privacy:		public
+     * Description:	gets iterator of all products in order.
+	 */
+	public Iterator getProducts(){
+		return orderedItems.iterator();
+	}//end getName
+	
+	/*
      * Function:	getOrder
      * Type:		Iterator
      * Privacy:		public

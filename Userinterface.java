@@ -374,7 +374,7 @@ public class Userinterface {
             dummyProduct = (Product)clientCart.next();
             if (dummyProduct.getQuantity() > warehouse.getProductQuantity(dummyProduct.getId())){//if quantity in cart is greater than inventory (backorder)
                 orderRemainder = dummyProduct.getQuantity() - warehouse.getProductQuantity(dummyProduct.getId());//cart quantity - warehouse quantity
-                warehouse.setProductBackorderQuantity(dummyProduct.getId(),orderRemainder);//update backorders
+                warehouse.addProductBackorderQuantity(dummyProduct.getId(), (dummyProduct.getQuantity() - warehouse.getProductQuantity(dummyProduct.getId())));//update backorders
                 dummyProduct.setQuantity(orderRemainder);//update orders
                 dummyBackorder.add(dummyProduct);
                 clientCart.remove();
@@ -383,7 +383,7 @@ public class Userinterface {
                 warehouse.setProductQuantity(dummyProduct.getId(), 0);//set warehouse quantity to 0
             } else {//client ordered less product than was available
                 /*Subtract order quantity from warehouse quantity*/
-                warehouse.setProductQuantity(dummyProduct.getId(), warehouse.getProductQuantity(dummyProduct.getId()) - dummyProduct.getQuantity());
+                warehouse.addProductQuantity(dummyProduct.getId(), - dummyProduct.getQuantity());
                 dummyOrder.add(dummyProduct);//product added to order
                 clientCart.remove();
                 orderFound = true;
@@ -472,7 +472,73 @@ public class Userinterface {
      * Description:	
      */
     public void acceptShipments(){
-        System.out.println("Dummy Method.");
+        System.out.println("Method in progress.");
+        Boolean verification = true;
+        String productId;
+        int productQuantity;
+        Iterator currentStock = warehouse.getProducts(),
+        		currentBackorder = warehouse.getBackorders(),
+        		nextOrder;
+        Product nextProduct,
+        		nextBackorderProduct;
+        Order nextBackorder;
+        
+        /*Catalog all items from shipment, add to stock*/
+        while(verification) {//while there are still products in shipment
+        	System.out.println("Input product ID: ");
+        	productId = inputScanner.next();
+        	System.out.println("Input product quantity: ");
+        	productQuantity = inputScanner.nextInt();
+        	
+        	
+        	/*Add shipment's inventory to stock*/
+        	while(currentStock.hasNext()) {
+        		nextProduct = (Product)currentStock.next();
+        		if(nextProduct.getId().contentEquals(productId)) {
+        			warehouse.addProductQuantity(productId, productQuantity);
+        		}//end if
+        	}//end while
+        	
+        	System.out.println("Would you like to add another product from the shipment? (y/n)");
+        	if(inputScanner.next().charAt(0) != 'y') {
+        		verification = false;
+        	}//end if
+        	
+        }//end while
+        
+        /*Try to fill backorders from newly updated stock*/
+        while(currentBackorder.hasNext()) {
+        	nextBackorder = (Order)currentBackorder.next();//get next backorder
+        	nextOrder = nextBackorder.getProducts();
+        	System.out.println("Should this backorder be filled? (y/n)");
+        	System.out.println(nextBackorder);
+        	/*If current backorder is to be filled*/
+        	if(inputScanner.next().charAt(0) == 'y') {//current backorder should be filled
+        		while(nextOrder.hasNext()) {//iterate through current backorder
+        			nextBackorderProduct = (Product)nextOrder.next();
+        			String backorderId = nextBackorderProduct.getId();
+        			int backorderQuantity = nextBackorderProduct.getQuantity();
+        			if(backorderQuantity > warehouse.getProductQuantity(backorderId)) {//backOrder quantity > inventory
+        				int remainder = nextBackorderProduct.getQuantity() - warehouse.getProductQuantity(backorderId);
+        				warehouse.addProductBackorderQuantity(backorderId, -(backorderQuantity - remainder));
+        				warehouse.setProductQuantity(backorderId, 0);//stock removed from inventory
+        				nextBackorderProduct.setQuantity(remainder);
+        			} else {//backOrder quantity <= inventory stock
+        				warehouse.addProductQuantity(backorderId, -backorderQuantity);//subtract inventory by backorder quantity
+        				warehouse.addProductBackorderQuantity(backorderId, -backorderQuantity);
+        				nextOrder.remove();
+        			}//end if
+        			
+        		}//end while
+        	}//end if
+        	
+        	/*if backorder has been completely fulfilled delete from list*/
+        	nextOrder = nextBackorder.getProducts();
+        	if(!nextOrder.hasNext()){//remove backorders with no product contents
+        	 currentBackorder.remove();
+        	}//end if
+        	
+        }//end while/   
     }//end method
     
     /*
