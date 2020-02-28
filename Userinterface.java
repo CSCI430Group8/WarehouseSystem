@@ -374,7 +374,7 @@ public class Userinterface {
             dummyShoppingCartItem = (ShoppingCartItem)clientCart.next();
             if (dummyShoppingCartItem.getQuantity() > warehouse.getProductQuantity(dummyShoppingCartItem.getItem().getId())){//if quantity in cart is greater than inventory (backorder)
                 orderRemainder = dummyShoppingCartItem.getQuantity() - warehouse.getProductQuantity(dummyShoppingCartItem.getItem().getId());//cart quantity - warehouse quantity
-                warehouse.addProductBackorderQuantity(dummyShoppingCartItem.getItem().getId(), (dummyShoppingCartItem.getItem().getQuantity() - warehouse.getProductQuantity(dummyShoppingCartItem.getItem().getId())));//update backorders
+                warehouse.addProductBackorderQuantity(dummyShoppingCartItem.getItem().getId(), orderRemainder);//update backorders
                 dummyShoppingCartItem.setQuantity(orderRemainder);//update orders
                 dummyBackorder.add(dummyShoppingCartItem);
                 clientCart.remove();
@@ -479,8 +479,8 @@ public class Userinterface {
         Iterator currentStock = warehouse.getProducts(),
         		currentBackorder = warehouse.getBackorders(),
         		nextOrder;
-        Product nextProduct;
-        ShoppingCartItem nextBackorderProduct;
+        Product nextProduct,
+        		nextBackorderProduct;
         Order nextBackorder;
         
         /*Catalog all items from shipment, add to stock*/
@@ -515,8 +515,8 @@ public class Userinterface {
         	/*If current backorder is to be filled*/
         	if(inputScanner.next().charAt(0) == 'y') {//current backorder should be filled
         		while(nextOrder.hasNext()) {//iterate through current backorder
-        			nextBackorderProduct = (ShoppingCartItem)nextOrder.next();
-        			String backorderId = nextBackorderProduct.getItem().getId();
+        			nextBackorderProduct = (Product)nextOrder.next();
+        			String backorderId = nextBackorderProduct.getId();
         			int backorderQuantity = nextBackorderProduct.getQuantity();
         			if(backorderQuantity > warehouse.getProductQuantity(backorderId)) {//backOrder quantity > inventory
         				int remainder = nextBackorderProduct.getQuantity() - warehouse.getProductQuantity(backorderId);
