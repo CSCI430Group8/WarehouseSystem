@@ -353,9 +353,9 @@ public class Userinterface {
 		boolean orderFound = false,
                 backorderFound = false;
 		String clientId;
-		LinkedList<Product> dummyOrder = new LinkedList<Product>();
-		LinkedList<Product> dummyBackorder = new LinkedList<Product>();
-		Product dummyProduct;
+		LinkedList<ShoppingCartItem> dummyOrder = new LinkedList<ShoppingCartItem>();
+		LinkedList<ShoppingCartItem> dummyBackorder = new LinkedList<ShoppingCartItem>();
+		ShoppingCartItem dummyShoppingCartItem;
 		int orderRemainder = 0;
 
 
@@ -371,20 +371,20 @@ public class Userinterface {
         }
 		while (clientCart.hasNext()){//while client's cart is not empty
 		    orderRemainder = 0;
-            dummyProduct = (Product)clientCart.next();
-            if (dummyProduct.getQuantity() > warehouse.getProductQuantity(dummyProduct.getId())){//if quantity in cart is greater than inventory (backorder)
-                orderRemainder = dummyProduct.getQuantity() - warehouse.getProductQuantity(dummyProduct.getId());//cart quantity - warehouse quantity
-                warehouse.addProductBackorderQuantity(dummyProduct.getId(), (dummyProduct.getQuantity() - warehouse.getProductQuantity(dummyProduct.getId())));//update backorders
-                dummyProduct.setQuantity(orderRemainder);//update orders
-                dummyBackorder.add(dummyProduct);
+            dummyShoppingCartItem = (ShoppingCartItem)clientCart.next();
+            if (dummyShoppingCartItem.getQuantity() > warehouse.getProductQuantity(dummyShoppingCartItem.getItem().getId())){//if quantity in cart is greater than inventory (backorder)
+                orderRemainder = dummyShoppingCartItem.getQuantity() - warehouse.getProductQuantity(dummyShoppingCartItem.getItem().getId());//cart quantity - warehouse quantity
+                warehouse.addProductBackorderQuantity(dummyShoppingCartItem.getItem().getId(), (dummyShoppingCartItem.getItem().getQuantity() - warehouse.getProductQuantity(dummyShoppingCartItem.getItem().getId())));//update backorders
+                dummyShoppingCartItem.setQuantity(orderRemainder);//update orders
+                dummyBackorder.add(dummyShoppingCartItem);
                 clientCart.remove();
                 backorderFound = true;
 
-                warehouse.setProductQuantity(dummyProduct.getId(), 0);//set warehouse quantity to 0
+                warehouse.setProductQuantity(dummyShoppingCartItem.getItem().getId(), 0);//set warehouse quantity to 0
             } else {//client ordered less product than was available
                 /*Subtract order quantity from warehouse quantity*/
-                warehouse.addProductQuantity(dummyProduct.getId(), - dummyProduct.getQuantity());
-                dummyOrder.add(dummyProduct);//product added to order
+                warehouse.addProductQuantity(dummyShoppingCartItem.getItem().getId(), - dummyShoppingCartItem.getQuantity());
+                dummyOrder.add(dummyShoppingCartItem);//product added to order
                 clientCart.remove();
                 orderFound = true;
             }
@@ -396,7 +396,7 @@ public class Userinterface {
 
 		   /*deduct price of all items from account*/
             for (int i = 0; i < dummyOrder.size(); i++){
-                totalPrice += dummyOrder.get(i).getPrice() * dummyOrder.get(i).getQuantity();
+                totalPrice += dummyOrder.get(i).getItem().getPrice() * dummyOrder.get(i).getQuantity();
             }
             warehouse.setClientBalance(clientId, warehouse.getClientBalance(clientId) - totalPrice);
         }
@@ -405,7 +405,7 @@ public class Userinterface {
 
             /*deduct price of all items from account*/
             for (int i = 0; i < dummyBackorder.size(); i++){
-                totalPrice += dummyBackorder.get(i).getPrice() * dummyBackorder.get(i).getQuantity();
+                totalPrice += dummyBackorder.get(i).getItem().getPrice() * dummyBackorder.get(i).getQuantity();
             }
             warehouse.setClientBalance(clientId, warehouse.getClientBalance(clientId) - totalPrice);
         }
@@ -624,8 +624,8 @@ public class Userinterface {
                 entryFound = true;
 				Iterator allCartItems = warehouse.getCartItems(nextClient.getId());
 				while (allCartItems.hasNext() & input != EXIT){
-					Product nextCartItem = (Product)(allCartItems.next());
-					System.out.println("Product Name: " + nextCartItem.getName() + " Product Quantity: " + nextCartItem.getQuantity());
+					ShoppingCartItem nextCartItem = (ShoppingCartItem)(allCartItems.next());
+					System.out.println("Product Name: " + nextCartItem.getItem().getName() + " Product Quantity: " + nextCartItem.getQuantity());
 					
 					System.out.println("\nWhat would you like to do to this item?\n" + 
 							EXIT + ".) Exit\n" +
@@ -641,7 +641,7 @@ public class Userinterface {
 						case CHANGE_QUANTITY:
 							System.out.print("\nEnter New Item Quantity: ");
 							quantity = inputScanner.nextInt();
-							result = warehouse.setCartItemQuant(id, nextCartItem.getId(), quantity);
+							result = warehouse.setCartItemQuant(id, nextCartItem.getItem().getId(), quantity);
 							if(result) {
 								System.out.println("\nQuantity successfully changed in cart");
 							}
@@ -650,7 +650,7 @@ public class Userinterface {
 							}
 							break;
 						case REMOVE_ITEM:
-							removalItems.add(nextCartItem.getId());
+							removalItems.add(nextCartItem.getItem().getId());
 							break;
 						case DO_NOTHING:
 							break;
@@ -828,8 +828,8 @@ public class Userinterface {
                 entryFound = true;
 				Iterator allCartItems = warehouse.getCartItems(nextClient.getId());
 				while (allCartItems.hasNext()){
-					Product nextCartItem = (Product)(allCartItems.next());
-					System.out.println("Product Name: " + nextCartItem.getName() + " Product Quantity: " + nextCartItem.getQuantity());
+					ShoppingCartItem nextCartItem = (ShoppingCartItem)(allCartItems.next());
+					System.out.println("Product Name: " + nextCartItem.getItem().getName() + " Product Quantity: " + nextCartItem.getQuantity());
 					System.out.println();
 				}
             }

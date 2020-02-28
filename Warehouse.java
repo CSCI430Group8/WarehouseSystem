@@ -124,7 +124,7 @@ public class Warehouse implements Serializable {
      * Privacy:		public
      * Description:	Add an order to the backorder list.
      */
-	public void addBackorder(String clientId, LinkedList<Product> orderedItems) {
+	public void addBackorder(String clientId, LinkedList<ShoppingCartItem> orderedItems) {
 		backorders.addBackorder(clientId, orderedItems);
 	}//end getProducts
 
@@ -134,7 +134,7 @@ public class Warehouse implements Serializable {
 	 * Privacy:		public
 	 * Description:	Add an order to the backorder list.
 	 */
-	public void addOrder(String clientId, LinkedList<Product> orderedItems) {
+	public void addOrder(String clientId, LinkedList<ShoppingCartItem> orderedItems) {
 		orders.addOrder(clientId, orderedItems);
 	}//end getProducts
 	
@@ -393,9 +393,7 @@ public class Warehouse implements Serializable {
 	 */
 	public boolean addToClientCart(Client client, Product product, int quantity) {
 		/* Copy product to add in cart */
-		Product newProduct = new Product(product);
-		newProduct.setQuantity(quantity);
-		return client.insertToCart(newProduct);
+		return client.insertToCart(product, quantity);
 	}//end addToClientCart
 
 	/*

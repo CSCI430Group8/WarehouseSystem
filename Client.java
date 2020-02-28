@@ -11,7 +11,7 @@ public class Client implements Serializable {
             name,
             phone,
             address;
-    private LinkedList<Product> ShoppingCart = new LinkedList<Product>();
+    private LinkedList<ShoppingCartItem> ShoppingCart = new LinkedList<ShoppingCartItem>();
 	
 	/*
      * Function:	Client
@@ -137,8 +137,8 @@ public class Client implements Serializable {
 		boolean entryFound = false;
 		Iterator allCartItems = getCartItems();
 		while (allCartItems.hasNext() & !entryFound){
-			Product nextCartItem = (Product)(allCartItems.next());
-			if(nextCartItem.getId().contentEquals(productId)) { 
+			ShoppingCartItem nextCartItem = (ShoppingCartItem)(allCartItems.next());
+			if(nextCartItem.getItem().getId().contentEquals(productId)) { 
 				entryFound = true;
 				nextCartItem.setQuantity(quantity);
 			}
@@ -150,14 +150,14 @@ public class Client implements Serializable {
      * Function:	removeCartItem
      * Type:		boolean
      * Privacy:		public
-     * Description:	Removes Product from ShoppingCart.
+     * Description:	Removes ShoppingCartItem from ShoppingCart.
 	 */
 	public boolean removeCartItem(String productId) {
 		boolean entryFound = false;
 		Iterator allCartItems = getCartItems();
 		while (allCartItems.hasNext() & !entryFound){
-			Product nextCartItem = (Product)(allCartItems.next());
-			if(nextCartItem.getId().contentEquals(productId)) { 
+			ShoppingCartItem nextCartItem = (ShoppingCartItem)(allCartItems.next());
+			if(nextCartItem.getItem().getId().contentEquals(productId)) { 
 				entryFound = true;
 				allCartItems.remove();
 			}
@@ -169,11 +169,12 @@ public class Client implements Serializable {
      * Function:	insertToCart
      * Type:		boolean
      * Privacy:		public
-     * Description:	Inserts Product into ShoppingCart.
+     * Description:	Inserts Product and quantity into ShoppingCart.
 	 */
-	public boolean insertToCart(Product product) {
+	public boolean insertToCart(Product product, int quantity) {
 		boolean result;
-		result = ShoppingCart.add(product);
+		ShoppingCartItem cartItem = new ShoppingCartItem(product, quantity);
+		result = ShoppingCart.add(cartItem);
 		return result;
 	}//end insertToCart
 	

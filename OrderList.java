@@ -41,7 +41,7 @@ public class OrderList implements Serializable {
      * Privacy:		public
      * Description:	Inserts Order into BackorderList.
      */
-    public boolean addOrder(String id, LinkedList<Product> orderedItems) {
+    public boolean addOrder(String id, LinkedList<ShoppingCartItem> orderedItems) {
         boolean result;
         Order newOrder = new Order(id, orderedItems);
         result = orders.add(newOrder);

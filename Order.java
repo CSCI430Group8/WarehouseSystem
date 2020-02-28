@@ -9,7 +9,7 @@ public class Order implements Serializable {
 	private static final long serialVersionUID = 1L;
     private String id,
 			date;
-    private LinkedList<Product> orderedItems = new LinkedList<Product>();
+    private LinkedList<ShoppingCartItem> orderedItems = new LinkedList<ShoppingCartItem>();
 	transient DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 	LocalDateTime now;
 	
@@ -19,7 +19,7 @@ public class Order implements Serializable {
      * Privacy:		public
      * Description:	Order Constructor.
 	 */
-	Order(String id, LinkedList<Product> orderedItems){
+	Order(String id, LinkedList<ShoppingCartItem> orderedItems){
 		now = LocalDateTime.now();
 		this.id = id;
         this.date = dtf.format(now);
@@ -102,7 +102,7 @@ public class Order implements Serializable {
      * Privacy:		public
      * Description:	Sets items ordered in order.
 	 */
-	public void setOrderedItems(LinkedList<Product> orderedItems){
+	public void setOrderedItems(LinkedList<ShoppingCartItem> orderedItems){
 		this.orderedItems = orderedItems;
 	}//end setOrderedItems
 
@@ -112,8 +112,8 @@ public class Order implements Serializable {
 	 * Privacy:		public
 	 * Description:	Sets items ordered in order.
 	 */
-	public void addToCart(Product product){
-		this.orderedItems.add(product);
+	public void addToCart(ShoppingCartItem cartItem){
+		this.orderedItems.add(cartItem);
 	}//end setOrderedItems
 
     /*
