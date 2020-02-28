@@ -340,8 +340,8 @@ public class Userinterface {
         }//end while
     }//end method
 	 
-	 /* DYLAN'S SECTION
-     * Function:	acceptClientOrders
+	 /*
+     * Function:	processClientOrders
      * Type:		void
      * Privacy:		public
      * Description:	Client would like to purchase the items in their cart.
@@ -409,10 +409,7 @@ public class Userinterface {
             }
             warehouse.setClientBalance(clientId, warehouse.getClientBalance(clientId) - totalPrice);
         }
-
-
-
-  } //END DYLAN'S SECTION
+    } //end method
 	 
 
     /*
