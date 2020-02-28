@@ -479,8 +479,8 @@ public class Userinterface {
         Iterator currentStock = warehouse.getProducts(),
         		currentBackorder = warehouse.getBackorders(),
         		nextOrder;
-        Product nextProduct,
-        		nextBackorderProduct;
+        Product nextProduct;
+        ShoppingCartItem nextBackorderProduct;
         Order nextBackorder;
         
         /*Catalog all items from shipment, add to stock*/
@@ -515,8 +515,8 @@ public class Userinterface {
         	/*If current backorder is to be filled*/
         	if(inputScanner.next().charAt(0) == 'y') {//current backorder should be filled
         		while(nextOrder.hasNext()) {//iterate through current backorder
-        			nextBackorderProduct = (Product)nextOrder.next();
-        			String backorderId = nextBackorderProduct.getId();
+        			nextBackorderProduct = (ShoppingCartItem)nextOrder.next();
+        			String backorderId = nextBackorderProduct.getItem().getId();
         			int backorderQuantity = nextBackorderProduct.getQuantity();
         			if(backorderQuantity > warehouse.getProductQuantity(backorderId)) {//backOrder quantity > inventory
         				int remainder = nextBackorderProduct.getQuantity() - warehouse.getProductQuantity(backorderId);
